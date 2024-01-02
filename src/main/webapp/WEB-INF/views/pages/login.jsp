@@ -41,7 +41,7 @@
       			window.location.href="${contextPath}/memberregister";
       		});
       </script>
-
+	<div></div>
     </div> <!-- /container -->
 
 
