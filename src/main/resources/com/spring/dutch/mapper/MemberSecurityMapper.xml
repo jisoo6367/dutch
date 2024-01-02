@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.MemberSecurityMapper">
+
+	<resultMap type="com.spring.dutch.domain.AuthorityVO" id="authMap">
+		<result property="email" column="email"/>
+		<result property="authority" column="authority"/>
+	</resultMap>
+	<resultMap type="com.spring.dutch.domain.MemberVO" id="memberMap">
+		<result property="mno" column="mno"/>
+		<result property="nickname" column="nickname"/>
+		<result property="bank" column="bank"/>
+		<result property="bankAccount" column="bank_account"/>
+		<result property="username" column="username"/>
+		<result property="email" column="email"/>
+		<result property="password" column="password"/>
+		<result property="hp" column="hp"/>
+		<result property="cellphone" column="cellphone"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="modDate" column="mod_date"/>
+		<result property="delFlag" column="del_flag"/>
+		<result property="loginType" column="login_type"/>
+		<result property="gender" column="gender"/>
+		<result property="age" column="age"/>
+		<result property="enabled" column="enabled"/>
+		<collection property="authorityList" resultMap="authMap"/>
+	</resultMap>
+
+<!-- 특정 회원 조회(스프링 시큐리티도 사용함) -->
+	<select id="selectMember" resultMap="memberMap">
+		SELECT 	mem.mno, mem.nickname, mem.bank, mem.bank_account, mem.username,
+		mem.email, mem.password, mem.hp, mem.cellphone, mem.reg_date, mem.mod_date,
+        mem.del_flag, mem.login_type, mem.gender, mem.age, mem.enabled, auth.authority
+		FROM dutch.tbl_member mem LEFT OUTER JOIN dutch.tbl_member_authority auth 
+		   	ON mem.email = auth.email
+		WHERE mem.email = #{email}
+	</select>
+	
+<!-- 회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행하는 것을 권장 -->
+<!-- 	<insert id="insertMyMember" parameterType="com.spring5.mypro00.domain.MyMemberVO">
+		 INSERT INTO book_ex.tbl_mymember
+		 VALUES (#{userId}, #{userPw}, #{userName}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	 </insert>
+
+회원 권한 추가
+	<insert id="insertMyMemAuthority">
+		INSERT INTO book_ex.tbl_mymember_authority
+		VALUES (#{userId}, #{authority})
+	</insert>
+
+회원 탈퇴(회원 삭제 -> mdropFlag를 1로 업데이트
+	<update id="updateMdropFlag" >
+		UPDATE book_ex.tbl_myMember
+		SET mdropFlag = 1
+		WHERE userId = #{userId}
+	</update> -->
+
+
+</mapper>

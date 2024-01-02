@@ -5,21 +5,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.spring.dutch.mapper.MemberMapper;
+import com.spring.dutch.domain.MemberVO;
+import com.spring.dutch.mapper.MemberSecurityMapper;
 
 public class MemberUserDetailsServiceImpl implements UserDetailsService {
 	
-	private MemberMapper memberMapper ;
+	private MemberSecurityMapper memberMapper ;
 	
 	@Autowired
-	public void setMyMemberMapper(MemberMapper memberMapper) {
+	public void setMyMemberMapper(MemberSecurityMapper memberMapper) {
 		this.memberMapper = memberMapper;
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		
+		MemberVO member = memberMapper.selectMember(email);
+		
+		UserDetails userDetails = new MemberUser(member);
+		System.out.println("userDetail: " + userDetails);
+		
+		
+		return member == null ? null : userDetails;
 	}
 	
 	

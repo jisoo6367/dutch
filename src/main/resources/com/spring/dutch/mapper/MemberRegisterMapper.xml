@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.MemberRegisterMapper">
+ 	
+
+	
+	<insert id="insertMember" parameterType="com.spring.dutch.domain.MemberVO">
+		<selectKey order="BEFORE" keyProperty="mno" resultType="long">
+			SELECT dutch.seq_member.nextval FROM dual
+		</selectKey>
+		INSERT INTO dutch.tbl_member
+		VALUES (#{mno},
+		#{nickname},
+		#{bank},
+		#{bankAccount},
+		#{username}, 
+		#{email},
+		#{password},
+		#{hp},
+		#{cellphone},
+		DEFAULT,
+		DEFAULT,
+		DEFAULT,
+		DEFAULT,
+		#{loginType},
+		#{gender},
+		#{age})
+	</insert>	
+
+
+</mapper>

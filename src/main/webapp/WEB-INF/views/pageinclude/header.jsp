@@ -18,6 +18,10 @@
     <link href="${contextPath}/resources/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap navbar css -->
 	<link href="${contextPath}/reources/docs/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet">
+	<!-- Bootstrap signin css -->
+	<link href="${contextPath}/reources/docs/examples/signin/signin.css" rel="stylesheet">
+	<!-- Bootstrap navbar-static-top css -->
+	<link href="${contextPath}/reources/docs/examples/navbar-static-top/navbar-static-top.css" rel="stylesheet">
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Bootstrap JS -->
@@ -36,11 +40,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Dutch_Pay</a>
+          <a class="navbar-brand homeBtn">Dutch_Pay</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">홈</a></li>
+            <li class="active homeBtn"><a>홈</a></li>
             <li><a href="#">마이페이지</a></li>
             <li><a href="#">커뮤니티</a></li>
             <li><a href="#">추천카드</a></li>
@@ -59,6 +63,10 @@
               </ul>
             </li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+          	<li id="loginBtn"><a>Login</a></li>
+          	<li id="logoutBtn"><a>Logout</a></li>
+          </ul>
           <!-- <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
             <li><a href="../navbar-static-top/">Static top</a></li>
@@ -67,5 +75,15 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    
+    <script>
+    	$("#loginBtn").on("click", function(){
+    		window.location.href="${contextPath}/loginPage";
+    	});
+    	
+    	$(".homeBtn").on("click", function(){
+    		window.location.href="${contextPath}/";
+    	});
+    </script>
 
     <div class="container" style="margin-top: 45px;">
