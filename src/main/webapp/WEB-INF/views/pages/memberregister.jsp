@@ -13,6 +13,7 @@
 		method="post" action="${contextPath}/sendmember">
 		
 	<input type="text" name="nickname" placeholder="nickname">
+	<input type="password" name="password" placeholder="password">
 	<input type="text" name="bank" placeholder="bank">
 	<input type="number" name="bankAccount" placeholder="bankAccount">
 	<input type="text" name="username" placeholder="username">

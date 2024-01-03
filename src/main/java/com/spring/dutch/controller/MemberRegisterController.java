@@ -32,14 +32,12 @@ public class MemberRegisterController {
 	
 	
 	@PostMapping(value="/sendmember")
-	public String sendMember(MemberVO member, RedirectAttributes redirectAttr) {
+	public String sendMember(MemberVO member) {
 		member.setPassword(pwencoder.encode(member.getPassword()));
 		
-		String email = memberRegisterService.registerMember(member);
+		memberRegisterService.registerMember(member);
 		
-		redirectAttr.addAttribute("email", email);
-		
-		return "redirect:/pages/frame";
+		return "/pages/frame";
 	}
 	
 }

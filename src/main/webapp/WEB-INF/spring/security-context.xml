@@ -15,10 +15,8 @@
 	  class="com.spring.dutch.common.security.LoginSucessHandler"/>
 
 <security:http>
-	<security:intercept-url  pattern="/" method="GET" access="permitAll"/>
-	<security:intercept-url  pattern="/login" method="GET" access="permitAll"/>
-	<security:intercept-url  pattern="/memberregister" method="GET" access="permitAll"/>
-	<security:intercept-url  pattern="/sendmember" method="POST" access="permitAll"/>
+	<!-- <security:intercept-url  pattern="/" method="GET" access="permitAll"/>
+	<security:intercept-url  pattern="/loginPage" method="GET" access="permitAll"/> -->
 	
 	<security:form-login login-page="/loginPage"
 						 login-processing-url="/loginProcess"

@@ -29,6 +29,7 @@
 					  위의 형식으로 매퍼xml 등록하면 됩니다.-->
 				<value>classpath:com/spring/dutch/mapper/MemberSecurityMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/MemberRegisterMapper.xml</value>
+				<value>classpath:com/spring/dutch/mapper/CardMapper.xml</value>
 			</list>
 		</property>
 	</bean>

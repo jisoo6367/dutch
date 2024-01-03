@@ -22,6 +22,8 @@
 	<link href="${contextPath}/reources/docs/examples/signin/signin.css" rel="stylesheet">
 	<!-- Bootstrap navbar-static-top css -->
 	<link href="${contextPath}/reources/docs/examples/navbar-static-top/navbar-static-top.css" rel="stylesheet">
+	<!-- Bootstrap offcanvas css -->
+	<link href="${contextPath}/reources/docs/examples/offcanvas/offcanvas.css" rel="stylesheet">
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Bootstrap JS -->
@@ -47,7 +49,7 @@
             <li class="active homeBtn"><a>홈</a></li>
             <li><a href="#">마이페이지</a></li>
             <li><a href="#">커뮤니티</a></li>
-            <li><a href="#">추천카드</a></li>
+            <li id="moveCard"><a href="#">추천카드</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
                  role="button" aria-haspopup="true" aria-expanded="false">고객센터 
@@ -83,6 +85,10 @@
     	
     	$(".homeBtn").on("click", function(){
     		window.location.href="${contextPath}/";
+    	});
+    	
+    	$("#moveCard").on("click", function(){
+    		window.location.href="${contextPath}/card"
     	});
     </script>
 
