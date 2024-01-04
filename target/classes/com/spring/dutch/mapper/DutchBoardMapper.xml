@@ -17,7 +17,7 @@
 
 <!-- 더치페이 목록조회(READ) -->
 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
-	        parameterType="com.spring.dutch.common.paging.domain.DutchBoardPagingDTO">
+	        parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
 	<![CDATA[
 		SELECT pno, category, mno, ptitle, pcontent, pregDate, 
 			   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
@@ -36,7 +36,7 @@
 
 <!-- 더치페이 게시물 총 개수 조회(페이징): 삭제 요청된 행 포함 --> 	
 	<select id="selectDutchRowTotal" resultType="long"
-			parameterType="com.spring.dutch.common.paging.domain.DutchBoardPagingDTO">
+			parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
 		SELECT count(*) rowtotal FROM dutch.tbl_dutch
 
 	</select>

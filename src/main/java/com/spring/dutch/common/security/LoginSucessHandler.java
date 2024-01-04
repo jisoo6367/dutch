@@ -19,8 +19,9 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 public class LoginSucessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws ServletException, IOException {
+	public void onAuthenticationSuccess(HttpServletRequest request, 
+										HttpServletResponse response,
+										Authentication authentication) throws ServletException, IOException {
 		
 		System.out.println("Authentication 구현객체 정보: " + authentication);
 		
@@ -38,9 +39,9 @@ public class LoginSucessHandler extends SavedRequestAwareAuthenticationSuccessHa
 		
 		if(savedRequest == null) {
 			if(authNameList.contains("ADMIN")) {
-				response.sendRedirect("/dutch");
+				response.sendRedirect("/dutch/");
 			} else {
-				response.sendRedirect("/dutch");
+				response.sendRedirect("/dutch/");
 			}
 		} else {
 			super.onAuthenticationSuccess(request, response, authentication);			

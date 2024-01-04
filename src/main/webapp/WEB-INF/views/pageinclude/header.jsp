@@ -46,8 +46,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active homeBtn"><a>홈</a></li>
-            <li><a href="#">마이페이지</a></li>
+            <li class="active homeBtn"><a href="${contextPath }/">홈</a></li>
+            <li><a href="${contextPath }/mypage">마이페이지</a></li>
+            <li><a href="${contextPath }/pages/dutchlist">더치페이 게시판</a></li>
             <li><a href="#">커뮤니티</a></li>
             <li id="moveCard"><a href="#">추천카드</a></li>
             <li class="dropdown">

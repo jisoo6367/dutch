@@ -8,20 +8,19 @@
 <bean id="bCryptPasswordEncoder" 
 	  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-<bean id="MemberUserDetailsServiceImpl"  
+<bean id="memberUserDetailsServiceImpl"  
 	  class="com.spring.dutch.common.security.MemberUserDetailsServiceImpl"/>
 	  
-<bean id="LoginSucessHandler" 
+<bean id="loginSucessHandler" 
 	  class="com.spring.dutch.common.security.LoginSucessHandler"/>
 
 <security:http>
-	<!-- <security:intercept-url  pattern="/" method="GET" access="permitAll"/>
-	<security:intercept-url  pattern="/loginPage" method="GET" access="permitAll"/> -->
+	
 	
 	<security:form-login login-page="/loginPage"
 						 login-processing-url="/loginProcess"
 						 default-target-url="/" 
-						 authentication-success-handler-ref="LoginSucessHandler"
+						 authentication-success-handler-ref="loginSucessHandler"
 						 username-parameter="userEmail"
 						 password-parameter="password"/>
 						 
@@ -30,7 +29,7 @@
 </security:http>
 
 <security:authentication-manager>
-	<security:authentication-provider user-service-ref="MemberUserDetailsServiceImpl">
+	<security:authentication-provider user-service-ref="memberUserDetailsServiceImpl">
 		<security:password-encoder ref="bCryptPasswordEncoder"/>
 	</security:authentication-provider>
 </security:authentication-manager>
