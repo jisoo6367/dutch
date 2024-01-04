@@ -24,6 +24,8 @@
 	<input type="text" name="gender" placeholder="gender">
 	<input type="text" name="age" placeholder="age">
 	
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+	
 	<button type="submit" id="sendMemberBtn">submit</button>
 	
 </form>

@@ -22,14 +22,13 @@
 	        <label for="inputPassword" class="sr-only">Password</label>
 	        <input type="password" id="inputPassword" class="form-control" name="password"
 	        		placeholder="Password" required>
+	        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	        <div class="checkbox">
 	          <label>
 	            <input type="checkbox" value="remember-me"> Remember me
 	          </label>
 	        </div>
-	        <%-- <div>
-	        	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-	        </div> --%>
+	        
 	        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button>
         </fieldset>
