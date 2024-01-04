@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.dutch.mapper.DutchBoardMapper">
+
+<!-- 더치페이 목록조회(READ) -->
+<!-- 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchVO">
+		SELECT pno, category, mno, ptitle, pcontent, pregDate, 
+		pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
+		FROM dutch.tbl_dutch
+		ORDER BY pno DESC
+	</select> -->
+
+
+<!-- 더치페이 목록조회(READ) -->
+	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
+	        parameterType="com.spring.dutch.common.paging.domain.DutchBoardPagingDTO">
+	<![CDATA[
+		SELECT pno, category, mno, ptitle, pcontent, pregDate, 
+			   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
+		FROM ( SELECT /*+ INDEX_DESC (a pk_pno_dutch) */ ROWNUM rn, a.* 
+               FROM dutch.tbl_dutch a
+               WHERE
+	]]>
+
+	<![CDATA[      			       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			      )
+			WHERE rn > = ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+	]]>
+
+	</select>
+
+<!-- 더치페이 게시물 총 개수 조회(페이징): 삭제 요청된 행 포함 --> 	
+	<select id="selectDutchRowTotal" resultType="long"
+			parameterType="com.spring.dutch.common.paging.domain.DutchBoardPagingDTO">
+		SELECT count(*) rowtotal FROM dutch.tbl_dutch
+
+	</select>
+
+<!-- 게시물 등록(CREATE) -->
+
+<insert id="insertDutchBoard" parameterType="com.spring.dutch.domain.DutchBoardVO">
+	<selectKey order="BEFORE" keyProperty="pno" resultType="long">
+		SELECT dutch.seq_dutch.nextval from dual
+	</selectKey>
+
+			INSERT INTO dutch.tbl_dutch
+			VALUES (#{pno},
+			        #{category},
+			        #{mno},
+			        #{ptitle},
+			        #{pcontent},
+			        DEFAULT,
+			        DEFAULT,
+			        DEFAULT,
+			        DEFAULT,
+			        #{ppersonal},
+			        #{ptotalPayment},
+			        DEFAULT)
+
+</insert>
+
+<!-- 특정 게시물 조회: (detail.jsp)-->
+<select id="selectDutchBoard" resultType="com.spring.dutch.domain.DutchBoardVO">
+
+	SELECT pno, category, mno, ptitle, pcontent, pregDate, 
+		   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
+	FROM dutch.tbl_dutch WHERE pno = #{pno}
+
+</select>	
+
+
+
+
+
+</mapper>

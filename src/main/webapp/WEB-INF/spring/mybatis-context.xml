@@ -30,6 +30,8 @@
 				<value>classpath:com/spring/dutch/mapper/MemberSecurityMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/MemberRegisterMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/CardMapper.xml</value>
+				<value>classpath:com/spring/dutch/mapper/CommunityMapper.xml</value>
+				<value>classpath:com/spring/dutch/mapper/DutchBoardMapper.xml</value>
 			</list>
 		</property>
 	</bean>

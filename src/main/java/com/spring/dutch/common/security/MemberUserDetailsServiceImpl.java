@@ -20,13 +20,9 @@ public class MemberUserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		MemberVO member = memberMapper.selectMember(email);
+		UserDetails userDetails = new MemberUser(memberMapper.selectMember(email));
 		
-		UserDetails userDetails = new MemberUser(member);
-		System.out.println("userDetail: " + userDetails);
-		
-		
-		return member == null ? null : userDetails;
+		return memberMapper.selectMember(email) == null ? null : userDetails;
 	}
 	
 	
