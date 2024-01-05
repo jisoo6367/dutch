@@ -28,6 +28,13 @@
 		#{gender},
 		#{age})
 	</insert>	
+	
+	<insert id="insertAuthority" parameterType="com.spring.dutch.domain.MemberVO">
+		insert into dutch.tbl_member_authority
+		values(
+		#{email},
+		'ROLE_USER')
+	</insert>
 
 
 </mapper>

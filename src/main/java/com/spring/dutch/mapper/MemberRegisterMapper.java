@@ -4,4 +4,6 @@ import com.spring.dutch.domain.MemberVO;
 
 public interface MemberRegisterMapper {
 	public int insertMember(MemberVO member) ;
+	
+	public int insertAuthority(MemberVO member);
 }

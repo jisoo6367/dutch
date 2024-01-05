@@ -12,4 +12,9 @@ public class LoginLogoutController {
 		return "pages/login";
 	}
 	
+	@GetMapping(value = "/logoutPage")
+	public String showLogoutPage() {
+		return "pages/logout";
+	}
+	
 }

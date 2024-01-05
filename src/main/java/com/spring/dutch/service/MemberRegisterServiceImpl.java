@@ -18,6 +18,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService{
 		
 		memberRegisterMapper.insertMember(member);
 		
+		memberRegisterMapper.insertAuthority(member);
 		
 		return member.getEmail();
 	}

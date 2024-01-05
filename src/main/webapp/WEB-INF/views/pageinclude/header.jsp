@@ -68,7 +68,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
           	<li id="loginBtn"><a>Login</a></li>
-          	<li id="logoutBtn"><a>Logout</a></li>
+          	<li id="logoutBtn"><a href="${contextPath }/logoutPage">Logout</a></li>
           </ul>
           <!-- <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>

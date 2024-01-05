@@ -28,7 +28,7 @@
 						 
 	<!-- <security:logout logout-success-url="/" logout-url="logoutProcess"/> -->
 	
-	<security:logout logout-success-url="/" />
+	<security:logout logout-url="/logoutProcess" logout-success-url="/"/>
 </security:http>
 
 <security:authentication-manager>
