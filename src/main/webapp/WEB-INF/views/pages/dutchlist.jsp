@@ -22,7 +22,7 @@
     </div><%-- /.row --%>
     <div class="row">
         <div class="col-lg-12">
-
+        
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
@@ -32,15 +32,15 @@
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
-
+   
 <form class="form-inline" id="frmSendValue" action="${contextPath }/pages/dutchlist" method="get" name="frmSendValue">
-
+		
 	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.dutchPaging.pageNum }" >
 	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.dutchPaging.rowAmountPerPage }" >
 	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
-
+	
 </form>     
-
+                
                 <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover" 
                            style="width:100%;text-align: center;">
@@ -75,8 +75,8 @@
 						<c:out value="${dutchlist.ptitle }"/>
 						<%-- <small>[댓글수: <strong><c:out value="${myboard.breplyCnt}"/></strong>]</small> --%>	
 					</td>
-					<td>${myboard.ptotalPayment }</td>
-					<td>${myboard.ppersonal }</td>
+					<td>${dutchlist.ptotalPayment }</td>
+					<td>${dutchlist.ppersonal }</td>
 					<td class="center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 					<td class="center"><fmt:formatDate value="${dutchlist.pmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 					<td class="center"><c:out value="${dutchlist.pcalculated }"/></td>
@@ -91,8 +91,8 @@
 		 </tr>
 </c:otherwise>
 </c:choose>                                     
-
-
+                     
+                            
                         </tbody>
                     </table><%-- /.table-responsive --%>
 
@@ -115,7 +115,7 @@
 		<c:forEach begin="${pagingCreator.startPagingNum }" 
 		           end="${pagingCreator.endPagingNum }" 
 		           var="pagingNum">
-
+			
 			<li class='pagination-button ${(pagingNum == pagingCreator.dutchPaging.pageNum) ? "active" : ""}'>
 				<a href="${pagingNum }">${pagingNum }</a>
 			</li>     
@@ -134,33 +134,36 @@
 				</a>
 			</li>
 		</c:if>
-
-
+		
+	  
 	</ul>
 </div>
 
-
+                    
                 </div><%-- /.panel-body --%>
-
+                
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
+    
+    
 
-
-
-
+  
 
 </div><%-- /#page-wrapper --%>
 
 
 <script>
+
 var frmSendValue = $("#frmSendValue");
+
 <%--dutchregister.jsp 페이지로 이동 --%>
 $("#btnToRegister").on("click", function(){
 	window.location.href = "${contextPath}/pages/dutchregister" ;
 	
 	
 });
+
 <%-- dutchdetail.jsp 페이지로 이동--%>
 $(".moveDetail").on("click", function(){
 	var pno = $(this).data("pno");
@@ -173,6 +176,8 @@ $(".moveDetail").on("click", function(){
 	frmSendValue.find('input[name="pno"]').remove(); //웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동, pno값이 계속 url에 추가됨
 	
 });
+
+
 <%-- 페이징 처리: 검색 목록 페이지 이동 --%>
 $("li.pagination-button a").on("click", function(e){
 	e.preventDefault();
@@ -185,6 +190,10 @@ $("li.pagination-button a").on("click", function(e){
 	frmSendValue.submit();
 	
 });
+
+
+
+
 </script>
 
 
