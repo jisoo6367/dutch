@@ -31,6 +31,7 @@
 	        
 	        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button>
+	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveFinder">아이디/비밀번호 찾기</button>
         </fieldset>
         
       </form>
@@ -38,6 +39,10 @@
       <script type="text/javascript">
       		$("#moveRegisterPage").on("click", function(){
       			window.location.href="${contextPath}/memberregister";
+      		});
+      		
+      		$("#moveFinder").on("click", function(){
+      			window.location.href="${contextPath}/finder"
       		});
       </script>
 	<div></div>

@@ -7,6 +7,8 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
 <%@include file="../pageinclude/header.jsp"%>
+<div class="container" style="margin-top: 60px;">
+
 
 <div class="row row-offcanvas row-offcanvas-right">
 
@@ -43,11 +45,16 @@
 					<!-- 검색어 입력 -->
 					<input class="form-control" id="keyword" name="keyword" type="text"
 						placeholder="검색어를 입력하세요"
-						value='<c:out value="${listData.cardPaging.keyword}" />' /> <span
-						class="input-group-btn"> <!-- 전송버튼 -->
-						<button class="btn btn-warning" type="button" id="btnSearchGo">검색
-						</button>
-					</span>
+						value='<c:out value="${listData.cardPaging.keyword}" />' /> 
+						<span class="input-group-btn"> 
+						<!-- 전송버튼 -->
+					<button class="btn btn-warning" type="button" id="btnSearchGo">검색</button>
+						</span>
+						<span class="input-group-btn"> 
+						<!-- 카드등록버튼 -->
+					<button class="btn btn-warning" type="button" id="moveCardRegisterPageBtn">카드등록</button>
+						</span>
+						
 				</div>
 
 				<div class="input-group">
@@ -71,12 +78,12 @@
 			<c:choose>
 				<c:when test="${not empty listData.cardList }">
 					<c:forEach var="card" items="${listData.cardList }">
-
-						<div class="col-xs-6 col-lg-4" data-kno="${card.kno }">
+						<%-- <div class="col-xs-6 col-lg-4" data-kno="${card.kno }"> --%>
 							<!-- 카드이미지공간 -->
-							<h2>${card.kname }</h2>
+							<h3>${card.kname }</h3>
 							<p>${card.kcontent }</p>
 							<p>${card.kcompany }</p>
+							<button id="removeCard" type="button">삭제</button>
 						</div>
 						<!--/.col-xs-6.col-lg-4-->
 
@@ -132,7 +139,7 @@
 	<!--/.col-xs-12.col-sm-9-->
 
 </div>
-
+</div> <!-- body-container -->
 <script>
 
 var frmSendValue = $("#frmSendValue");
@@ -148,6 +155,74 @@ var frmSendValue = $("#frmSendValue");
 		frmSendValue.submit();
 
 	});
+
+<%-- 카드 등록 페이지로 이동 --%>
+	$("#moveCardRegisterPageBtn").on("click", function(){
+		window.location.href="${contextPath}/cardregister";
+	});
+
+	
+<%--표시행수 변경 이벤트 처리--%>
+	$("#selectAmount").on("change", function() {
+		frmSendValue.find("input[name='pageNum']").val(1);
+		frmSendValue.submit();
+	});
+	
+	
+<%--키워드 검색버튼 클릭 이벤트 처리 --%>
+	$("#btnSearchGo").on("click", function() {
+
+		var scope = $("#selectScope").find("option:selected").val();
+
+		if (!scope || scope == '') {
+			alert("검색범위를 선택해주세요.");
+			return false;
+		}
+
+		var keyword = $("#keyword").val();
+
+		if (!keyword || keyword.length == 0) {
+			alert("검색어를 입력해주세요.");
+			return;
+		}
+
+		frmSendValue.find("input[name='pageNum']").val(1);
+		frmSendValue.submit();
+	});
+
+	$("#selectScope").on("change", function() {
+
+		var keyword = $("#keyword").val();
+
+		if (keyword || keyword.length != 0) {
+			$("#pageNum").val(1);
+			frmSendValue.submit();
+		}
+
+	});
+
+<%--검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시 --%>
+	$("#btnReset").on("click", function() {
+		$("#selectAmount").val(10);
+		$("#selectScope").val("");
+		$("#keyword").val("");
+		$("#pageNum").val(1);
+
+		frmSendValue.submit();
+
+	});
+
+/* 	$(document).ready(function() {
+		runModal(result);
+
+		window.addEventListener("popstate", function(event) {
+			history.pushState(null, null, location.href);
+
+		});
+
+		history.pushState(null, null, location.href);
+
+	}); */
 
 </script>
 

@@ -9,11 +9,11 @@
 
 
 
+
+
+
+</div> <!-- body-container -->
 <!-- footer body -->
-
-</div> <!-- /container -->
-
-
 
 
 

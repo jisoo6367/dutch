@@ -1,12 +1,21 @@
 package com.spring.dutch.service;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.mapper.MemberRegisterMapper;
 
+import lombok.Setter;
+
 @Service
 public class MemberRegisterServiceImpl implements MemberRegisterService{
+	@Setter(onMethod_ = @Autowired)
+    private PasswordEncoder pwencoder;
+	
 	private MemberRegisterMapper memberRegisterMapper;
 	
 	public MemberRegisterServiceImpl(MemberRegisterMapper memberRegisterMapper) {
@@ -15,12 +24,20 @@ public class MemberRegisterServiceImpl implements MemberRegisterService{
 
 	@Override
 	public String registerMember(MemberVO member) {
+		member.setPassword(pwencoder.encode(member.getPassword()));
+		member.setMno(UUID.randomUUID().toString());
 		
 		memberRegisterMapper.insertMember(member);
 		
 		memberRegisterMapper.insertAuthority(member);
 		
 		return member.getEmail();
+	}
+
+	@Override
+	public String findEmailService(MemberVO member) {
+		
+		return memberRegisterMapper.selectUserEmail(member);
 	}
 	
 	

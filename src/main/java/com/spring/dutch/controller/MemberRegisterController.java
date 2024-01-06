@@ -16,8 +16,7 @@ import lombok.Setter;
 @Controller
 public class MemberRegisterController {
 	
-	@Setter(onMethod_ = @Autowired)
-    private PasswordEncoder pwencoder;
+	
 	
 	private MemberRegisterService memberRegisterService;
 	
@@ -33,7 +32,7 @@ public class MemberRegisterController {
 	
 	@PostMapping(value="/sendmember")
 	public String sendMember(MemberVO member) {
-		member.setPassword(pwencoder.encode(member.getPassword()));
+		
 		
 		memberRegisterService.registerMember(member);
 		

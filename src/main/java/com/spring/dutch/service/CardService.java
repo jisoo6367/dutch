@@ -11,4 +11,6 @@ import com.spring.dutch.dto.CardPagingDTO;
 
 public interface CardService {
 	public CardPagingCreatorDTO showCardList(CardPagingDTO cardpaging);
+	
+	public String registerCard(CardVO card);
 }

@@ -10,7 +10,7 @@
 			SELECT kno, category, kname, kcontent, kcompany, kcomment
 			FROM ( SELECT /*+ INDEX_DESC (a pk_card) */ROWNUM rn, a.*
 			       FROM dutch.tbl_card a
-			       WHERE 
+			WHERE 
 		]]>
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
 			<foreach item='scope' collection="myScopeArr">
@@ -49,6 +49,15 @@
 			</trim>	 
 		</where>
 	</select>
+	
+	<!-- 카드 등록 -->
+	<insert id="insertCard" parameterType="com.spring.dutch.domain.CardVO">
+		insert into dutch.tbl_card
+		values (
+		#{kno},#{category},#{kname},#{kcontent},#{kcompany},#{kcomment}
+		)
+		
+	</insert>
 
 
 </mapper>

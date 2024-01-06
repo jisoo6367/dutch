@@ -1,6 +1,7 @@
 package com.spring.dutch.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,18 @@ public class CardServiceImpl implements CardService{
 		return new CardPagingCreatorDTO(cardMapper.selectRows(cardPaging), 
 									cardPaging, cardMapper.selectList(cardPaging));
 	}
+
+	@Override
+	public String registerCard(CardVO card) {
+		
+		card.setKno(UUID.randomUUID().toString());
+		
+		cardMapper.insertCard(card);
+		
+		
+		return card.getKno();
+	}
+	
+	
 	
 }

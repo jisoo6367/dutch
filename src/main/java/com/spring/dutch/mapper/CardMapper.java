@@ -9,4 +9,6 @@ public interface CardMapper {
 	public List<CardVO> selectList(CardPagingDTO cardPaging);
 	
 	public long selectRows(CardPagingDTO cardPaging);
+	
+	public int insertCard(CardVO card);
 }

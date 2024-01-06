@@ -7,9 +7,7 @@
 
 	
 	<insert id="insertMember" parameterType="com.spring.dutch.domain.MemberVO">
-		<selectKey order="BEFORE" keyProperty="mno" resultType="long">
-			SELECT dutch.seq_member.nextval FROM dual
-		</selectKey>
+		
 		INSERT INTO dutch.tbl_member
 		VALUES (#{mno},
 		#{nickname},
@@ -27,6 +25,7 @@
 		#{loginType},
 		#{gender},
 		#{age})
+		
 	</insert>	
 	
 	<insert id="insertAuthority" parameterType="com.spring.dutch.domain.MemberVO">
@@ -36,5 +35,14 @@
 		'ROLE_USER')
 	</insert>
 
+
+	<select id="selectUserEmail" parameterType="com.spring.dutch.domain.MemberVO"
+			resultType="String">
+	
+		select email 
+		from dutch.tbl_member
+		where nickname = #{nickname}
+	
+	</select>
 
 </mapper>

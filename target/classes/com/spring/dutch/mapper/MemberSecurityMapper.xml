@@ -37,25 +37,7 @@
 		   	ON mem.email = auth.email
 		WHERE mem.email = #{email}
 	</select>
-	
-<!-- 회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행하는 것을 권장 -->
-<!-- 	<insert id="insertMyMember" parameterType="com.spring5.mypro00.domain.MyMemberVO">
-		 INSERT INTO book_ex.tbl_mymember
-		 VALUES (#{userId}, #{userPw}, #{userName}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
-	 </insert>
 
-회원 권한 추가
-	<insert id="insertMyMemAuthority">
-		INSERT INTO book_ex.tbl_mymember_authority
-		VALUES (#{userId}, #{authority})
-	</insert>
-
-회원 탈퇴(회원 삭제 -> mdropFlag를 1로 업데이트
-	<update id="updateMdropFlag" >
-		UPDATE book_ex.tbl_myMember
-		SET mdropFlag = 1
-		WHERE userId = #{userId}
-	</update> -->
 
 
 </mapper>

@@ -12,10 +12,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class CardVO {
-	private long kno;
-	private String categoty;
+	private String kno;
+	private String category;
 	private String kname;
 	private String kcontent;
 	private String kcompany;
-	private String kcomment;
+	private int kcomment;
 }
