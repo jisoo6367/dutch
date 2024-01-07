@@ -25,10 +25,10 @@
 						 authentication-success-handler-ref="loginSucessHandler"
 						 username-parameter="userEmail"
 						 password-parameter="password"/>
-						 
-	<!-- <security:logout logout-success-url="/" logout-url="logoutProcess"/> -->
 	
 	<security:logout logout-url="/logoutProcess" logout-success-url="/"/>
+	
+	<security:remember-me data-source-ref="dataSource" token-validity-seconds="86400" />
 </security:http>
 
 <security:authentication-manager>
