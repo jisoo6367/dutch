@@ -3,6 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -56,7 +57,7 @@
                  role="button" aria-haspopup="true" aria-expanded="false">고객센터 
                  <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">공지사항</a></li>
+                <li><a href="${contextPath }/pages/noticelist">공지사항</a></li>
                 <li><a href="#">1:1문의</a></li>
                 <li><a href="#">FAQ</a></li>
                 <!-- <li role="separator" class="divider"></li>
@@ -66,9 +67,14 @@
               </ul>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-          	<li id="loginBtn"><a>Login</a></li>
+          <ul class="nav navbar-nav navbar-right" id="loginLogoutUl">
+          
+          <%-- <li id="loginBtn"><a>Login</a></li>
+          <sec:authorize access="isTuthenticated()">
           	<li id="logoutBtn"><a href="${contextPath }/logoutPage">Logout</a></li>
+          </sec:authorize> --%>
+          
+          	
           </ul>
           <!-- <ul class="nav navbar-nav navbar-right">
             <li><a href="../navbar/">Default</a></li>
@@ -80,6 +86,18 @@
     </nav>
     
     <script>
+    
+    	
+    	var strInnerUl = "";
+    	
+    	strInnerUl = '<li id="loginBtn">로그인</li>';
+    	
+    	<sec:authorize access="isAuthenticated()">
+    		strInnerUl = '<li id="logoutBtn">로그아웃</li>';
+    	</sec:authorize>
+    	
+    	$("#loginLogoutUl").append(strInnerUl);
+    	
     	$("#loginBtn").on("click", function(){
     		window.location.href="${contextPath}/loginPage";
     	});
@@ -91,6 +109,11 @@
     	$("#moveCard").on("click", function(){
     		window.location.href="${contextPath}/card"
     	});
+    	
+    	$("#logoutBtn").on("click", function(){
+    		window.location.href="${contextPath}/logoutPage";
+    	});
+    	
     </script>
 
 <div class="container" style="margin-top: 60px;">
