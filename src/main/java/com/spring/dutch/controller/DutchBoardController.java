@@ -7,12 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.dto.DutchBoardPagingCreatorDTO;
 import com.spring.dutch.dto.DutchBoardPagingDTO;
+import com.spring.dutch.dto.DutchRegisterDTO;
 import com.spring.dutch.domain.DutchBoardVO;
+import com.spring.dutch.domain.ParticipantsVO;
 import com.spring.dutch.service.DutchBoardService;
 
 @Controller
@@ -50,10 +54,13 @@ public class DutchBoardController {
 	}
 
 	//더치페이 등록 처리
-	@PostMapping("/dutchregister")
-	public String registerNewBoard(DutchBoardVO dutchBoard, RedirectAttributes redirectAttr) {
-
-		long pno = dutchBoardService.DutchregisterBoard(dutchBoard);
+	@PostMapping(value="/dutchregister")
+	public String registerNewBoard(DutchRegisterDTO dutchRegister,
+									RedirectAttributes redirectAttr) {
+		
+		
+		System.out.println("participants: " + dutchRegister);
+		long pno = dutchBoardService.DutchregisterBoard(dutchRegister);
 
 		redirectAttr.addFlashAttribute("result", pno);
 		System.out.println("result: " + redirectAttr.getFlashAttributes());
@@ -61,6 +68,7 @@ public class DutchBoardController {
 		return "redirect:/pages/dutchlist" ;
 
 	}
+	
 
 	//특정 더치페이 게시물 조회 페이지 or 수정 후 조회 페이지
 	@GetMapping("/dutchdetail")

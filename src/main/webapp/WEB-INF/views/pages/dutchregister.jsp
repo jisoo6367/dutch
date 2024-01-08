@@ -40,19 +40,20 @@
 		<label>회원고유번호</label>
 	    <input class="form-control" name="mno" id="mno" placeholder="회원고유번호를 검색하세요.">
 	</div>
-	
-<!-- 	<div class="form-group">
+	<div class="form-group">
 		<label>방내용</label>
-	    <input class="form-control" name="pcontent" id="pcontent" placeholder="회원고유번호를 검색하세요.">
-		</div> -->
+	    <input class="form-control" name="pcontent" id="pcontent" placeholder="내용을 입력하세요.">
+	</div>
 	
 	<button type="button" class="btn btn-primary" id="btnUserAdd">참여자 추가 버튼</button>
 
 	<div class="btnAdd">
-	<label>회원 닉네임</label>
-	<input name="nickname" id="nickname"/> <%-- value="${member.nickname }" --%>
+	<%-- <label>회원 닉네임</label>
+	<input name="nickname" id="nickname"/> value="${member.nickname }"
 	    		   <button type="button" class="btn btn-primary btnUserConfirmed">등록</button>
-	    		   <button type="button" class="btn btn-warning btnUserDelete">삭제</button>
+	    		   <button type="button" class="btn btn-warning btnUserDelete">삭제</button> --%>
+	    		   
+	    <input type="hidden" name="pno" id="pno"/>
 	</div>
 	
     <div class="form-group">
@@ -63,18 +64,13 @@
  		<label>개인부담금액</label>
 	    <input class="form-control" name="ppersonal" id="ppersonal" placeholder="개인부담금액을 입력하세요.">
 	</div>  
-   <!--<label>작성자</label>
-	    <input class="form-control" name="pwriter" id="pwriter" placeholder="작성자를 입력하세요."> -->
-	    <!-- <input class="form-control" name="bwriter" id="bwriter" readonly="readonly"/> --> 
-	           <%-- value='<sec:authentication property="principal.username"/>' />--%>
-	
 
 	<button type="button" class="btn btn-primary" id="btnUserConfirmed">확정</button>
 	<button type="button" class="btn btn-primary" id="btnRegister">게시물 등록</button>
 	<button type="button" class="btn btn-warning"
 			onclick="location.href='${contextPath}/pages/dutchlist';">취소</button>
 
-    
+    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 </form>
 
 	</div>
@@ -93,6 +89,8 @@
         
 <script>
 
+var frmBoard = $("#frmBoard") ;
+var pnoCnt = 0;
 <%-- 더치페이 게시물에 입력값 유무 확인 함수 --%>
 function checkBoardValues(){
 	
@@ -124,24 +122,31 @@ function checkBoardValues(){
         });
     }); // end click                                            
 }); // end ready  */
-
+var userList = [];
 <%-- User input 여러개 등록--%>
 $("#btnUserAdd").on("click", function(){
 	
-	$(".btnAdd").append("<br><label>회원 닉네임</label><input name='nickname'/> <button type='button' class='btn btn-primary btnUserConfirmed'>등록</button> <button type='button' class='btn btn-warning btnUserDelete'>삭제</button> <br>");
+	$(".btnAdd").append("<div><br><label>회원 닉네임 </label><input name='nickname'/> <button type='button' class='btn btn-primary btnUserConfirmed'>등록</button> <button type='button' class='btn btn-warning btnUserDelete'>삭제</button> <br><div>");
 
 	$(".btnUserDelete").on("click", function(){
-//		$(this).siblings().remove();
  		$(this).prev().prev().prev().prev().remove();
 		$(this).prev().prev().prev().remove();
 		$(this).prev().prev().remove();
 		$(this).prev().remove(); 
 		$(this).next().remove();
-		$(this).remove();
-		
+		$(this).remove();	
 	});
 	
+	$(".btnUserConfirmed").on("click", function(){
+		userList.push($(this).siblings("input").val());
+		console.log(userList);
+	});
+	
+	console.log(userList);
+	
 });
+
+
 
 
 <%-- User input 삭제 --%>
@@ -158,9 +163,21 @@ $("#btnRegister").on("click", function(){
 		return ; 
 	}
 	
-	var frmBoard = $("#frmBoard") ;
 	
+	$("#pno").val(pnoCnt);
 	frmBoard.submit();
+	
+	pnoCnt += 1;
+	/* $.ajax({
+		type:"post",
+		url:"${contextPath}/pages/dutchregister",
+		data: {userList: userList},
+		dataType: "json" ,
+		contentType: "application/json",
+		success: function(result){
+			console.log("sended");
+		}
+	}); */
 	
 });
 

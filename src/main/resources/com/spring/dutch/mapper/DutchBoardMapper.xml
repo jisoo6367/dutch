@@ -6,14 +6,22 @@
 
 <mapper namespace="com.spring.dutch.mapper.DutchBoardMapper">
 
-<!-- 더치페이 목록조회(READ) -->
-<!-- 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchVO">
-		SELECT pno, category, mno, ptitle, pcontent, pregDate, 
-		pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
-		FROM dutch.tbl_dutch
-		ORDER BY pno DESC
-	</select> -->
+	<!-- <parameterMap type="com.spring.dutch.domain.ParticipantsResultVO" id="param">
+		<parameter property="pno" jdbcType="number" javaType="long"/>
+		<parameter property="ptitle" jdbcType="varchar2" javaType="Stirng"/>
+		<parameter property="pregDate" jdbcType="date" javaType="Date"/>
+		<parameter property="ppersonal" jdbcType="number" javaType="long"/>
+		<collection property="participants" column="participantsList"/>
+	</parameterMap> -->
+	
 
+	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsResultVO">
+		lnsert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, nickname)
+		values 
+		<foreach collection="userList" item="item">
+			(#{pno},#{ptitle},#{pregDate},#{ppersonal},#{item.nickname})
+		</foreach>
+	</insert>
 
 <!-- 더치페이 목록조회(READ) -->
 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
@@ -72,6 +80,15 @@
 	FROM dutch.tbl_dutch WHERE pno = #{pno}
 
 </select>	
+
+<select id="selectForParticipants" parameterType="com.spring.dutch.domain.DutchBoardVO"
+		resultType="com.spring.dutch.domain.DutchBoardVO">
+		
+	select pno, ptitle, pregDate, ppersonal
+	from dutch.tbl_dutch
+	where mno = #{mno} and ppersonal = #{ppersonal} and ptitle = #{ptitle}
+
+</select>
 
 
 
