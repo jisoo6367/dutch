@@ -44,7 +44,7 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 		DutchBoardVO insertVO = null;
 		insertVO.setPtitle(dutchRegister.getPtitle());
 		insertVO.setCategory(dutchRegister.getCategory());
-		insertVO.setMno(dutchRegister.getEmail());
+		insertVO.setNickname(dutchRegister.getNickname());
 		insertVO.setPcontent(dutchRegister.getPcontent());
 		insertVO.setPpersonal(dutchRegister.getPpersonal());
 		insertVO.setPtotalPayment(dutchRegister.getPtotalPayment());
@@ -60,7 +60,7 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 		pr.setPtitle(boardVO.getPtitle());
 		pr.setPregDate(boardVO.getPregDate());
 		pr.setPpersonal(boardVO.getPpersonal());
-		pr.setUserList(dutchRegister.getNickname());
+		pr.setUserList(dutchRegister.getNicknames());
 		
 		dutchBoardMapper.insertParticipants(pr);
 		System.out.println("pr를 insertParticipants에 넣어서 보냄");

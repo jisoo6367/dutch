@@ -1,5 +1,6 @@
 package com.spring.dutch.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,10 +57,13 @@ public class DutchBoardController {
 
 	//더치페이 등록 처리
 	@PostMapping(value="/dutchregister")
-	@PreAuthorize("isAuthenticated() && principal.username == #email")
+	@PreAuthorize("isAuthenticated()")
 	public String registerNewBoard(DutchRegisterDTO dutchRegister,
+									Principal principal,
 									RedirectAttributes redirectAttr) {
-		
+		dutchRegister.setNickname(principal.getName());
+		System.out.println(principal.getName());
+		System.out.println(dutchRegister.getNicknames());
 		
 		System.out.println("participants: " + dutchRegister);
 		long pno = dutchBoardService.DutchregisterBoard(dutchRegister);

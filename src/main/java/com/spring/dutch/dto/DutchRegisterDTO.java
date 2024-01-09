@@ -19,10 +19,10 @@ import lombok.ToString;
 @ToString
 public class DutchRegisterDTO {
 	private String category;
-	private String email ;             //회원고유번호
+	private String nickname ;             //회원고유번호
 	private String ptitle ;        //방제목
 	private String pcontent ;      //방삭제(관리자)
 	private long ppersonal;        //개인부담금액
 	private int ptotalPayment ;
-	private List<String> nickname;
+	private List<String> nicknames;
 }

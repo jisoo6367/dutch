@@ -16,7 +16,7 @@ public class DutchBoardVO {
 
 	private long pno ;             //페이방고유번호
 	private String category ;      //카테고리
-	private String mno ;             //회원고유번호
+	private String nickname ;             //회원고유번호
 	private String ptitle ;        //방제목
 	private String pcontent ;      //방내용
 	private Date pregDate ;        //방생성일자

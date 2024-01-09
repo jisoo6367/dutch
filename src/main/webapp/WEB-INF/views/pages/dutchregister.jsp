@@ -113,7 +113,7 @@ var userList = [];
 <%-- User input 여러개 등록--%>
 $("#btnUserAdd").on("click", function(){
 	
-	$(".btnAdd").append("<div><br><label>회원 닉네임 </label><input name='nickname'/> <button type='button' class='btn btn-primary btnUserConfirmed'>등록</button> <button type='button' class='btn btn-warning btnUserDelete'>삭제</button> <br><div>");
+	$(".btnAdd").append("<div><br><label>회원 닉네임 </label><input name='nicknames'/> <button type='button' class='btn btn-primary btnUserConfirmed'>등록</button> <button type='button' class='btn btn-warning btnUserDelete'>삭제</button> <br><div>");
 
 	$(".btnUserDelete").on("click", function(){
  		$(this).prev().prev().prev().prev().remove();

@@ -16,10 +16,10 @@
 	
 
 	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsResultVO">
-		lnsert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, nickname)
+		lnsert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, pcalculated, nickname)
 		values 
 		<foreach collection="userList" item="item">
-			(#{pno},#{ptitle},#{pregDate},#{ppersonal},#{item.nickname})
+			(#{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{item.nickname})
 		</foreach>
 	</insert>
 
