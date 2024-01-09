@@ -38,7 +38,7 @@ public class LoginSucessHandler extends SavedRequestAwareAuthenticationSuccessHa
 				AuthorityUtils.authorityListToSet(authentication.getAuthorities()) ;
 		
 		if(savedRequest == null) {
-			if(authNameList.contains("ADMIN")) {
+			if(authNameList.contains("ROLE_USER")) {
 				response.sendRedirect("/dutch/");
 			} else {
 				response.sendRedirect("/dutch/");

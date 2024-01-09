@@ -23,7 +23,7 @@
 						 login-processing-url="/loginProcess"
 						 default-target-url="/" 
 						 authentication-success-handler-ref="loginSucessHandler"
-						 username-parameter="userEmail"
+						 username-parameter="nickname"
 						 password-parameter="password"/>
 	
 	<security:logout logout-url="/logoutProcess" logout-success-url="/"/>

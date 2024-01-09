@@ -36,9 +36,9 @@ public class LoginLogoutController {
 	@PostMapping(value = "/findEmail")
 	public String findEmailController(MemberVO member, Model model) {
 		
-		String userEmail = memberRegisterService.findEmailService(member);
-		System.out.println(userEmail);
-		model.addAttribute("userEmail", userEmail);
+		String nickname = memberRegisterService.findNicknameService(member);
+		System.out.println(nickname);
+		model.addAttribute("nickname", nickname);
 		
 		return "/pages/finder";
 	}

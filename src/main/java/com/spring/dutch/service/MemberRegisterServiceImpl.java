@@ -31,13 +31,13 @@ public class MemberRegisterServiceImpl implements MemberRegisterService{
 		
 		memberRegisterMapper.insertAuthority(member);
 		
-		return member.getEmail();
+		return member.getNickname();
 	}
 
 	@Override
-	public String findEmailService(MemberVO member) {
+	public String findNicknameService(MemberVO member) {
 		
-		return memberRegisterMapper.selectUserEmail(member);
+		return memberRegisterMapper.selectUserNickname(member);
 	}
 	
 	

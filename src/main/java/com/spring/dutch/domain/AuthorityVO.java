@@ -12,6 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class AuthorityVO {
-	private String email;
+	private String nickname;
 	private String authority;
 }

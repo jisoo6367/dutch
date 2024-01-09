@@ -14,7 +14,7 @@ public class MemberUser extends User{
 	private MemberVO member;
 	
 	public MemberUser(MemberVO member) {
-		super(member.getEmail(),
+		super(member.getNickname(),
 			  member.getPassword(),
 			  member.getAuthorityList()
 				  		  .stream()

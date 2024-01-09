@@ -5,7 +5,7 @@
 <mapper namespace="com.spring.dutch.mapper.MemberSecurityMapper">
 
 	<resultMap type="com.spring.dutch.domain.AuthorityVO" id="authMap">
-		<result property="email" column="email"/>
+		<result property="nickname" column="nickname"/>
 		<result property="authority" column="authority"/>
 	</resultMap>
 	<resultMap type="com.spring.dutch.domain.MemberVO" id="memberMap">
@@ -34,8 +34,8 @@
 		mem.email, mem.password, mem.hp, mem.cellphone, mem.reg_date, mem.mod_date,
         mem.del_flag, mem.login_type, mem.gender, mem.age, mem.enabled, auth.authority
 		FROM dutch.tbl_member mem LEFT OUTER JOIN dutch.tbl_member_authority auth 
-		   	ON mem.email = auth.email
-		WHERE mem.email = #{email}
+		   	ON mem.nickname = auth.nickname
+		WHERE mem.nickname = #{nickname}
 	</select>
 
 

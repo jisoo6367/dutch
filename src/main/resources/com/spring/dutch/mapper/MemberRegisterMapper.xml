@@ -31,7 +31,7 @@
 	<insert id="insertAuthority" parameterType="com.spring.dutch.domain.MemberVO">
 		insert into dutch.tbl_member_authority
 		values(
-		#{email},
+		#{nickname},
 		'ROLE_USER')
 	</insert>
 
