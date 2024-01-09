@@ -36,10 +36,10 @@
 		<label>카테고리</label>
 	    <input class="form-control" name="category" id="category" placeholder="카데고리를 검색하세요.">
 	</div>
-	<div class="form-group">
+	<!-- <div class="form-group">
 		<label>회원고유번호</label>
 	    <input class="form-control" name="mno" id="mno" placeholder="회원고유번호를 검색하세요.">
-	</div>
+	</div> -->
 	<div class="form-group">
 		<label>방내용</label>
 	    <input class="form-control" name="pcontent" id="pcontent" placeholder="내용을 입력하세요.">
@@ -53,7 +53,7 @@
 	    		   <button type="button" class="btn btn-primary btnUserConfirmed">등록</button>
 	    		   <button type="button" class="btn btn-warning btnUserDelete">삭제</button> --%>
 	    		   
-	    <input type="hidden" name="pno" id="pno"/>
+	    <!-- <input type="hidden" name="pno" id="pno"/> -->
 	</div>
 	
     <div class="form-group">
@@ -64,13 +64,13 @@
  		<label>개인부담금액</label>
 	    <input class="form-control" name="ppersonal" id="ppersonal" placeholder="개인부담금액을 입력하세요.">
 	</div>  
-
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	<button type="button" class="btn btn-primary" id="btnUserConfirmed">확정</button>
 	<button type="button" class="btn btn-primary" id="btnRegister">게시물 등록</button>
 	<button type="button" class="btn btn-warning"
 			onclick="location.href='${contextPath}/pages/dutchlist';">취소</button>
 
-    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+    
 </form>
 
 	</div>
@@ -90,18 +90,17 @@
 <script>
 
 var frmBoard = $("#frmBoard") ;
-var pnoCnt = 0;
 <%-- 더치페이 게시물에 입력값 유무 확인 함수 --%>
 function checkBoardValues(){
 	
 	var ptitle = document.getElementById("ptitle").value ;
-	var category = document.getElementById("category").value ;
-	var mno = document.getElementById("mno").value ;
+	var category = document.getElementById("category").value ; 
+//	var mno = document.getElementById("mno").value ;
 //	var pcontent = document.getElementById("pcontent").value ;
 	var ptotalPayment = document.getElementById("ptotalPayment").value ;
 	var ppersonal = document.getElementById("ppersonal").value ;
 	
-	if (ptitle.length == 0 || category.length == 0 || mno.length == 0 || ptotalPayment.length == 0 || ppersonal.length == 0) {
+	if (ptitle.length == 0 || category.length == 0 || ptotalPayment.length == 0 || ppersonal.length == 0) {
 		
 		return false;
 	} else {
@@ -110,18 +109,6 @@ function checkBoardValues(){
 	
 }
 
-/* $(document).ready (function () {                
-    $('#btnUserAdd').click (function () {                                        
-        $('#btnUserAdd').append (                        
-            '<input type="text" name="txt"> <input type="button" class="btnRemove" value="Remove"><br>'                    
-        ); // end append                            
-        $('.btnRemove').on('click', function () { 
-            $(this).prev().remove (); // remove the textbox
-            $(this).next ().remove (); // remove the <br>
-            $(this).remove (); // remove the button
-        });
-    }); // end click                                            
-}); // end ready  */
 var userList = [];
 <%-- User input 여러개 등록--%>
 $("#btnUserAdd").on("click", function(){
@@ -163,22 +150,7 @@ $("#btnRegister").on("click", function(){
 		return ; 
 	}
 	
-	
-	$("#pno").val(pnoCnt);
 	frmBoard.submit();
-	
-	pnoCnt += 1;
-	/* $.ajax({
-		type:"post",
-		url:"${contextPath}/pages/dutchregister",
-		data: {userList: userList},
-		dataType: "json" ,
-		contentType: "application/json",
-		success: function(result){
-			console.log("sended");
-		}
-	}); */
-	
 });
 
 

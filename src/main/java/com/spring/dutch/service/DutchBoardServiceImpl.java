@@ -42,10 +42,9 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 	public long DutchregisterBoard(DutchRegisterDTO dutchRegister) {
 		System.out.println("서비스 VO 구성 전");
 		DutchBoardVO insertVO = null;
-		insertVO.setPno(dutchRegister.getPno());
 		insertVO.setPtitle(dutchRegister.getPtitle());
 		insertVO.setCategory(dutchRegister.getCategory());
-		insertVO.setMno(dutchRegister.getMno());
+		insertVO.setMno(dutchRegister.getEmail());
 		insertVO.setPcontent(dutchRegister.getPcontent());
 		insertVO.setPpersonal(dutchRegister.getPpersonal());
 		insertVO.setPtotalPayment(dutchRegister.getPtotalPayment());

@@ -31,6 +31,7 @@
 				<value>classpath:com/spring/dutch/mapper/MemberRegisterMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/CardMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/DutchBoardMapper.xml</value>
+				<value>classpath:com/spring/dutch/mapper/MypageMapper.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -2,6 +2,7 @@ package com.spring.dutch.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,7 @@ public class DutchBoardController {
 
 	//더치페이 등록 처리
 	@PostMapping(value="/dutchregister")
+	@PreAuthorize("isAuthenticated() && principal.username == #email")
 	public String registerNewBoard(DutchRegisterDTO dutchRegister,
 									RedirectAttributes redirectAttr) {
 		
