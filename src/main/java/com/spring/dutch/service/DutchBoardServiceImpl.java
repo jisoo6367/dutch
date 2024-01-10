@@ -40,27 +40,36 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 	//더치페이 등록 
 	@Override
 	public long DutchregisterBoard(DutchRegisterDTO dutchRegister) {
-		System.out.println("서비스 VO 구성 전");
-		DutchBoardVO insertVO = null;
+		System.out.println("서비스 VO 구성 전" + dutchRegister);
+		DutchBoardVO insertVO = new DutchBoardVO();
 		insertVO.setPtitle(dutchRegister.getPtitle());
+		System.out.println("setPtitle");
 		insertVO.setCategory(dutchRegister.getCategory());
+		System.out.println("setCategory");
 		insertVO.setNickname(dutchRegister.getNickname());
+		System.out.println("setNickname");
 		insertVO.setPcontent(dutchRegister.getPcontent());
+		System.out.println("setPcontent");
 		insertVO.setPpersonal(dutchRegister.getPpersonal());
+		System.out.println("setPpersonal");
 		insertVO.setPtotalPayment(dutchRegister.getPtotalPayment());
+		System.out.println("setPtotal");
 		
 		System.out.println("서비스 VO 구성 후");
 		int pno = dutchBoardMapper.insertDutchBoard(insertVO);
 		System.out.println("서비스 VO를 insertDutchBoard에 넣어서 보냄");
 		DutchBoardVO boardVO = dutchBoardMapper.selectForParticipants(insertVO);
 		System.out.println("서비스 VO를 selectForParticipants에 넣어서 보냄");
+		
 		ParticipantsResultVO pr = new ParticipantsResultVO();
 		
 		pr.setPno(boardVO.getPno());
 		pr.setPtitle(boardVO.getPtitle());
 		pr.setPregDate(boardVO.getPregDate());
 		pr.setPpersonal(boardVO.getPpersonal());
+		pr.setPcalculated(boardVO.getPcalculated());
 		pr.setUserList(dutchRegister.getNicknames());
+		System.out.println(pr);
 		
 		dutchBoardMapper.insertParticipants(pr);
 		System.out.println("pr를 insertParticipants에 넣어서 보냄");

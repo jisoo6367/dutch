@@ -16,7 +16,6 @@
 		<result property="username" column="username"/>
 		<result property="email" column="email"/>
 		<result property="password" column="password"/>
-		<result property="hp" column="hp"/>
 		<result property="cellphone" column="cellphone"/>
 		<result property="regDate" column="reg_date"/>
 		<result property="modDate" column="mod_date"/>
@@ -31,7 +30,7 @@
 <!-- 특정 회원 조회(스프링 시큐리티도 사용함) -->
 	<select id="selectMember" resultMap="memberMap">
 		SELECT 	mem.mno, mem.nickname, mem.bank, mem.bank_account, mem.username,
-		mem.email, mem.password, mem.hp, mem.cellphone, mem.reg_date, mem.mod_date,
+		mem.email, mem.password, mem.cellphone, mem.reg_date, mem.mod_date,
         mem.del_flag, mem.login_type, mem.gender, mem.age, mem.enabled, auth.authority
 		FROM dutch.tbl_member mem LEFT OUTER JOIN dutch.tbl_member_authority auth 
 		   	ON mem.nickname = auth.nickname

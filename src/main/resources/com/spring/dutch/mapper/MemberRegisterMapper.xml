@@ -16,13 +16,12 @@
 		#{username}, 
 		#{email},
 		#{password},
-		#{hp},
 		#{cellphone},
 		DEFAULT,
 		DEFAULT,
 		DEFAULT,
 		DEFAULT,
-		#{loginType},
+		DEFAULT,
 		#{gender},
 		#{age})
 		

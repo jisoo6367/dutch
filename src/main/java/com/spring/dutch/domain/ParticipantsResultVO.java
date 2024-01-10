@@ -19,5 +19,7 @@ public class ParticipantsResultVO {
 	private String ptitle;
 	private Date pregDate;
 	private long ppersonal;
+	private int pcalculated;
+	private String nickname;
 	private List<String> userList;
 }

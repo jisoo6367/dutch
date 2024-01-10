@@ -16,10 +16,11 @@
 	
 
 	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsResultVO">
-		lnsert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, pcalculated, nickname)
-		values 
-		<foreach collection="userList" item="item">
-			(#{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{item.nickname})
+		
+		<foreach collection="userList" item="item" open="insert all" separator=",">
+			insert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, pcalculated, nickname)
+		
+			values ( #{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{item.nickname} )
 		</foreach>
 	</insert>
 
@@ -27,7 +28,7 @@
 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
 	        parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
 	<![CDATA[
-		SELECT pno, category, mno, ptitle, pcontent, pregDate, 
+		SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
 			   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
 		FROM ( SELECT /*+ INDEX_DESC (a pk_pno_dutch) */ ROWNUM rn, a.* 
                FROM dutch.tbl_dutch a
@@ -59,7 +60,7 @@
 			INSERT INTO dutch.tbl_dutch
 			VALUES (#{pno},
 			        #{category},
-			        #{mno},
+			        #{nickname},
 			        #{ptitle},
 			        #{pcontent},
 			        DEFAULT,
@@ -75,7 +76,7 @@
 <!-- 특정 게시물 조회: (detail.jsp)-->
 <select id="selectDutchBoard" resultType="com.spring.dutch.domain.DutchBoardVO">
 
-	SELECT pno, category, mno, ptitle, pcontent, pregDate, 
+	SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
 		   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
 	FROM dutch.tbl_dutch WHERE pno = #{pno}
 
@@ -84,9 +85,9 @@
 <select id="selectForParticipants" parameterType="com.spring.dutch.domain.DutchBoardVO"
 		resultType="com.spring.dutch.domain.DutchBoardVO">
 		
-	select pno, ptitle, pregDate, ppersonal
+	select pno, ptitle, pregDate, ppersonal, pcalculated
 	from dutch.tbl_dutch
-	where mno = #{mno} and ppersonal = #{ppersonal} and ptitle = #{ptitle}
+	where nickname = #{nickname} and ptitle = #{ptitle}
 
 </select>
 
