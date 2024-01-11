@@ -15,13 +15,11 @@
 	</parameterMap> -->
 	
 
-	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsResultVO">
+	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsVO">
+		insert into dutch.tbl_participants 
 		
-		<foreach collection="userList" item="item" open="insert all" separator=",">
-			insert into dutch.tbl_participants(pno, ptitle, pregDate, ppersonal, pcalculated, nickname)
+		values ( #{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{nickname} )
 		
-			values ( #{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{item.nickname} )
-		</foreach>
 	</insert>
 
 <!-- 더치페이 목록조회(READ) -->

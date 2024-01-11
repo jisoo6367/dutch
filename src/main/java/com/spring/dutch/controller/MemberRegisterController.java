@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.dutch.domain.CardAttachFileVO;
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.service.MemberRegisterService;
 
@@ -32,6 +33,7 @@ public class MemberRegisterController {
 	
 	@PostMapping(value="/sendmember")
 	public String sendMember(MemberVO member) {
+		
 		
 		
 		memberRegisterService.registerMember(member);

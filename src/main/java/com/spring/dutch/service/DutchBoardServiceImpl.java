@@ -42,6 +42,7 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 	public long DutchregisterBoard(DutchRegisterDTO dutchRegister) {
 		System.out.println("서비스 VO 구성 전" + dutchRegister);
 		DutchBoardVO insertVO = new DutchBoardVO();
+		
 		insertVO.setPtitle(dutchRegister.getPtitle());
 		System.out.println("setPtitle");
 		insertVO.setCategory(dutchRegister.getCategory());
@@ -56,24 +57,29 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 		System.out.println("setPtotal");
 		
 		System.out.println("서비스 VO 구성 후");
-		int pno = dutchBoardMapper.insertDutchBoard(insertVO);
+		dutchBoardMapper.insertDutchBoard(insertVO);
 		System.out.println("서비스 VO를 insertDutchBoard에 넣어서 보냄");
+		
 		DutchBoardVO boardVO = dutchBoardMapper.selectForParticipants(insertVO);
 		System.out.println("서비스 VO를 selectForParticipants에 넣어서 보냄");
 		
-		ParticipantsResultVO pr = new ParticipantsResultVO();
+		List<ParticipantsVO> participants = dutchRegister.getParticipants();
+		System.out.println("participants: " + participants);
+		participants.forEach(item -> {
+			
+			item.setPno(boardVO.getPno());
+			item.setPtitle(boardVO.getPtitle());
+			item.setPregDate(boardVO.getPregDate());
+			item.setPpersonal(boardVO.getPpersonal());
+			item.setPcalculated(boardVO.getPcalculated());
+			System.out.println("item: " + item);
+			
+			dutchBoardMapper.insertParticipants(item);
+		});
 		
-		pr.setPno(boardVO.getPno());
-		pr.setPtitle(boardVO.getPtitle());
-		pr.setPregDate(boardVO.getPregDate());
-		pr.setPpersonal(boardVO.getPpersonal());
-		pr.setPcalculated(boardVO.getPcalculated());
-		pr.setUserList(dutchRegister.getNicknames());
-		System.out.println(pr);
 		
-		dutchBoardMapper.insertParticipants(pr);
-		System.out.println("pr를 insertParticipants에 넣어서 보냄");
-		return pno;
+		System.out.println("participants를 insertParticipants에 넣어서 보냄");
+		return boardVO.getPno();
 	}
 
 	//더치페이 특정 게시물 조회 : 특정 게시물 하나의 데이터를 가져옴

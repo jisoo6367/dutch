@@ -62,8 +62,8 @@ public class DutchBoardController {
 									Principal principal,
 									RedirectAttributes redirectAttr) {
 		dutchRegister.setNickname(principal.getName());
-		System.out.println(principal.getName());
-		System.out.println(dutchRegister.getNicknames());
+		System.out.println("principal.getName(): " + principal.getName());
+		System.out.println("dutchRegister.getParticipants(): " + dutchRegister.getParticipants());
 		
 		System.out.println("participants: " + dutchRegister);
 		long pno = dutchBoardService.DutchregisterBoard(dutchRegister);

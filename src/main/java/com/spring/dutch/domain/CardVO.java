@@ -1,5 +1,7 @@
 package com.spring.dutch.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +20,6 @@ public class CardVO {
 	private String kcontent;
 	private String kcompany;
 	private int kcomment;
+	
+	private List<CardAttachFileVO> attachFileList;
 }

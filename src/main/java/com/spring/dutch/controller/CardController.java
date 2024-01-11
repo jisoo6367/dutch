@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.dutch.domain.CardAttachFileVO;
 import com.spring.dutch.domain.CardVO;
 import com.spring.dutch.dto.CardPagingCreatorDTO;
 import com.spring.dutch.dto.CardPagingDTO;
@@ -37,10 +39,13 @@ public class CardController {
 	}
 	
 	@PostMapping(value = "/sendcard")
-	public String sendCard(CardVO card) {
+	public String sendCard(CardVO card, RedirectAttributes redirectAttr) {
 		
-		cardService.registerCard(card);
+		/* CardAttachFileVO attachFile = card.getAttachFile(); */
 		
+		String kno = cardService.registerCard(card);
+		
+		redirectAttr.addFlashAttribute("kno", kno);
 		
 		return "redirect:/card";
 	}

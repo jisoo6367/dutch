@@ -1,5 +1,6 @@
 package com.spring.dutch.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +14,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ParticipantsVO {
-	private List<ParticipantsVO> participants;
+	private long pno;
+    private String ptitle;
+    private Date pregDate; 
+    private long ppersonal;
+    private int pcalculated;
+    private String nickname;
 	
 }

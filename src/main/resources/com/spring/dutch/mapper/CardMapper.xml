@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dutch.mapper.CardMapper">
+
 	<!-- 게시물 가져오기 -->
 	<select id="selectList" resultType="com.spring.dutch.domain.CardVO"
 	        parameterType="com.spring.dutch.dto.CardPagingDTO">
@@ -57,6 +58,12 @@
 		#{kno},#{category},#{kname},#{kcontent},#{kcompany},#{kcomment}
 		)
 		
+	</insert>
+	
+	<!-- 카드 이미지 등록 -->
+	<insert id="insertAttachFile">
+		INSERT INTO dutch.tbl_myAttachFiles
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{kno})
 	</insert>
 
 

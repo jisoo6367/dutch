@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.spring.dutch.domain.DutchBoardVO;
+import com.spring.dutch.domain.ParticipantsVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,5 @@ public class DutchRegisterDTO {
 	private String pcontent ;      //방삭제(관리자)
 	private long ppersonal;        //개인부담금액
 	private int ptotalPayment ;
-	private List<String> nicknames;
+	private List<ParticipantsVO> participants;
 }

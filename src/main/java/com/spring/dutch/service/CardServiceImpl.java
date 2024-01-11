@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.dutch.domain.CardAttachFileVO;
 import com.spring.dutch.domain.CardVO;
 import com.spring.dutch.dto.CardPagingCreatorDTO;
 import com.spring.dutch.dto.CardPagingDTO;
@@ -32,6 +33,16 @@ public class CardServiceImpl implements CardService{
 		card.setKno(UUID.randomUUID().toString());
 		
 		cardMapper.insertCard(card);
+		
+		List<CardAttachFileVO> attachFileList = card.getAttachFileList();
+		if(attachFileList != null && attachFileList.size() > 0) {
+			
+			attachFileList.forEach(cardAttachFile -> {
+				cardAttachFile.setKno(card.getKno());
+				cardMapper.insertAttachFile(cardAttachFile);
+			});
+			
+		}
 		
 		
 		return card.getKno();
