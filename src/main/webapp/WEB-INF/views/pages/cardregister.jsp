@@ -12,87 +12,80 @@
 
 
 <div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12">
-			<h3 class="page-header">CardRegister</h3>
-		</div>
-		<%-- /.col-lg-12 --%>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">카드 등록</h3>
+        </div><%-- /.col-lg-12 --%>
+    </div><%-- /.row --%>
+    <div class="row">
+        <div class="col-lg-12">
+        
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>카드 등록</h4></div><%-- /.panel-heading --%>
+                
+                <div class="panel-body">
+
+<form role="form" action="${contextPath }/sendcard" 
+      method="post" name="frmBoard" id="frmBoard">
+	<div class="form-group">
+	    <label>카드이름</label>
+	    <input class="form-control" name="kname" id="kname" placeholder="카드이름을 입력하세요">
 	</div>
-	<%-- /.row --%>
-	<div class="row">
-		<div class="col-lg-12">
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4>카드 등록</h4>
-				</div>
-				<%-- /.panel-heading --%>
-
-				<div class="panel-body">
-
-					<form role="form" action="${contextPath }/sendcard" method="post"
-						name="frmBoard" id="frmBoard">
-						<div class="form-group">
-							<label>카드이름</label> <input class="form-control" name="kname"
-								id="kname" placeholder="카드이름을 입력하세요">
-						</div>
-						<div class="form-group">
-							<label>카드설명</label>
-							<textarea class="form-control" rows="3" name="kcontent"
-								id="kcontent" placeholder="카드설명을 입력하세요"></textarea>
-						</div>
-						<div class="form-group">
-							<label>카드사</label> <input class="form-control" name="kcompany"
-								id="kcompany" placeholder="카드사를 입력하세요">
-						</div>
-						<div class="form-group">
-							<label>카드사</label> <input class="form-control" name="category"
-								id="category" placeholder="카테고리를 입력하세요">
-						</div>
-
-						<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
-						<button type="button" class="btn btn-warning"
-							onclick="location.href='${contextPath}/card';">취소</button>
-						<sec:csrfInput />
-
-					</form>
-				</div>
-				<!-- /.panel-body -->
-			</div>
-			<!-- /.panel -->
-		</div>
-		<!-- /.col-lg-12 -->
+	<div class="form-group">
+	    <label>카드설명</label>
+	    <textarea class="form-control" rows="3" name="kcontent" id="kcontent"
+	    		  placeholder="카드설명을 입력하세요"></textarea>
 	</div>
-	<!-- /.row -->
-
-	<%-- 첨부파일 결과 표시 --%>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">파일첨부</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-					<div class="form-group uploadDiv">
-						<input id="inputFile" class="btn btn-primary inputFile"
-							type="file" name="uploadFiles" multiple="multiple" /><br>
-					</div>
-					<div class="form-group fileUploadResult">
-						<ul>
-							<%-- 업로드 후 처리결과가 표시될 영역 --%>
-						</ul>
-					</div>
-				</div>
-				<!-- /.panel-body -->
-			</div>
-			<!-- /.panel -->
-		</div>
-		<!-- /.col-lg-12 -->
+	<div class="form-group">
+	    <label>카드사</label>
+	    <input class="form-control" name="kcompany" id="kcompany"/>
 	</div>
-	<!-- /.row -->
+	<div class="form-group">
+	    <label>카테고리</label>
+	    <!-- <input class="form-control" name="category" id="category" placeholder="카테고리 브로"> -->
+	    <select class="form-control" name="category" id="category">
+	    	<option value="회식">회식</option>
+	    	<option value="카페">카페</option>
+	    	<option value="식사">식사</option>
+	    	<option value="공동구매">공동구매</option>
+	    </select>
+	</div>
+	<div class="form-group">
+	    <label>추천수</label>
+	    <input type="number" class="form-control" name="kcomment" id="kcomment" readonly="readonly" value="0">
+	</div>
+	<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
+	<button type="button" class="btn btn-warning" 
+	        onclick="location.href='${contextPath}/card';">취소</button>
+	<sec:csrfInput/>
+	
+</form>                  
+                </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+        </div><!-- /.col-lg-12 -->
+    </div><!-- /.row -->
 
+<%-- 첨부파일 결과 표시 --%>    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">파일첨부</div><!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="form-group uploadDiv">
+                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
+                    </div>
+	                <div class="form-group fileUploadResult">
+	                    <ul>
+	                        <%-- 업로드 후 처리결과가 표시될 영역 --%>
+	                    </ul>
+	                </div>
+                </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+        </div><!-- /.col-lg-12 -->
+    </div><!-- /.row -->
+  
 
-</div>
-<%-- /#page-wrapper --%>
+</div><%-- /#page-wrapper --%>
 
 
 
@@ -144,7 +137,8 @@ $("#btnRegister").on("click", function(){
 	if (attachFileInputHTML != ""){
 		frmBoard.append(attachFileInputHTML) ;	
 	}
-
+	
+	
 	frmBoard.submit();
 	
 });
@@ -180,28 +174,23 @@ function showUploadResult(uploadResult) {
 	var htmlStr = "";
 	
 	$(uploadResult).each(function(i, attachFile){
-		
-		var fullFileName = encodeURI(attachFile.repoPath + "/" +
-									 attachFile.uploadPath + "/" +
-									 attachFile.uuid + "_" +
-									 attachFile.fileName ) ;
 
 			
-			var thumbnail = encodeURI(attachFile.repoPath + "/" +
-									  attachFile.uploadPath + "/s_" +
-									  attachFile.uuid + "_" +
-									  attachFile.fileName ) ;
-			
+		var thumbnail = encodeURI(attachFile.repoPath + "/" +
+								  attachFile.uploadPath + "/s_" +
+								  attachFile.uuid + "_" +
+								  attachFile.fileName ) ;
 		
-			htmlStr 
-			+="<li data-uploadpath='" + attachFile.uploadPath + "'" 
-			+ "    data-uuid='" + attachFile.uuid + "'" 
-			+ "    data-filename='" + attachFile.fileName + "'" 
-			+ "    data-filetype='I'>"
-			+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
-			+ "        &nbsp;&nbsp;" + attachFile.fileName 
-			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
-			+ "</li>" ;
+	
+		htmlStr 
+		+="<li data-uploadpath='" + attachFile.uploadPath + "'" 
+		+ "    data-uuid='" + attachFile.uuid + "'" 
+		+ "    data-filename='" + attachFile.fileName + "'" 
+		+ "    data-filetype='I'>"
+		+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
+		+ "        &nbsp;&nbsp;" + attachFile.fileName 
+		+ "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
+		+ "</li>" ;
 		
 			
 	}); <%--foreach-end--%>

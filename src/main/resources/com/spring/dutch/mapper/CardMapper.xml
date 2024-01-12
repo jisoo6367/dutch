@@ -61,7 +61,7 @@
 	</insert>
 	
 	<!-- 카드 이미지 등록 -->
-	<insert id="insertAttachFile">
+	<insert id="insertAttachFile" parameterType="com.spring.dutch.domain.CardAttachFileVO">
 		INSERT INTO dutch.tbl_myAttachFiles
 		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{kno})
 	</insert>
