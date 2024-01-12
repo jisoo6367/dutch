@@ -34,7 +34,7 @@ public class MemberRegisterController {
 	@PostMapping(value="/sendmember")
 	public String sendMember(MemberVO member) {
 		
-		
+		System.out.println(member);
 		
 		memberRegisterService.registerMember(member);
 		
