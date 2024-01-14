@@ -29,8 +29,6 @@ public class DutchBoardController {
 
 	  public DutchBoardController(DutchBoardService dutchBoardService) {
 	  this.dutchBoardService = dutchBoardService ;
-	  System.out.println("DutchBoardController의 모든 필드 초기화 생성자 입니다."); 
-
 	  }
 
 

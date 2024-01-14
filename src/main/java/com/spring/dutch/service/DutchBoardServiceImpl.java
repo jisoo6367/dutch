@@ -17,13 +17,8 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 
 	private DutchBoardMapper dutchBoardMapper ;
 
-
-	//모든 필드 초기화 생성자
 	public DutchBoardServiceImpl(DutchBoardMapper dutchBoardMapper) {	
 		this.dutchBoardMapper = dutchBoardMapper;
-
-		System.out.println("DutchBoardServiceImpl의 모든 필드 초기화생성자입니다.");
-		System.out.println("dutchBoardMapper: " + dutchBoardMapper);
 	}
 
 	//더치페이 목록 조회
@@ -72,12 +67,10 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 			item.setPregDate(boardVO.getPregDate());
 			item.setPpersonal(boardVO.getPpersonal());
 			item.setPcalculated(boardVO.getPcalculated());
-			System.out.println("item: " + item);
-			
-			dutchBoardMapper.insertParticipants(item);
 		});
 		
-		
+		System.out.println("participants: " + participants);
+		dutchBoardMapper.insertParticipants(participants);
 		System.out.println("participants를 insertParticipants에 넣어서 보냄");
 		return boardVO.getPno();
 	}

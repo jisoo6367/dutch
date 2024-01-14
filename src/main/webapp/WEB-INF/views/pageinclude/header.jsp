@@ -32,7 +32,6 @@
     
   </head>
   <body>
-  
 	<!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -43,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand homeBtn">Dutch_Pay</a>
+          <a class="navbar-brand homeBtn">더치페이</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -69,18 +68,10 @@
           </ul>
           <ul class="nav navbar-nav navbar-right" id="loginLogoutUl">
           
-          <%-- <li id="loginBtn"><a>Login</a></li>
-          <sec:authorize access="isTuthenticated()">
-          	<li id="logoutBtn"><a href="${contextPath }/logoutPage">Logout</a></li>
-          </sec:authorize> --%>
-          
+          	<li><a href="${contextPath }/memberregister">회원가입</a></li>
           	
           </ul>
-          <!-- <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-          </ul> -->
+          
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -90,10 +81,10 @@
     	
     	var strInnerUl = "";
     	
-    	strInnerUl = '<li id="loginBtn">로그인</li>';
+    	strInnerUl = '<li id="loginBtn"><a href="${contextPath }/loginPage">로그인</a></li>';
     	
     	<sec:authorize access="isAuthenticated()">
-    		strInnerUl = '<li id="logoutBtn">로그아웃</li>';
+    		strInnerUl = '<li id="logoutBtn"><a href="${contextPath }/logoutPage">로그아웃</a></li>';
     	</sec:authorize>
     	
     	$("#loginLogoutUl").append(strInnerUl);
@@ -116,4 +107,4 @@
     	
     </script>
 
-<div class="container" style="margin-top: 60px;">
+<div class="container" style="margin-top: 90px;">

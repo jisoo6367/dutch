@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MemberVO {
+public class SendMemberVO {
 	
 	private String mno;
 	private String nickname;
@@ -23,7 +23,9 @@ public class MemberVO {
 	private String username;
 	private String email;
 	private String password;
-	private long cellphone;
+	private String cellphone1;
+	private String cellphone2;
+	private String cellphone3;
 	private Timestamp regDate;
 	private Timestamp modDate;
 	private int delFlag;

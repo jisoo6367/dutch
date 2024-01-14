@@ -13,8 +13,12 @@
 		font-size: 12px;
 		margin-left: 10px;
 	}
+	.p-fontsize100{
+		font-size: 25px;
+	}
 </style>
 
+<div class="center">
 <form role="form" name="frmSendMember" id="frmSendMember" 
 	  method="post" action="${contextPath}/sendmember">
 		
@@ -24,11 +28,12 @@
 				<div class="panel-body form-horizontal">
 					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">닉네임</label>
-					    <div class="col-sm-10">
+					    <div class="col-sm-10 form-inline">
 					    	<input class="form-control" name="nickname" id="nickname" placeholder="닉네임을 입력하세요">
+					    	<button class="btn btn-default" id="checkNicknameBtn">중복 확인</button>
 					    	<p class="p-color-font">4~20자의 영문 소문자, 숫자만 사용 가능합니다</p>
 						</div>
-						
+							
 						
 					</div>
 					<div class="form-group">
@@ -71,7 +76,28 @@
 					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">휴대폰번호</label>
 					    <div class="col-sm-10">
-					    	<input type="number" class="form-control" name="cellphone" id="cellphone" placeholder="휴대폰번호를 입력하세요">
+					    	<div class="row">
+					    			<div class="col-xs-3">
+					    				<select class="form-control" name="cellphone1" id="cellphone1">
+								    		<option value="010">010</option>
+								    		<option value="011">011</option>
+								    		<option value="016">016</option>
+								    		<option value="017">017</option>
+								    		<option value="018">018</option>
+								    		<option value="019">019</option>
+								    	</select>
+					    			</div>
+						    		<div class="col-xs-4">
+						    			<input class="form-control" name="cellphone2" id="cellphone2">
+						    			
+						    		</div>
+						    		<div class="col-xs-1">
+						    			<p class="p-fontsize100">-</p>
+						    		</div>
+						    		<div class="col-xs-4">
+						    			<input class="form-control" name="cellphone3" id="cellphone3">
+						    		</div>	
+					    	</div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -107,7 +133,9 @@
 	
 	<button type="button" id="sendMemberBtn" class="btn btn-primary">회원가입</button>
 	
-</form>
+	</form>
+</div>
+
 
 
 <script>
@@ -119,8 +147,10 @@
 		var regExpNick = /^[A-Za-z0-9]{4,20}$/;
 		
 		if(regExpNick.test(nickname)){
+			$(this).attr("style", "border-color: none;")
 			$(this).siblings("p").attr("style", "display: none;")
 		} else {
+			$(this).attr("style", "border-color: red;")
 			$(this).siblings("p").attr("style", "display: in-block;")
 		}
 	});
@@ -130,8 +160,10 @@
 		var regExpPw = /^[A-Za-z0-9!@#]{4,16}$/;
 		
 		if(regExpPw.test(password)){
+			$(this).attr("style", "border-color: none;")
 			$(this).siblings("p").attr("style", "display: none;")
 		} else {
+			$(this).attr("style", "border-color: red;")
 			$(this).siblings("p").attr("style", "display: in-block;")
 		}
 		
@@ -183,11 +215,79 @@
 	});
 
 	$("#sendMemberBtn").on("click", function(){
-		frmSendMember.submit();
+		var nickname = $("#nickname").val();
+		var password = $("#password").val();
+		var bankAccount = $("#bankAccount").val();
+		var username = $("#username").val();
+		var email = $("#email").val();
+		var cellphone = null;
+		/* var cellphone = $("#cellphone").val(); */
+		var cellphone1 = $("#cellphone1").val();
+		var cellphone2 = $("#cellphone2").val();
+		var cellphone3 = $("#cellphone3").val();
+
+		var regExpNick = /^[A-Za-z0-9]{4,20}$/;
+		var regExpPw = /^[A-Za-z0-9!@#]{4,16}$/;
+		var regExpBa = /^[0-9]{11,14}$/;
+		var regExpName = /^[가-힣A-Za-z]{2,10}$/;
+		var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		var regExpCp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+		var regExpCp2 = /^[0-9]{3,4}$/;
+		var regExpCp3 = /^[0-9]{4}$/;
+		
+		if(nickname.length == 0){
+			alert("닉네임을 입력하세요");
+			return ;
+		} else if (!regExpNick.test(nickname)){
+			alert("닉네임을 올바르게 입력하세요");
+			return ;
+		} else if(password.length == 0){
+			alert("비밀번호를 입력하세요");
+			return ;
+		} else if (!regExpPw.test(password)){
+			alert("비밀번호를 올바르게 입력하세요");
+			return ;
+		} else if (bankAccount.length == 0){
+			alert("계좌번호를 입력하세요");
+			return ;
+		} else if (!regExpBa.test(bankAccount)){
+			alert("계좌번호를 올바르게 입력하세요");
+			return ;
+		} else if(username.length == 0){
+			alert("성함을 입력하세요");
+			return ;
+		} else if (!regExpName.test(username)){
+			alert("성함을 올바르게 입력하세요");
+			return ;
+		} else if(email.length == 0){
+			alert("이메일을 입력하세요");
+			return ;
+		} else if (!regExpEmail.test(email)){
+			alert("이메일을 올바르게 입력하세요");
+			return ;
+		} else if(cellphone2.length == 0){
+			alert("휴대폰번호를 입력하세요");
+			return ;
+		} else if(cellphone3.length == 0){
+			alert("휴대폰번호를 입력하세요");
+			return ;
+		} else if (!regExpCp2.test(cellphone2)){
+			alert("휴대폰번호를 올바르게 입력하세요");
+			return ;
+		} else if (!regExpCp3.test(cellphone3)){
+			alert("휴대폰번호를 올바르게 입력하세요");
+			return ;
+		} else {
+			frmSendMember.submit();
+		
+		}
+		
 	});
 	
 	
-	
+	$("#checkNicknameBtn").on("click", function(){
+		console.log("asdlkfj");
+	});
 	
 	
 	
@@ -205,4 +305,4 @@
 
 
 
-<%@include file="../pageinclude/footer.jsp" %> 
+<%@include file="../pageinclude/footer.jsp" %>

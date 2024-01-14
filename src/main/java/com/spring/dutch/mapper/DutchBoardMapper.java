@@ -26,7 +26,7 @@ public interface DutchBoardMapper {
 	public DutchBoardVO selectForParticipants(DutchBoardVO boardVO);
 
 	//방 등록하면서 회원닉네임 개인부담금액 방번호 방개설날짜 넣는 메서드 
-	public int insertParticipants(ParticipantsVO participants);
+	public int insertParticipants(List<ParticipantsVO> participants);
 
 
 }

@@ -43,4 +43,9 @@ public class LoginLogoutController {
 		return "/pages/finder";
 	}
 	
+	@GetMapping("/test")
+	public String test() {
+		return "pages/test";
+	}
+	
 }

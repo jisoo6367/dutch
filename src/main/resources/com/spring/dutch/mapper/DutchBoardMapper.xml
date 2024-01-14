@@ -6,21 +6,34 @@
 
 <mapper namespace="com.spring.dutch.mapper.DutchBoardMapper">
 
-	<!-- <parameterMap type="com.spring.dutch.domain.ParticipantsResultVO" id="param">
-		<parameter property="pno" jdbcType="number" javaType="long"/>
-		<parameter property="ptitle" jdbcType="varchar2" javaType="Stirng"/>
-		<parameter property="pregDate" jdbcType="date" javaType="Date"/>
-		<parameter property="ppersonal" jdbcType="number" javaType="long"/>
-		<collection property="participants" column="participantsList"/>
-	</parameterMap> -->
+	<update id="insertParticipants" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO dutch.tbl_participants
+				(
+				pno,
+	            ptitle,
+	            pregDate,
+	            ppersonal,
+	            nickname
+				)
+			VALUES
+				(
+				#{item.pno},
+	            #{item.ptitle},
+	            #{item.pregDate},
+	            #{item.ppersonal},
+	            #{item.nickname}
+				)
+		</foreach>
+	</update>
 	
 
-	<insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsVO">
+	<!-- <insert id="insertParticipants" parameterType="com.spring.dutch.domain.ParticipantsVO">
 		insert into dutch.tbl_participants 
 		
 		values ( #{pno},#{ptitle},#{pregDate},#{ppersonal},#{pcalculated},#{nickname} )
 		
-	</insert>
+	</insert> -->
 
 <!-- 더치페이 목록조회(READ) -->
 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
