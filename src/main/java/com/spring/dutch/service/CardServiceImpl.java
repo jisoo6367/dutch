@@ -31,13 +31,14 @@ public class CardServiceImpl implements CardService{
 	public String registerCard(CardVO card) {
 		
 		card.setKno(UUID.randomUUID().toString());
-		
+		System.out.println(card);
 		cardMapper.insertCard(card);
 		
 		List<CardAttachFileVO> attachFileList = card.getAttachFileList();
 		if(attachFileList != null && attachFileList.size() > 0) {
 			
 			attachFileList.forEach(cardAttachFile -> {
+				cardAttachFile.setUuid(UUID.randomUUID().toString());
 				cardAttachFile.setKno(card.getKno());
 				cardMapper.insertAttachFile(cardAttachFile);
 			});

@@ -35,12 +35,13 @@ public class CardController {
 	
 	@GetMapping(value = "/cardregister")
 	public String showCardRegister() {
-		return "/pages/cardregisterpage";
+		return "/pages/cardregister";
 	}
 	
 	@PostMapping(value = "/sendcard")
 	public String sendCard(CardVO card, RedirectAttributes redirectAttr) {
 		
+		System.out.println(card);
 		/* CardAttachFileVO attachFile = card.getAttachFile(); */
 		
 		String kno = cardService.registerCard(card);
