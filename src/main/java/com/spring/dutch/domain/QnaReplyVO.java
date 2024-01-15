@@ -25,7 +25,6 @@ public class QnaReplyVO {
 	private Date qrregDate; //댓글생성일
 	private Timestamp qrmodDate; //댓글수정일
 	private int qrcno; //답글고유번호
-
 	
 	private int lvl; //오라클 계층쿼리의 level 값을 저장할 필드
 	

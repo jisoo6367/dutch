@@ -98,7 +98,7 @@
 <!-- 게시물 등록(CREATE) -->
 	<insert id="insertCommunity" parameterType="com.spring.dutch.domain.CommunityVO">
 		<selectKey order="BEFORE" keyProperty="tno" resultType="long">
-			SELECT dutch.tbl_community.nextval FROM dual
+			SELECT dutch.seq_community.nextval FROM dual
 		</selectKey>
 		INSERT INTO dutch.tbl_community
 		VALUES (#{tno},

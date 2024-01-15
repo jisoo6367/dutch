@@ -16,7 +16,7 @@
  	<select id="selectQnaList" resultType="com.spring.dutch.domain.QnaVO"
 			parameterType="com.spring.dutch.dto.QnaPagingDTO">
 	<![CDATA[
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
+		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
 		FROM ( SELECT /*+ INDEX_DESC (a FK_QNA_NICKNAME) */ ROWNUM rn, a.*
 		       FROM dutch.tbl_qna a
 		       WHERE ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
@@ -45,20 +45,19 @@
 				 DEFAULT,   
 				 DEFAULT,   
 				 DEFAULT,   
-				 #{qcontent},
-				 DEFAULT)
+				 #{qcontent})
 	</insert>
 
 <!-- 특정 게시물 조회(modify.jsp) -->
 	<select id="selectQna2" resultType="com.spring.dutch.domain.QnaVO">
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
+		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
 		FROM dutch.tbl_qna
 		WHERE qno = #{qno }
 	</select>
 	
 <!-- 특정 게시물 조회(detail.jsp) -->
 	<select id="selectQna" resultType="com.spring.dutch.domain.QnaVO">
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
+		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
 		FROM dutch.tbl_qna
 		WHERE qno = #{qno }
 	</select> 
