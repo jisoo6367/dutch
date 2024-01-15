@@ -216,14 +216,16 @@
 	$("#sendMemberBtn").on("click", function(){
 		var nickname = $("#nickname").val();
 		var password = $("#password").val();
+		var bank = $("#bank").val();
 		var bankAccount = $("#bankAccount").val();
 		var username = $("#username").val();
 		var email = $("#email").val();
 		var cellphone = null;
-		/* var cellphone = $("#cellphone").val(); */
 		var cellphone1 = $("#cellphone1").val();
 		var cellphone2 = $("#cellphone2").val();
 		var cellphone3 = $("#cellphone3").val();
+		var gender = $("#gender").val();
+		var age = $("#age").val();
 
 		var regExpNick = /^[A-Za-z0-9]{4,20}$/;
 		var regExpPw = /^[A-Za-z0-9!@#]{4,16}$/;
@@ -277,7 +279,37 @@
 			alert("휴대폰번호를 올바르게 입력하세요");
 			return ;
 		} else {
-			frmSendMember.submit();
+			var frmData = {
+							nickname: nickname,
+							password: password,
+							bank: bank,
+							bankAccount: bankAccount,
+							username: username,
+							email: email,
+							cellphone1: cellphone1,
+							cellphone2: cellphone2,
+							cellphone3: cellphone3,
+							gender: gender,
+							age: age
+						  };
+			
+			$.ajax({
+				type: "post",
+				url: "/dutch/memberregister",
+				data: JSON.stringify(frmData),
+				contentType: "application/json;charset=utf-8",
+				dataType: "text",
+				success: function(result, status){
+					alert("성공했슴다");
+					window.location.href="${contextPath}/";
+				},
+				error: function(xhr, status, err){
+					alert("실패했슴다");
+					window.location.href="${contextpath}/memberregister";
+				}
+			})
+			
+			//frmSendMember.submit();
 		
 		}
 		

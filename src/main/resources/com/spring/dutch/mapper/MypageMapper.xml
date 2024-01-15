@@ -8,7 +8,7 @@
 <select id="selectMemberData" resultType="com.spring.dutch.domain.MemberVO"
 		parameterType="String">
 	SELECT  mno, nickname, bank, bank_account,
-		    username, email, password, hp, cellphone,
+		    username, email, password, cellphone,
 		    reg_date, mod_date, del_flag, enabled,
 		    login_type, gender, age
 	FROM dutch.tbl_member
