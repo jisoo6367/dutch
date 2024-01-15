@@ -3,12 +3,39 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
 <%@include file="../pageinclude/header.jsp"%>
+<style>
+	.container-margin {
+						margin: 10px;
+					  };
+</style>
+
+
 <div class="container" style="margin-top: 60px;">
 
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">추천 카드</h3>
+        </div><%-- /.col-lg-12 --%>
+    </div><%-- /.row --%>
+    <div class="row">
+        <div class="col-lg-12">
+        
+            <div class="panel panel-default">
+                <div class="panel-heading">
+					<div class="row">
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">추천 카드 목록</div>
+						<div class="col-md-6" style="padding-top:8px;">
+							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">카드 등록</button>
+						</div>
+					</div>
+				</div><%-- /.panel-heading --%>
 
 <div class="row row-offcanvas row-offcanvas-right">
 
@@ -41,20 +68,19 @@
 				</select>
 
 
-				<div class="input-group" style="margin-top: 20px;">
+				<div class="input-group" style="">
 					<!-- 검색어 입력 -->
 					<input class="form-control" id="keyword" name="keyword" type="text"
 						placeholder="검색어를 입력하세요"
 						value='<c:out value="${listData.cardPaging.keyword}" />' /> 
 						<span class="input-group-btn"> 
 						<!-- 전송버튼 -->
-					<button class="btn btn-warning" type="button" id="btnSearchGo">검색</button>
+							<button class="btn btn-warning" type="button" id="btnSearchGo">검색</button>
 						</span>
-						<span class="input-group-btn"> 
 						<!-- 카드등록버튼 -->
-					<button class="btn btn-warning" type="button" id="moveCardRegisterPageBtn">카드등록</button>
-						</span>
-						
+						<span class="input-group-btn"> 
+							<button class="btn btn-warning" type="button" id="moveCardRegisterPageBtn">카드등록</button>
+						</span>	
 				</div>
 
 				<div class="input-group">
@@ -75,21 +101,25 @@
 		</form>
 
 		<div class="row">
+			<div class="col-lg-4">
 			<c:choose>
 				<c:when test="${not empty listData.cardList }">
 					<c:forEach var="card" items="${listData.cardList }">
-						<%-- <div class="col-xs-6 col-lg-4" data-kno="${card.kno }"> --%>
+						<div class="col-xs-6 col-lg-4" data-kno="${card.kno }">
 							<!-- 카드이미지공간 -->
 							<h3>${card.kname }</h3>
 							<p>${card.kcontent }</p>
 							<p>${card.kcompany }</p>
-							<button id="removeCard" type="button">삭제</button>
+							<sec:authorize access="isAuthenticated()">
+								<button id="removeCard" type="button">삭제</button>
+							</sec:authorize>
 						</div>
 						<!--/.col-xs-6.col-lg-4-->
 
 					</c:forEach>
 				</c:when>
 			</c:choose>
+			</div>
 		</div>
 		<!--/row-->
 
@@ -139,6 +169,16 @@
 	<!--/.col-xs-12.col-sm-9-->
 
 </div>
+
+</div><%-- /.panel --%>
+        </div><%-- /.col-lg-12 --%>
+    </div><%-- /.row --%>
+    
+    
+
+  
+
+</div><%-- /#page-wrapper --%>
 </div> <!-- body-container -->
 <script>
 
@@ -156,11 +196,14 @@ var frmSendValue = $("#frmSendValue");
 
 	});
 
+<sec:authorize access="isAuthenticated()">
+	
 <%-- 카드 등록 페이지로 이동 --%>
 	$("#moveCardRegisterPageBtn").on("click", function(){
-		window.location.href="${contextPath}/cardregister";
+		window.location.href="${contextPath}/dutch/cardregister";
 	});
-
+	
+</sec:authorize>
 	
 <%--표시행수 변경 이벤트 처리--%>
 	$("#selectAmount").on("change", function() {

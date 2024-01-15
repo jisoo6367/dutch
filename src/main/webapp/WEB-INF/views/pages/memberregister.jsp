@@ -301,11 +301,11 @@
 				dataType: "text",
 				success: function(result, status){
 					alert("성공했슴다");
-					window.location.href="${contextPath}/";
+					window.location.href="${contextPath}/dutch/";
 				},
 				error: function(xhr, status, err){
 					alert("실패했슴다");
-					window.location.href="${contextpath}/memberregister";
+					window.location.href="${contextpath}/dutch/memberregister";
 				}
 			})
 			

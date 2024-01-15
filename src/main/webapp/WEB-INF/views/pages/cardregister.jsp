@@ -10,6 +10,15 @@
 
 <%@include file="../pageinclude/header.jsp"%>
 
+<style>
+	.fileUploadResult ul {
+							list-style-type: none;
+						 };
+	.fileUploadResult ul li {
+								margin-bottom: 10px;
+							};
+</style> 
+
 
 <div id="page-wrapper">
     <div class="row">
@@ -21,8 +30,10 @@
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>카드 등록</h4></div><%-- /.panel-heading --%>
-                
+                <div class="panel-heading">
+                	<h4>카드 등록</h4>
+                </div><%-- /.panel-heading --%>
+                	
                 <div class="panel-body">
 
 <form role="form" action="${contextPath }/sendcard" 
@@ -54,9 +65,11 @@
 	    <label>추천수</label>
 	    <input type="number" class="form-control" name="kcomment" id="kcomment" readonly="readonly" value="0">
 	</div>
-	<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
+	<button class="btn btn-primary pull-right">수정</button>
+	<button type="button" class="btn btn-success" id="btnRegister">등록</button>
 	<button type="button" class="btn btn-warning" 
 	        onclick="location.href='${contextPath}/card';">취소</button>
+	
 	<sec:csrfInput/>
 	
 </form>                  
@@ -68,8 +81,10 @@
 <%-- 첨부파일 결과 표시 --%>    
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">파일첨부</div><!-- /.panel-heading -->
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                	<h3 class="panel-title">카드 이미지 업로드</h3>
+                </div><!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="form-group uploadDiv">
                         <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>

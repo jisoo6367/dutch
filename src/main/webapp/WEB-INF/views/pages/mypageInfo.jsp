@@ -96,13 +96,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-					    <label class="col-sm-2 control-label" style="white-space: nowrap;">전화번호</label>
-					    <div class="col-sm-8">
-					    	<input class="form-control" name="hp" id="hp" 
-					    		   value="${memberData.hp }" readonly="readonly">
-						</div>
-					</div>
-					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">휴대폰번호</label>
 					    <div class="col-sm-8">
 					    	<input class="form-control" name="cellphone" id="cellphone" 

@@ -22,10 +22,11 @@
                  
     <div class="row">
         <div class="col-lg-6">
+     	<form role="form" method="post" name="frmModify" id="frmModify"><!-- 변경된 정보들 담을 form -->
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> <!-- 403 forbidden 에러 안나도록 -->
             <div class="panel panel-default">
 	            <div class="panel-heading">
-	            <form role="form" method="post" name="frmModify" id="frmModify"><!-- 변경된 정보들 담을 form -->
-				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> <!-- 403 forbidden 에러 안나도록 -->
+
                 	<div class="row">
 						<div class="col-md-2" style="white-space: nowrap; height: 45px; padding-top:11px;">
 							<strong style="font-size:16px;"> ${memberData.nickname }님의 회원정보 </strong>
@@ -45,7 +46,6 @@
 							</div>
 						</div>
 					</div>
-				</form> <!-- form end -->
                 </div><!-- /.panel-heading -->
                 
                 
@@ -100,13 +100,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-					    <label class="col-sm-2 control-label" style="white-space: nowrap;">전화번호</label>
-					    <div class="col-sm-10">
-					    	<input class="form-control" name="hp" id="hp" 
-					    		   value="${memberData.hp }" >
-						</div>
-					</div>
-					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">휴대폰번호</label>
 					    <div class="col-sm-10">
 					    	<input class="form-control" name="cellphone" id="cellphone" 
@@ -122,8 +115,8 @@
 					</div>
 					
                 </div><%-- /.panel-body --%>
-                </form> <%-- panel헤더&바디 들어있는 폼 --%>
             </div><%-- /.panel --%>
+        </form> <%-- panel헤더&바디 들어있는 폼 --%>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     
