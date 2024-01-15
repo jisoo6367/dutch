@@ -2,6 +2,7 @@ package com.spring.dutch.domain;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +17,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class QnaVO {
 
-	private Long qno; //리스트고유번호
-	private Long mno; //회원고유번호
+	private long qno; //리스트고유번호
+//	private long mno; //회원고유번호(사용안함)
+	private String nickname;//닉네임(기본)
 	private String qtitle; //제목
 	private String qcontent; //내용
 	private Date qregDate; //생성일자
@@ -25,7 +27,9 @@ public class QnaVO {
 	private int qdelFlag; //삭제 '1'삭제
 	private int qdelFlagAdmin; //삭제요청 '1'삭제
 	private int qsignal; //'1'시그널보냄
-
+	
+	private List<AttachFileVO> attachFileList;
+	
 	/*
 	qno number(10,0) primary key,--리스트고유번호
 	mno number(10,0) NOT NULL,--회원고유번호
@@ -37,5 +41,5 @@ public class QnaVO {
 	qsignal number(1) DEFAULT '0',--삭제요청 '1'시그널보냄
 	qcontent varchar2(900) NOT NULL,--내용
 	*/
-
+	
 }

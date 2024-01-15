@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.spring.dutch.mapper.CommunityMapper">
+
+<!-- 신고기능 추가해야됌 -->
+
+<!-- 게시물 가져오기 -->
+
+<select id="selectCommunityList" resultType="com.spring.dutch.domain.CommunityVO"
+	        parameterType="com.spring.dutch.dto.CommunityPagingDTO">
+		<![CDATA[
+			SELECT  tno, nickname, ttitle, tcontent, tmodDate, tdelFlag, tregDate, tviewCnt, treplyCnt, trecommend, treport, tcategory
+			FROM ( SELECT /*+ INDEX_DESC (a PK_TNO_COMMUNITY) */ROWNUM rn, a.*
+			       FROM dutch.tbl_Community a
+			       WHERE 
+		]]>
+			<choose>
+			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	bregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			</when>
+		</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ttitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>	 
+
+		<![CDATA[	       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			       )
+			 WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1)) 
+		]]>
+	</select> 
+
+
+<!-- 게시물 총 개수 조회(페이징)	 -->
+	<select id="selectRowTotalCommunity" resultType="long" 
+		    parameterType="com.spring.dutch.dto.CommunityPagingDTO">
+		SELECT COUNT(*) rowTotal FROM dutch.tbl_Community
+		
+	</select>
+
+<!-- 특정 게시물 조회(modify.jsp): jsp로 community 정보 표시 후, ajax로 첨부파일 정보 표시 -->
+	<select id="selectCommunity2" resultType="com.spring.dutch.domain.CommunityVO">
+		SELECT tno, ttitle, nickname, tcontent, tregdate, treplyCnt, tmoddate, trecommend, tviewCnt, tdelFlag, treport, tcategory
+		FROM dutch.tbl_community
+		WHERE tno = #{tno}
+	</select>
+
+	
+	<!-- 특정 게시물 조회(detail.jsp): OUTER JOIN 사용 -->	
+	<resultMap type="com.spring.dutch.domain.CommunityAttachFileVO" id="attachFileMap">
+		<result property="uuid" column="uuid"/>
+		<result property="uploadPath" column="uploadPath"/>
+		<result property="fileName" column="fileName"/>
+		<result property="fileType" column="fileType"/>
+		<result property="tno" column="mytno"/>
+	</resultMap>
+	
+	<resultMap type="com.spring.dutch.domain.CommunityVO" id="communityMap">
+		<result property="tno" column="tno"/>
+		<result property="nickname" column="nickname"/>
+		<result property="ttitle" column="ttitle"/>
+		<result property="tcontent" column="tcontent"/>
+		<result property="tregDate" column="tregDate"/>
+		<result property="tmodDate" column="tmodDate"/>		
+		<result property="tdelFlag" column="tdelFlag"/>
+		<result property="tviewCnt" column="tviewCnt"/>
+		<result property="trecommend" column="trecommend"/>
+		<result property="treplyCnt" column="treplyCnt"/>
+		<result property="treport" column="treport"/>
+		<result property="tcategory" column="tcategory"/>
+		<collection property="attachFileList"  resultMap="attachFileMap"/>
+	</resultMap>
+
+	<select id="selectCommunity" resultMap="communityMap">
+		SELECT a.tno, a.nickname, a.ttitle, a.tcontent, 
+			   a.tregDate, a.tmodDate, a.tdelFlag,a.tviewCnt,  a.tviewCnt, a.trecommend, a.treplyCnt, a.tcategory,
+			   b.uuid, b.uploadPath, b.fileName, b.fileType, b.tno AS mytno    
+		FROM dutch.tbl_community a LEFT OUTER JOIN dutch.tbl_myAttachFiles b ON (a.tno = b.tno) 
+		WHERE a.tno = #{tno}
+	</select>
+
+
+
+
+
+<!-- 게시물 등록(CREATE) -->
+	<insert id="insertCommunity" parameterType="com.spring.dutch.domain.CommunityVO">
+		<selectKey order="BEFORE" keyProperty="tno" resultType="long">
+			SELECT dutch.tbl_community.nextval FROM dual
+		</selectKey>
+		INSERT INTO dutch.tbl_community
+		VALUES (#{tno},
+				#{nickname},				
+				#{ttitle},
+        		#{tcontent},
+        		DEFAULT,
+        		DEFAULT,
+        		DEFAULT,
+        		DEFAULT,
+        		DEFAULT,
+        		DEFAULT,
+				DEFAULT,
+				#{tcategory}        		
+        		)
+	</insert>	
+
+
+<!-- 게시물 조회수 증가(+1씩 증가) -->
+	<update id="updateTviewCntCommunity">
+		UPDATE dutch.tbl_community
+		SET tviewCnt = tviewCnt + 1
+		WHERE tno = #{tno}
+	</update>
+
+
+	<!-- 게시물 수정(UPDATE) -->
+	<select id="updateCommunity" parameterType="com.spring.dutch.domain.CommunityVO">
+		UPDATE dutch.tbl_Community
+		SET ttitle = #{ttitle}
+			tcontent = #{tcontent}
+		 	tmodDate = DEFAULT
+		WHERE tno = #{tno}
+		
+	</select>
+
+	<!-- 게시물 삭제(DELETE) -->
+	<delete id="deleteCommunity" parameterType="long">
+		DELETE FROM dutch.tbl_Community
+		WHERE tno = #{tno} 
+	</delete>
+
+<!-- 게시물 삭제요청(bdelFlag를 1로 업데이트) -->
+	<update id="updateTdelFlagCommunity" parameterType="long">
+		UPDATE dutch.tbl_Community
+		SET tdelFlag = 1
+		WHERE tno = #{tno}
+	</update>
+
+<!-- 게시물의 댓글 개수 수정: 
+     댓글추가 시에 #{amount}에 1, 댓글삭제 시 #{amount}에 -1 이 각각 전달됨 -->
+	<update id="updateTreplyCntCommunity">
+		UPDATE dutch.tbl_Community
+		SET treplyCnt = treplyCnt + #{amount}
+		WHERE tno = #{tno}
+	</update> 	
+	
+
+
+
+</mapper>
+  
+
+

@@ -18,11 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.dutch.common.fileupload.domain.AttachFileDTO;
+import com.spring.dutch.dto.AttachFileDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -43,11 +42,11 @@ public class FileUploadAjaxController {
 	}
 	//이미지파일에 대한 썸네일이미지 저장
 	//Step1: 업로드파일에 대한 이미지 파일여부 검사 메소드
-	private boolean isImageFile(File yourFile) {
+	private boolean isImageFile(File file) {
 		
 		String yourFileContentType = null;
 		try {
-			yourFileContentType = Files.probeContentType(yourFile.toPath());
+			yourFileContentType = Files.probeContentType(file.toPath());
 			System.out.println("fileContentType: " + yourFileContentType);
 			
 			return yourFileContentType.startsWith("image");
@@ -90,7 +89,6 @@ public class FileUploadAjaxController {
 		
 		
 		File fileUploadPath = new File(uploadFileRepoDir, dateFmtStr);
-//		 C:/myupload\2023/12/14
 		if (!fileUploadPath.exists()) {
 			fileUploadPath.mkdirs() ;
 		}
@@ -104,6 +102,7 @@ public class FileUploadAjaxController {
 			
 			attachFile.setUploadPath(dateFmtStr) ;
 			attachFile.setRepoPath(uploadFileRepoDir) ;
+			
 			
 			fileName = uploadFile.getOriginalFilename();
 			// 파일이름.확장자, 경로명\파일이름.확장자, 파일이름만 남기는 처리.
@@ -132,18 +131,20 @@ public class FileUploadAjaxController {
 					
 					File thumbnameFile = new File(fileUploadPath, "s_" + fileName);
 					
-					FileOutputStream myFos = 
+					FileOutputStream Fos = 
 							new FileOutputStream(thumbnameFile) ;
 							
 					
-					InputStream myIs = uploadFile.getInputStream() ;
+					InputStream Is = uploadFile.getInputStream() ;
 					
-					Thumbnailator.createThumbnail(myIs, myFos, 30, 30) ;
+					Thumbnailator.createThumbnail(Is, Fos, 30, 30) ;
 					
-					myIs.close() ;
-					myFos.flush() ; 
-					myFos.close() ;
-				} 
+					Is.close() ;
+					Fos.flush() ; 
+					Fos.close() ;
+				} else {
+					attachFile.setFileType("F") ;
+				}
 				
 			} catch (IllegalStateException | IOException e) {
 				System.out.println("error: " + e.getMessage());

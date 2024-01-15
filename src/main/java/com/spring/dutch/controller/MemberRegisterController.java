@@ -29,7 +29,6 @@ public class MemberRegisterController {
 	public String sendMember(SendMemberVO sendmember) {
 		MemberVO member = new MemberVO();
 		
-<<<<<<< HEAD
 		member.setNickname(sendmember.getNickname());
 		member.setBank(sendmember.getBank());
 		member.setBankAccount(sendmember.getBankAccount());
@@ -46,8 +45,6 @@ public class MemberRegisterController {
 		member.setAge(sendmember.getAge());
 		member.setAuthorityList(sendmember.getAuthorityList());
 		member.setAccountNonExpired(sendmember.isAccountNonExpired());
-=======
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
 		System.out.println(member);
 		
 		memberRegisterService.registerMember(member);

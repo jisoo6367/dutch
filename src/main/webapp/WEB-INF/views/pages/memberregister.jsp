@@ -17,12 +17,7 @@
 		font-size: 25px;
 	}
 </style>
-
-<<<<<<< HEAD
 <div class="center">
-=======
-<div class="center-block">
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
 <form role="form" name="frmSendMember" id="frmSendMember" 
 	  method="post" action="${contextPath}/sendmember">
 		
@@ -81,10 +76,8 @@
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">휴대폰번호</label>
 					    <div class="col-sm-10">
 					    	<div class="row">
-<<<<<<< HEAD
-=======
 					    		<input type="hidden" class="form-control" name="cellphone" id="cellphone">
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
+
 					    			<div class="col-xs-3">
 					    				<select class="form-control" name="cellphone1" id="cellphone1">
 								    		<option value="010">010</option>
@@ -143,11 +136,6 @@
 	
 	</form>
 </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
 
 <script>
 
@@ -231,12 +219,8 @@
 		var bankAccount = $("#bankAccount").val();
 		var username = $("#username").val();
 		var email = $("#email").val();
-<<<<<<< HEAD
 		var cellphone = null;
 		/* var cellphone = $("#cellphone").val(); */
-=======
-		var cellphone = $("#cellphone").val();
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
 		var cellphone1 = $("#cellphone1").val();
 		var cellphone2 = $("#cellphone2").val();
 		var cellphone3 = $("#cellphone3").val();
@@ -293,23 +277,10 @@
 			alert("휴대폰번호를 올바르게 입력하세요");
 			return ;
 		} else {
-<<<<<<< HEAD
 			frmSendMember.submit();
 		
 		}
 		
-=======
-			
-			var cell = cellphone1.concat(cellphone2, cellphone3);
-			cellphone = parseInt(cell);
-			console.log(cellphone);
-			console.log(typeof(cellphone));
-		//	frmSendMember.submit();
-		}
-		
-		
-		
->>>>>>> 56a158f325b5d22f2a2640c9b1e47d9cfd529d1a
 	});
 	
 	

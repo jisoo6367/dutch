@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.QnaReplyMapper">
+
+<!-- 특정 게시물에 대한 댓글 목록조회 -->
+	<select id="selectQnaReplyList" resultType="com.spring.dutch.domain.QnaReplyVO"
+			parameterType="com.spring.dutch.dto.QnaReplyPagingDTO">
+		<![CDATA[	
+			SELECT lvl, qrno, qrcontent, nickname, qrRegDate, qrModDate, qno, qrcno, qrdelFlag    
+			FROM (  SELECT /*+ INDEX(a idx_reply_qrno) */ ROWNUM rn, LEVEL lvl, a.*
+			        FROM dutch.tbl_qna_reply a
+			        WHERE qno = #{qno }
+			        AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			        START WITH qrcno IS NULL 
+			        CONNECT BY PRIOR qrno = qrcno
+			     )
+			WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))
+		]]>
+	</select>
+
+<!-- 댓글 총 갯수 -->
+	<select id="selectRowTotal" resultType="Long" parameterType="long">
+		SELECT count(*) from dutch.tbl_qna_reply
+		where qno = #{qno }
+	</select>
+
+<!-- 댓글 등록 -->
+	<insert id="insertQnaReplyForQna" parameterType="com.spring.dutch.domain.QnaReplyVO">
+		<selectKey keyProperty="qrno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_qna_reply.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO dutch.tbl_qna_reply
+		VALUES (#{qrno}, #{qrcontent}, #{nickname}, DEFAULT, DEFAULT, #{qno}, NULL , DEFAULT)
+	</insert>
+
+<!-- 답글 등록(qrno: 부모글의 qno값) -->
+	<insert id="insertQnaReplyForReply" parameterType="com.spring.dutch.domain.QnaReplyVO">
+		<selectKey keyProperty="qrno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_qna_reply.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO dutch.tbl_qna_reply
+		VALUES (#{qrno}, #{qrcontent}, #{nickname}, DEFAULT, DEFAULT, #{qno}, #{qrcno} , DEFAULT)
+	</insert>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 조회 -->
+	<select id="selectReply" resultType="com.spring.dutch.domain.QnaReplyVO">
+		SELECT qrno, qno, nickname, qrcontent, qrdelFlag, qrRegDate, qrModDate, qrcno
+		FROM dutch.tbl_qna_reply
+		WHERE qno = #{qno} AND qrno = #{qrno}
+	</select>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 수정 -->
+	<update id="updateReply" parameterType="com.spring.dutch.domain.QnaReplyVO">
+		UPDATE dutch.tbl_qna_reply
+		SET qrcontent = #{qrcontent } ,
+		    qrmodDate = DEFAULT
+		WHERE qno = #{qno } AND qrno = #{qrno }
+	</update>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청(1로 업뎃) -->
+	<update id="updateQrdelFlag" >
+		UPDATE dutch.tbl_qna_reply
+		SET qrdelFlag = 1,
+	    	qrmodDate = DEFAULT
+		WHERE qno = #{qno } AND qrno = #{qrno }
+	</update>
+	
+<!-- 모든 댓글 삭제 -->
+	<delete id="deleteReply" >
+		DELETE FROM dutch.tbl_qna_reply
+		WHERE qno = #{qno }
+	</delete>
+
+
+</mapper>

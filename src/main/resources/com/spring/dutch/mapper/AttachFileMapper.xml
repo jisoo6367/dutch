@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.AttachFileMapper">
+
+<!-- 특정 게시물의 모든 첨부파일 조회 -->
+	<select id="selectAttachFiles" resultType="com.spring.dutch.domain.AttachFileVO">
+		SELECT uuid, uploadPath, fileName, fileType, nickname
+		FROM dutch.tbl_myattachFiles
+		WHERE nickname = #{nickname}
+	</select>
+	
+<!-- 	<select id="selectAttachFiles" resultType="com.spring.dutch.domain.AttachFileVO">
+		SELECT uuid, uploadPath, fileName, fileType, qno
+		FROM dutch.tbl_attachFiles
+		WHERE qno = #{qno}
+	</select> -->
+
+<!--첨부파일 추가 -->
+	<insert id="insertAttachFile">
+		INSERT INTO dutch.tbl_myattachFiles
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{nickname})
+	</insert>
+	
+<!-- 	<insert id="insertAttachFile">
+		INSERT INTO dutch.tbl_attachFiles
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{qno})
+	</insert> -->
+	
+<!--특정 첨부파일 삭제 -->
+	<delete id="deleteAttachFile">
+		DELETE FROM dutch.tbl_myattachFiles
+		WHERE uuid = #{uuid}
+	</delete>
+	
+<!-- 	<delete id="deleteAttachFile">
+		DELETE FROM dutch.tbl_attachFiles
+		WHERE uuid = #{uuid}
+	</delete> -->
+	
+<!-- 특정 게시물의 모든 첨부파일 삭제 -->
+	<delete id="deleteAttachFiles">
+		DELETE FROM dutch.tbl_myattachFiles
+		WHERE nickname = #{nickname}
+	</delete>
+	
+<!-- 	<delete id="deleteAttachFiles">
+		DELETE FROM dutch.tbl_attachFiles
+		WHERE qno = #{qno}
+	</delete> -->
+	
+</mapper>

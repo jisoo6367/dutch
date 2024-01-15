@@ -1,4 +1,4 @@
-package com.spring.dutch.common.fileupload.domain;
+package com.spring.dutch.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttachFileDTO {
+public class mypageAttachFileDTO {
 	
 	private String fileName ;  //원본파일이름
 	private String uploadPath ; //yyyy/MM/dd 형식 경로 문자열

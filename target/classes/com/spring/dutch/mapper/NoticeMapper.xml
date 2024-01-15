@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.NoticeMapper">
+
+<!-- 목록조회(READ) --><!-- 
+	<select id="selectNoticeList" resultType="com.spring.dutch.domain.NoticeVO"
+	        parameterType="com.spring.dutch.dto.NoticePagingDTO">
+	<![CDATA[
+		SELECT cno, nickname, ctitle, cregDate, cviewCnt, ccontent, ccategory
+		FROM ( SELECT /*+ INDEX_DESC (a FK_NOTICE_NICKNAME) */ ROWNUM rn, a.* 
+		       FROM dutch.tbl_notice a
+		       WHERE ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+		      )
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - #{pageNum}))
+	]]>
+	</select> -->
+
+<!-- 목록조회(페이징고려) -->
+	<select id="selectNoticeList" resultType="com.spring.dutch.domain.NoticeVO"
+	        parameterType="com.spring.dutch.dto.NoticePagingDTO">
+	<![CDATA[
+		SELECT cno, nickname, ctitle, cregDate, cviewCnt, ccontent
+		FROM ( SELECT /*+ INDEX_DESC (a FK_NOTICE_NICKNAME) */ ROWNUM rn, a.* 
+               FROM dutch.tbl_notice a
+               WHERE
+	]]>
+
+	<![CDATA[      			       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			      )
+			WHERE rn > = ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+	]]>
+
+	</select>
+
+ 
+<!-- 총 개수 조회(페이징) -->
+	<select id="selectNoticeTotal" resultType="long">
+		SELECT count(*) rowtotal FROM dutch.tbl_notice
+	</select>
+ 
+<!-- 등록(CREATE) selectkey사용 -->
+	<insert id="insertNotice" parameterType="com.spring.dutch.domain.NoticeVO">
+		<selectKey order="BEFORE" keyProperty="cno" resultType="long">
+			SELECT dutch.seq_notice.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO dutch.tbl_notice 
+		VALUES (#{cno},
+				#{nickname}, 
+				#{ctitle}, 
+				DEFAULT, 
+				#{cviewCnt}, 
+				#{ccontent}) 
+	</insert>
+
+<!-- 특정 게시물 조회 :글번호로 조회-->
+	<select id="selectNotice" resultType="com.spring.dutch.domain.NoticeVO">
+		SELECT cno, nickname, ctitle, cregDate, cviewCnt, ccontent
+		FROM dutch.tbl_notice
+		WHERE cno = #{cno } 
+	</select>
+	
+		<select id="selectNotice2" resultType="com.spring.dutch.domain.NoticeVO">
+		SELECT cno, nickname, ctitle, cregDate, cviewCnt, ccontent
+		FROM dutch.tbl_notice
+		WHERE cno = #{cno } 
+	</select>
+
+<!-- 수정(UPDATE) -->
+	<update id="updateNotice" parameterType="com.spring.dutch.domain.NoticeVO">
+		UPDATE dutch.tbl_notice
+		SET ctitle = #{ctitle} ,
+		    ccontent = #{ccontent} 
+		WHERE cno = #{cno}
+	</update>
+	
+<!-- 삭제요청 -->
+	<update id="updateCdelFlag" parameterType="com.spring.dutch.domain.NoticeVO">
+		UPDATE dutch.tbl_notice
+		SET cdelFlag = 1
+		WHERE cno = #{cno}
+	</update>
+
+<!-- 삭제(DELETE) -->
+	<delete id="deleteNotice" parameterType="com.spring.dutch.domain.NoticeVO">
+		DELETE dutch.tbl_notice
+		WHERE cno = #{cno }
+	</delete>
+	
+<!--조회수증가 -->
+	<update id="updateCviewCnt">
+		UPDATE dutch.tbl_notice
+		SET cviewCnt = cviewCnt + 1
+		WHERE cno = #{cno}
+	</update>
+
+<!-- 카테고리 수정 --><!-- 
+	<update id="updateCcategory" parameterType="com.spring.dutch.domain.NoticeVO">
+		UPDATE dutch.tbl_notice
+		SET ccategory = #{ccategory}
+		WHERE cno = #{cno}
+	</update> -->
+
+</mapper>

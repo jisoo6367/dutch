@@ -6,30 +6,57 @@
 
 <!-- mno로 회원정보 가져오기 -->
 <select id="selectMemberData" resultType="com.spring.dutch.domain.MemberVO"
-		parameterType="long">
+		parameterType="String">
 	SELECT  mno, nickname, bank, bank_account,
 		    username, email, password, hp, cellphone,
 		    reg_date, mod_date, del_flag, enabled,
 		    login_type, gender, age
 	FROM dutch.tbl_member
-	WHERE mno = #{mno}
+	WHERE nickname = #{nickname}
 </select>
 
 <!-- 회원정보 수정(UPDATE)-->
 	<update id="updateMember" parameterType="com.spring.dutch.domain.MemberVO">
 		UPDATE dutch.tbl_member
-		SET nickname = #{nickname} ,
-			password = #{password} ,
+		SET password = #{password} ,
 			hp = #{hp} ,
-			cellphone = #{cellphone} ,
-	    	mod_date = DEFAULT
-		WHERE mno = #{mno}	
+			cellphone = #{cellphone} 
+		WHERE nickname = #{nickname}	
 	</update>
 
 <!-- 회원탈퇴 (DELETE) -->
-	<delete id="deleteMember" parameterType="long">
+	<delete id="deleteMember" parameterType="String">
 		DELETE FROM dutch.tbl_member
-		WHERE mno = #{mno} 
+		WHERE nickname = #{nickname} 
 	</delete>
+	
+<!-- 회원탈퇴 (DELETE)시 권한테이블에 있는 데이터도 삭제 -->	
+	<delete id="deleteMemberAuth" parameterType="String">
+		DELETE FROM dutch.tbl_member_authority
+		WHERE nickname = #{nickname} 
+	</delete>
+	
+	
+<!-- participants 테이블에서 닉네임으로 리스트 가져오기 -->
+	<select id="selectPersonal" parameterType="String" resultType="com.spring.dutch.domain.ParticipantsVO">
+		select pno, ptitle,  TO_CHAR(pregdate, 'YYYY-MM-DD') as pregdate , ppersonal, pcalculated, nickname
+		from dutch.tbl_participants
+		where nickname = #{nickname}
+	</select>
+	
+<!-- participants 테이블에서 닉네임으로 방 갯수 가져오기 -->
+	<select id="selectDutchCount" parameterType="String" resultType="com.spring.dutch.dto.MypageDTO">
+		SELECT COUNT(*)AS count, pcalculated
+		FROM dutch.tbl_participants
+		WHERE nickname = #{nickname}
+		GROUP BY pcalculated
+	</select>
 
+
+
+
+
+
+
+ 
 </mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.spring.dutch.mapper.CommunityReplyMapper">
+
+<!-- 특정 게시물에 대한 댓글 목록 조회: 페이징 고려 -->
+	<select id="selectCommunityReplyList" 
+			resultType="com.spring.dutch.domain.CommunityReplyVO"
+			parameterType="com.spring.dutch.dto.CommunityReplyPagingDTO">
+	<![CDATA[
+		SELECT lvl, trno, tno, mno, nickname, trcontent, trmodDate, trdelFlag, trregDate, trrecommend, trreport, trcno
+		FROM ( 	SELECT /*+ INDEX(a IDX_TNO_TRNO_REPLY)  */ ROWNUM rn, LEVEL lvl, a.*
+				FROM dutch.tbl_community_reply a
+				WHERE tno = #{tno}
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+				START WITH prno IS NULL
+				CONNECT BY PRIOR tno = trcno
+			  )
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
+
+	]]>	
+	</select>
+
+<!-- 특정 게시물에 대한 댓글 총 개수 -->
+	<select id="selectRowTotalCommunityReply" resultType="Long" parameterType="long">
+		SELECT COUNT(*) FROM dutch.tbl_community_reply
+		WHERE tno = #{tno}
+	</select>
+	
+<!-- 특정 게시물에 대한 댓글 등록 -->
+	<insert id="insertCommunityReplyForCommunity" parameterType="com.spring.dutch.domain.CommunityReplyVO">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_community_reply.NEXTVAL FROM dual 
+		</selectKey>
+	
+	INSERT INTO dutch.tbl_community_reply
+	VALUES (#{trno},#{tno},#{mno},#{nickname},#{trcontent}, DEFAULT, DEFAULT, DEFAULT, DEFAULT ,DEFAULT ,NULL,)
+	
+	</insert>
+
+<!-- 댓글에 대한 답글 등록(prno: 부모글의 rno 값) -->
+	<insert id="insertCommunityReplyForCommunityReply" parameterType="com.spring.dutch.domain.CommunityReplyVO">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_community_reply.NEXTVAL FROM dual
+		</selectKey>
+	
+	INSERT INTO dutch.tbl_community_reply
+	VALUES (#{trno},#{trcontent},#{nickname},DEFAULT,DEFAULT,#{tno},#{trcno},DEFAULT)
+	
+	</insert>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 조회 -->
+	<select id="selectCommunityReply" resultType="com.spring.dutch.domain.CommunityReplyVO">
+		SELECT trno, trcontent,  nickname, trRegDate, trModDate, tno, trcno, trdelFlag
+		FROM dutch.tbl_community_reply
+		WHERE tno = #{tno} AND trno = #{trno}
+	
+	</select>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 수정 -->
+	<update id="updateCommunityReply" parameterType="com.spring.dutch.domain.CommunityReplyVO">
+		UPDATE dutch.tbl_community_reply
+		SET trcontent = #{trcontent} ,
+			trmodDate = DEFAULT
+		WHERE tno = #{tno} AND trno = #{trno}
+	</update>
+
+<!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
+	<update id="updateTrdelFlag">
+		UPDATE dutch.tbl_community_reply
+		SET rdelFlag = 1,
+			rmodDate = DEFAULT
+		WHERE tno = #{tno} AND trno = #{trno}
+	</update>
+
+
+<!-- 특정 게시물에 대한 모든 댓글 삭제 -->
+	<delete id="deleteAllReply">
+		DELETE FROM dutch.tbl_community_reply
+		WHERE tno = #{tno}
+	</delete>
+
+
+
+</mapper>
+  
+
+
