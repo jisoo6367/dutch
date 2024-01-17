@@ -10,6 +10,12 @@
 
 <%@include file="../pageinclude/header.jsp"%>
 
+<<style>
+	.input-margin {
+					margin: 4px;
+				  };
+</style>
+
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
@@ -37,9 +43,22 @@
 							<label>방제목</label> <input class="form-control" name="ptitle"
 								id="ptitle" placeholder="제목을 입력하세요.">
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label>카테고리</label> <input class="form-control" name="category"
 								id="category" placeholder="카데고리를 검색하세요.">
+							<select >
+								
+							</select>
+						</div> -->
+						<div class="form-group">
+						    <label>카테고리</label>
+						    	<select class="form-control" id="category" name="category">
+						    		<option value="기타">기타</option>
+						    		<option value="회식">회식</option>
+						    		<option value="카페">카페</option>
+						    		<option value="식사">식사</option>
+						    		<option value="공동구매">공동구매</option>
+						    	</select>
 						</div>
 						<div class="form-group">
 							<label>방내용</label> <input class="form-control" name="pcontent"
@@ -50,10 +69,11 @@
 						</div>
 						<div class="btnAdd" id="btnAdd">
 							<label>참여자</label>
-							<div>
-							<input type="number" name="userCnt" id="userCnt" placeholder="참여자수를 입력하세요">
+							<div class="form-inline">
+								<input class="form-control" type="number" name="userCnt" id="userCnt" placeholder="참여자수를 입력하세요">
+								<button class="btn btn-default" type="button" id="userCntBtn">참여자 수 입력</button>
 							</div>
-							<button type="button" id="userCntBtn">참여자 수 입력</button>
+							
 						</div>
 
 						<div class="form-group">
@@ -67,14 +87,10 @@
 						</div>
 						<input type="hidden" name="${_csrf.parameterName }"
 							value="${_csrf.token }" />
-						<button type="button" class="btn btn-primary"
-							id="btnUserConfirmed">확정</button>
 						<button type="button" class="btn btn-primary" id="btnRegister">게시물
 							등록</button>
 						<button type="button" class="btn btn-warning"
 							onclick="location.href='${contextPath}/pages/dutchlist';">취소</button>
-
-
 					</form>
 
 				</div>
@@ -122,10 +138,10 @@
 			alert("참여자 수는 10명이하로 입력해주세요")
 			return;
 		} else {
-			$(this).siblings("input").remove();
+			$(this).parent("div").siblings("input").remove();
 			
 			for (var i = 0; i < userCnt; i++) {
-				$(this).parents("div .btnAdd").append("<input type='text' name='participants[" + i + "].nickname' class='form-control'>");
+				$(this).parents("div .btnAdd").append("<input type='text' name='participants[" + i + "].nickname' class='form-control input-margin'>");
 			}
 		}
 

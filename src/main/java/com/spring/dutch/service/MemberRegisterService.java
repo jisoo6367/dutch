@@ -6,4 +6,6 @@ public interface MemberRegisterService {
 	public String registerMember(MemberVO member);
 	
 	public String findNicknameService(MemberVO member);
+	
+	public int checkNicknameService(String nickname);
 }

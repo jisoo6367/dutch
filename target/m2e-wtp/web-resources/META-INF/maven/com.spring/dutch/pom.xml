@@ -15,6 +15,44 @@
 		<org.springsecurity-version>5.4.11</org.springsecurity-version>
 	</properties>
 	<dependencies>
+		 
+		<!-- org.apache.commons/commons-lang3 -->
+		<!--
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		</dependency>
+		-->
+	
+		<!-- scribejava-apis -->
+		<!-- 
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-apis</artifactId>
+		    <version>5.6.0</version>
+		    <scope>runtime</scope>
+		</dependency>
+		 -->
+		 
+		<!-- scribejava-core -->
+		<!-- 
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-core</artifactId>
+		    <version>5.6.0</version>
+		</dependency>
+		 -->
+		 
+		<!-- spring-social-google -->
+		<!-- 
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-google</artifactId>
+		    <version>1.0.0.RELEASE</version>
+		</dependency>
+		 -->
+		
 		
  		<!-- spring-security-core -->
 		<dependency>

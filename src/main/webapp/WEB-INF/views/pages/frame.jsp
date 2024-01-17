@@ -38,6 +38,4 @@
 
 
 
-
-
 <%@include file="../pageinclude/footer.jsp" %> 

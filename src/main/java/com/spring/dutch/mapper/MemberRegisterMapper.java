@@ -8,4 +8,6 @@ public interface MemberRegisterMapper {
 	public int insertAuthority(MemberVO member);
 	
 	public String selectUserNickname(MemberVO member);
+	
+	public int selectNick(String nickname);
 }

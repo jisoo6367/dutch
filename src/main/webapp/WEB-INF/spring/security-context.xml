@@ -14,14 +14,15 @@
 <bean id="loginSucessHandler" 
 	  class="com.spring.dutch.common.security.LoginSucessHandler"/>
 
+<bean id="accessDeniedhandler"
+	  class="com.spring.dutch.common.security.DutchAccessDeniedHandlerImpl"/>
+
 <security:http>
 
 	<security:intercept-url pattern="/**" access="permitAll"/>
 	
-	
 	<security:form-login login-page="/loginPage"
 						 login-processing-url="/loginProcess"
-						 default-target-url="/" 
 						 authentication-success-handler-ref="loginSucessHandler"
 						 username-parameter="nickname"
 						 password-parameter="password"/>
@@ -29,6 +30,8 @@
 	<security:logout logout-url="/logoutProcess" logout-success-url="/"/>
 	
 	<security:remember-me data-source-ref="dataSource" token-validity-seconds="86400" />
+	
+	<security:access-denied-handler ref="accessDeniedhandler"/>
 </security:http>
 
 <security:authentication-manager>

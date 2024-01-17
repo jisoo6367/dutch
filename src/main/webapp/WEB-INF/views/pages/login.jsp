@@ -7,14 +7,23 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../pageinclude/header.jsp" %>
-
+<style>
+	.h4-color {color: red;};
+</style>
 
 <!-- login container -->
 <div class="container">
 
       <form role="form" class="form-signin" method="post" action="${contextPath }/loginProcess">
       	<fieldset>
-	        <h2 class="form-signin-heading">로그인</h2>
+            <h4 class="text-muted h4-color"><c:out value="${error }"/></h4>
+            <h4 class="text-muted h4-color"><c:out value="${logout }"/></h4>
+            <c:if test="${not empty result }">
+            	<h4 class="text-muted h4-color"><c:out value="${result }"/>님, 반갑습니다!</h4>
+            </c:if>
+        </fieldset>
+      	<fieldset>
+	        <h2 class="form-signin-heading">닉네임 로그인</h2>
 	        
 	        <label for="inputNickname" class="sr-only">닉네임</label>
 	        <input type="text" id="inputNickname" class="form-control" name="nickname"
@@ -33,7 +42,11 @@
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button>
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveFinder">아이디/비밀번호 찾기</button>
         </fieldset>
-        
+        <fieldset>
+            <hr>
+               <h6 class="text-muted text-center"><c:out value="${normal }"/></h6>
+                            
+        </fieldset>
       </form>
       
       <script type="text/javascript">
@@ -44,20 +57,23 @@
       		$("#moveFinder").on("click", function(){
       			window.location.href="${contextPath}/finder"
       		});
+      		
+      		var result = "<c:out value='${result}'/>";
+      		
+      		/* if(result != null){
+      			console.log(result)
+      			alert("회원가입이 완료 되었습니다.");
+      		} else {
+      			window.location.href="${contextPath}/dutch/memberregister";
+      		} */
+      		
+      	
       </script>
+      
+      
+      
+      
 	<div></div>
     </div> <!-- /container -->
-
-
-
-
-
-
-
-
-
-
-
-
 
 <%@include file="../pageinclude/footer.jsp" %> 

@@ -43,5 +43,9 @@
 		where nickname = #{nickname}
 	
 	</select>
+	
+	<select id="selectNick" parameterType="String">
+		select count(*) from dutch.tbl_member where nickname = #{nickname}
+	</select>
 
 </mapper>

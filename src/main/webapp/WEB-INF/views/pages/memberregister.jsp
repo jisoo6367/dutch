@@ -29,8 +29,10 @@
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">닉네임</label>
 					    <div class="col-sm-10 form-inline">
 					    	<input class="form-control" name="nickname" id="nickname" placeholder="닉네임을 입력하세요">
-					    	<button class="btn btn-default" id="checkNicknameBtn">중복 확인</button>
+					    	<button type="button" class="btn btn-default" id="checkNicknameBtn">중복 확인</button>
+					    	<label id="showCheckedId"></label>
 					    	<p class="p-color-font">4~20자의 영문 소문자, 숫자만 사용 가능합니다</p>
+					    	
 						</div>
 							
 						
@@ -138,6 +140,13 @@
 </div>
 
 <script>
+	var myCsrfHeaderName = "${_csrf.headerName}" ;
+	var myCsrfToken = "${_csrf.token}" ;
+	
+	$(document).ajaxSend(function(e, xhr){
+		xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+			
+	});
 
 	var frmSendMember = $("#frmSendMember");
 	
@@ -279,7 +288,7 @@
 			alert("휴대폰번호를 올바르게 입력하세요");
 			return ;
 		} else {
-			var frmData = {
+			/* var frmData = {
 							nickname: nickname,
 							password: password,
 							bank: bank,
@@ -307,18 +316,40 @@
 					alert("실패했슴다");
 					window.location.href="${contextpath}/dutch/memberregister";
 				}
-			})
+			}) */
 			
-			//frmSendMember.submit();
+			frmSendMember.submit();
 		
-		}
+		}//if-end
 		
-	});
+	});//register-end
 	
 	
 	$("#checkNicknameBtn").on("click", function(){
-		console.log("asdlkfj");
-	});
+		var nickname = $("#nickname").val();
+		
+		if(nickname == "" || nickname.length == 0){
+			$("#showCheckedId").css("color", "red").text("확인할 닉네임이 없습니다.");
+			return false;
+		}
+		
+		$.ajax({
+			type: "post",
+			url: "${contextPath}/checkNickname",
+			data: {nickname : nickname},
+			dataType: "text",
+			sucess: function(result, status){
+				console.log(result);
+				if(result == false){
+					$("#showCheckedId").css("color", "black").text("사용 가능한 닉네임입니다.");
+				} else {
+					$("#showCheckedId").css("color", "red").text("사용 불가능한 닉네임입니다.");
+					$("#nickname").val("");
+				}
+			}
+		});//ajax-end
+		
+	});//checkNick-end
 	
 	
 	

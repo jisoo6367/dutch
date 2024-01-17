@@ -13,6 +13,8 @@ import lombok.Setter;
 
 @Service
 public class MemberRegisterServiceImpl implements MemberRegisterService{
+	
+
 	@Setter(onMethod_ = @Autowired)
     private PasswordEncoder pwencoder;
 	
@@ -40,5 +42,10 @@ public class MemberRegisterServiceImpl implements MemberRegisterService{
 		return memberRegisterMapper.selectUserNickname(member);
 	}
 	
-	
+	@Override
+	public int checkNicknameService(String nickname) {
+		int check = memberRegisterMapper.selectNick(nickname);
+		
+		return check;
+	}
 }
