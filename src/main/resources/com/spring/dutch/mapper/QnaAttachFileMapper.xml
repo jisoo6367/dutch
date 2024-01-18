@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.QnaAttachFileMapper">
+
+<!-- 특정 게시물의 모든 첨부파일 조회 -->
+	<select id="selectAttachFiles" resultType="com.spring.dutch.domain.QnaAttachFileVO">
+		SELECT uuid, uploadPath, fileName, fileType, qno
+		FROM dutch.tbl_qnaattachFiles
+		WHERE qno = #{qno}
+	</select>
+
+<!--첨부파일 추가 -->
+	<insert id="insertAttachFile">
+		INSERT INTO dutch.tbl_qnaattachFiles
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{qno})
+	</insert> 
+	
+<!--특정 첨부파일 삭제 -->
+	<delete id="deleteAttachFile">
+		DELETE FROM dutch.tbl_qnaattachFiles
+		WHERE uuid = #{uuid}
+	</delete>
+	
+<!-- 특정 게시물의 모든 첨부파일 삭제 -->
+	<delete id="deleteAttachFiles">
+		DELETE FROM dutch.tbl_qnaattachFiles
+		WHERE qno = #{qno}
+	</delete>
+	
+</mapper>

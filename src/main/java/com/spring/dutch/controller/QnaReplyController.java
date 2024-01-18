@@ -48,14 +48,6 @@ public class QnaReplyController {
 	}
 	
 	//게시물에 대한 특정 댓글 조회	/replies/{qno}/{qrno}
-//	@GetMapping(value="/{qno}/{qrno}" , 
-//				produces = "application/json;charset=utf-8")
-//	public ResponseEntity<QnaReplyVO> showReply(@PathVariable("qno") Long qno,
-//								   				@PathVariable("qrno") Long qrno){
-//
-//		return new ResponseEntity<QnaReplyVO>(qnareplyService.getQnaReply(qno, qrno), HttpStatus.OK) ;
-//	}
-//	
 	@GetMapping(value = "/{qno}/{qrno}" ,
 				produces = "application/json;charset=utf-8")
 	public QnaReplyVO showReply(@PathVariable("qno") Long qno,
@@ -84,6 +76,8 @@ public class QnaReplyController {
 			_registeredQrno = String.valueOf(registeredQrno);
 		}
 		
+		System.out.println("_registeredQrno: " + _registeredQrno);
+		
 		return registeredQrno != null ? new ResponseEntity<String>(_registeredQrno, HttpStatus.OK)
 									  : new ResponseEntity<String>(_registeredQrno, HttpStatus.INTERNAL_SERVER_ERROR) ;
 	}
@@ -94,10 +88,12 @@ public class QnaReplyController {
 				 produces = {"text/plain;charset=utf-8"})
 //	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerReplyForReply(@PathVariable("qno") long qno,
-														@PathVariable("qrcno") long qrno,
+														@PathVariable("qrcno") long qrcno,
 														@RequestBody QnaReplyVO qnareply){
-		
+		System.out.println("qrcno: " + qrcno);
+		System.out.println("qnareply: " + qnareply);
 		Long registeredQrno = qnareplyService.registerReplyForReply(qnareply);
+		
 		
 		String _registeredQrno = null;
 		

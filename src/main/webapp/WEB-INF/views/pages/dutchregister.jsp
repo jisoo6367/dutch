@@ -10,7 +10,7 @@
 
 <%@include file="../pageinclude/header.jsp"%>
 
-<<style>
+<style>
 	.input-margin {
 					margin: 4px;
 				  };

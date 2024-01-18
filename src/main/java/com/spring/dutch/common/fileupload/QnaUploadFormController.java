@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class FileUploadFormController {
+public class QnaUploadFormController {
 
 	private String uploadFileRepoDIr = "C:/myupload" ;
 	

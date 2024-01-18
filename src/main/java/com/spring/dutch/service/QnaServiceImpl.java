@@ -9,24 +9,23 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.dutch.domain.AttachFileVO;
+import com.spring.dutch.domain.QnaAttachFileVO;
 import com.spring.dutch.domain.QnaVO;
 import com.spring.dutch.dto.QnaPagingCreatorDTO;
 import com.spring.dutch.dto.QnaPagingDTO;
-import com.spring.dutch.mapper.AttachFileMapper;
+import com.spring.dutch.mapper.QnaAttachFileMapper;
 import com.spring.dutch.mapper.QnaMapper;
-import com.spring.dutch.domain.AttachFileVO;
 
 @Service
 public class QnaServiceImpl implements QnaService{
 	
 	private QnaMapper qnaMapper;
-	private AttachFileMapper attachFileMapper;
+	private QnaAttachFileMapper qnaAttachFileMapper;
 
 	//모든 필드 초기 생성자
-	public QnaServiceImpl(QnaMapper qnaMapper, AttachFileMapper attachFileMapper) {
+	public QnaServiceImpl(QnaMapper qnaMapper, QnaAttachFileMapper qnaAttachFileMapper) {
 		this.qnaMapper = qnaMapper;
-		this.attachFileMapper = attachFileMapper;
+		this.qnaAttachFileMapper = qnaAttachFileMapper;
 	}
 	
 	//QNA 목록조회
@@ -45,13 +44,13 @@ public class QnaServiceImpl implements QnaService{
 
 		qnaMapper.insertQna(qna);
 		
-		List<AttachFileVO> attachFileList = qna.getAttachFileList();
+		List<QnaAttachFileVO> qnaAttachFileList = qna.getQnaAttachFileList();
 		
-		if(attachFileList != null && attachFileList.size() > 0) {
-			attachFileList.forEach(attachFile -> {
-//				attachFile.setQno(qna.getQno());
-				attachFile.setNickname(qna.getNickname());
-				attachFileMapper.insertAttachFile(attachFile);
+		if(qnaAttachFileList != null && qnaAttachFileList.size() > 0) {
+			qnaAttachFileList.forEach(
+					qnaAttachFile -> {
+						qnaAttachFile.setQno(qna.getQno());
+				qnaAttachFileMapper.insertAttachFile(qnaAttachFile);
 				
 			});
 			
@@ -67,6 +66,9 @@ public class QnaServiceImpl implements QnaService{
 
 		QnaVO qna = qnaMapper.selectQna(qno);
 		
+		qna.setQnaAttachFileList(qnaAttachFileMapper.selectAttachFiles(qno));
+		
+		System.out.println("qna: " + qna);
 		return qna;
 	}
 
@@ -85,19 +87,17 @@ public class QnaServiceImpl implements QnaService{
 	public boolean modifyQna(QnaVO qna) {
 		
 		long qno = qna.getQno();
-		String nickname = qna.getNickname();
 		
 		boolean qnaModifyResult = (qnaMapper.updateQna(qna) == 1);
 		
-		attachFileMapper.deleteAttachFiles(qno);
+		qnaAttachFileMapper.deleteAttachFiles(qno);
 		
-		List<AttachFileVO> attachFileList = qna.getAttachFileList();
+		List<QnaAttachFileVO> qnaAttachFileList = qna.getQnaAttachFileList();
 		
-		if(qnaModifyResult && attachFileList != null) {
-			for(AttachFileVO attachFile : attachFileList) {
-				attachFile.setNickname(nickname);
-//				attachFile.setQno(qno);
-				attachFileMapper.insertAttachFile(attachFile);
+		if(qnaModifyResult && qnaAttachFileList != null) {
+			for(QnaAttachFileVO qnaAttachFile : qnaAttachFileList) {
+				qnaAttachFile.setQno(qno);
+				qnaAttachFileMapper.insertAttachFile(qnaAttachFile);
 			}
 		}
 		
@@ -109,18 +109,19 @@ public class QnaServiceImpl implements QnaService{
 	@Transactional
 	public boolean removeQna(long qno) {
 		
-		List<AttachFileVO> attachFileList = getQnaAttachFileList(qno);
+		List<QnaAttachFileVO> qnaAttachFileList = getQnaAttachFileList(qno);
 		
-		int attachFileDeleteRows = attachFileMapper.deleteAttachFiles(qno);
+		int attachFileDeleteRows = qnaAttachFileMapper.deleteAttachFiles(qno);
 		System.out.println("attachFileDeleteRows: " + attachFileDeleteRows);
 		
-		removeAttachFiles(attachFileList);
+		removeAttachFiles(qnaAttachFileList);
 
 		int rows = qnaMapper.deleteQna(qno);
 		
 		return (rows == 1);
 	}
 
+	//블라인드처리
 	@Override
 	@Transactional
 	public boolean modifyQdelFlagAdmin(long qno) {
@@ -130,37 +131,37 @@ public class QnaServiceImpl implements QnaService{
 		return (rows == 1);
 	}
 
-	//특정 닉네임으로 가져옴
+	//특정 게시글로 가져옴
 	@Override
-	public List<AttachFileVO> getQnaAttachFileList(Long qno) {
+	public List<QnaAttachFileVO> getQnaAttachFileList(Long qno) {
 		
-		return attachFileMapper.selectAttachFiles(qno);
+		return qnaAttachFileMapper.selectAttachFiles(qno);
 	}
 
 	//업로드 파일 삭제 메서드
-	private void removeAttachFiles(List<AttachFileVO> attachFileList) {
+	private void removeAttachFiles(List<QnaAttachFileVO> qnaAttachFileList) {
 
-		if(attachFileList == null || attachFileList.size() == 0) {
+		if(qnaAttachFileList == null || qnaAttachFileList.size() == 0) {
 			return ;
 		}
 		
-		System.out.println("삭제시작: 삭제파일 목록:=====" + attachFileList.toString());
+		System.out.println("삭제시작: 삭제파일 목록:=====" + qnaAttachFileList.toString());
 		
-		for(AttachFileVO attachFile : attachFileList) {
+		for(QnaAttachFileVO qnaAttachFile : qnaAttachFileList) {
 			//하나의 VO에 대한 실행코드를 작성, forEach 메서드가 반복함
-			Path filePath = Paths.get(attachFile.getRepoPath() ,
-									  attachFile.getUploadPath() ,
-									  attachFile.getUuid() + "_" + attachFile.getFileName() );
+			Path filePath = Paths.get(qnaAttachFile.getRepoPath() ,
+									  qnaAttachFile.getUploadPath() ,
+									  qnaAttachFile.getUuid() + "_" + qnaAttachFile.getFileName() );
 			
 			boolean deleteFileResult = false ; 
 			
 			try {
 				deleteFileResult = Files.deleteIfExists(filePath);
 				
-				if(attachFile.getFileType().equals("I")) {
-					Path thumnail = Paths.get(attachFile.getRepoPath() ,
-											  attachFile.getUploadPath() ,
-											  "s_" + attachFile.getUuid() + "_" + attachFile.getFileName() );
+				if(qnaAttachFile.getFileType().equals("I")) {
+					Path thumnail = Paths.get(qnaAttachFile.getRepoPath() ,
+											  qnaAttachFile.getUploadPath() ,
+											  "s_" + qnaAttachFile.getUuid() + "_" + qnaAttachFile.getFileName() );
 					
 					deleteFileResult = Files.deleteIfExists(thumnail);	
 				}

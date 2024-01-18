@@ -200,7 +200,7 @@ var frmSendValue = $("#frmSendValue");
 	
 <%-- 카드 등록 페이지로 이동 --%>
 	$("#moveCardRegisterPageBtn").on("click", function(){
-		window.location.href="${contextPath}/dutch/cardregister";
+		window.location.href="${contextPath}/cardregister";
 	});
 	
 </sec:authorize>

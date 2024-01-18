@@ -52,13 +52,15 @@
                 	<button class="btn btn-primary pull-right btnfix" onclick="location.href='${contextPath}/mypage/history'">상세보기</button>
 	            </div><!-- /.panel-heading -->
 	            <div class="panel-body">
-	                <div class="table-responsive">
-	                	<div class="col-md-6">
-		                	<div class="panel-heading" style="font-size:xx-large; text-align: center;"><c:out value="${dutchCount[0].count }"/></div>
+	                <div class="table-responsive">	
+ 		                <div class="col-md-6">	
+		                	<div class="panel-heading" style="font-size:xx-large; text-align: center;">
+		                	<c:out value="${dutchCount.cal_0 }"/></div>
 		                	<div class="panel-heading">정산중인방</div>
 		                </div>
 	                    <div class="col-md-6">
-	                    	<div class="panel-heading" style="font-size:xx-large; text-align: center;"><c:out value="${dutchCount[1].count }"/></div>
+	                    	<div class="panel-heading" style="font-size:xx-large; text-align: center;">
+							<c:out value="${dutchCount.cal_1 }"/></div>
 	                    	<div class="panel-heading">정산완료방</div>
 	                    </div>
 	                </div><!-- /.table-responsive -->
@@ -80,10 +82,7 @@
 	        </div><!-- /.panel -->
 	    </div><!-- /.col-lg-4 -->
 	</div><!-- /.row -->
-</div>
-
-
-
+</div><!-- /.page-wrapper -->
 
 
 <%@include file="../pageinclude/footer.jsp" %> 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.dutch.domain.AttachFileVO;
+import com.spring.dutch.domain.QnaAttachFileVO;
 import com.spring.dutch.domain.QnaVO;
 import com.spring.dutch.dto.QnaPagingCreatorDTO;
 import com.spring.dutch.dto.QnaPagingDTO;
-import com.spring.dutch.mapper.AttachFileMapper;
 import com.spring.dutch.service.QnaService;
 
 @Controller
-@RequestMapping("/qna")
+@RequestMapping("/pages")
 public class QnaController {
 	
 	private QnaService qnaService;
@@ -32,17 +30,7 @@ public class QnaController {
 		this.qnaService = qnaService;
 	}
 	
-	//목록조회
-//	@GetMapping("/qnalist")
-//	public String ShowQnaList(Model model) {
-//		
-//		List<QnaVO> qnaCreator = qnaService.getQnaList();
-//		
-//		model.addAttribute("qnaCreator", qnaCreator);
-//		
-//		return "pages/qnalist" ;
-//	}
-	
+	//목록조회	
 	@GetMapping("/qnalist")
 	public String showQnaList(QnaPagingDTO qnaPaging, Model model) {
 		
@@ -69,18 +57,20 @@ public class QnaController {
 	public String registerQna(QnaVO qna, 
 							  RedirectAttributes redirectAttr) {
 		
-		List<AttachFileVO> attachFileList = qna.getAttachFileList();
+		List<QnaAttachFileVO> MyQnaAttachFileList = qna.getQnaAttachFileList();
 		
-		if(attachFileList != null) {
-			attachFileList.forEach(attachFile-> System.out.println(attachFile.toString()));
+		if(MyQnaAttachFileList != null) {
+			MyQnaAttachFileList
+			.forEach(qnaAttachFile-> System.out.println(qnaAttachFile.toString()));
 		
 		}else {
-			System.out.println("첨부파일 없음");
+			System.out.println("================================첨부파일 없음");
 		}
 		
 		long qno = qnaService.registerQna(qna);
 		
 		redirectAttr.addFlashAttribute("result", qno);
+		System.out.println("result: " + redirectAttr.getFlashAttributes());
 		
 		return "redirect:/pages/qnalist";
 		
@@ -161,12 +151,10 @@ public class QnaController {
 	
 	//특정 게시물의 첨부파일 정보를 JSON으로 전달(특정 게시물의 수정페이지에서 사용)
 	@GetMapping(value = "/getFiles" , produces = {"application/json; charset=utf-8"})
-	public @ResponseBody ResponseEntity<List<AttachFileVO>> showAttachFiles(
-																			Long qno 
-//																			String nickname
-																			) {
+	public @ResponseBody ResponseEntity<List<QnaAttachFileVO>> showAttachFiles(Long qno) {
+		
 		System.out.println("qno: " + qno);
-		return new ResponseEntity<List<AttachFileVO>>(qnaService.getQnaAttachFileList(qno), HttpStatus.OK);
+		return new ResponseEntity<List<QnaAttachFileVO>>(qnaService.getQnaAttachFileList(qno), HttpStatus.OK);
 	}
 	
 }

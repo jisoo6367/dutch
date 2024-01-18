@@ -23,7 +23,7 @@
                 <div class="panel-body">
 
 					<form role="form" action="${contextPath }/pages/qnaregister" 
-					      method="post" name="frmQna" id="frmQna">
+					      method="post" name="frmBoard" id="frmBoard">
 						<div class="form-group">
 						    <label>문의제목</label>
 						    <input class="form-control" name="qtitle" id="qtitle" placeholder="제목을 입력해주세요.">
@@ -74,29 +74,238 @@
     
 <%-- 등록 자바스크립트 시작 --%>
 <script>
-
-function sendBoard(){
+<%--수정된 게시물 입력값 유무 확인 함수--%>
+function checkBoardValues(){
 	
-	var frmQna = document.getElementById("frmQna") ;
 	var qtitle = document.getElementById("qtitle").value ;
 	var qcontent = document.getElementById("qcontent").value ;
 	var nickname = document.getElementById("nickname").value ;
 	
 	if( qtitle.length==0 || qcontent.length==0 || nickname.length==0 ){
-		alert("글제목/글내용/작성자를 모두 입력해야 합니다.");
-	} else {
-//		frmBoard.method="post";
-//		frmBoard.action="${contextPath}/pages/noticeregister";
-		frmQna.submit();
-	}
+		return false ;
 
+	} else {
+		return true ;
+	}
 }
 
 $("#btnRegister").on("click", function(){
-	sendBoard() ;
+	
+	if (!checkBoardValues()){
+		alert("글제목/글내용/작성자를 모두 입력해야 합니다.");
+		return ;
+	}
+
+	var frmBoard = $("#frmBoard") ;
+	var attachFileInputHTML = "";
+	
+	<%-- li요소의 값들을 읽어와서 hidden input을 생성하는 택스트를 만드는 함수 --%>
+	<%--div.form-group.fileUploadResult > ul > li:nth-child(1)--%>
+	$("div.fileUploadResult ul li").each(function(i, obj){
+		
+		var objLi = $(obj) ;
+
+ 		if(objLi == null){
+			return ;
+		} 
+		
+		attachFileInputHTML 
+			+="<input type='hidden' name='qnaAttachFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
+			+ "<input type='hidden' name='qnaAttachFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
+			+ "<input type='hidden' name='qnaAttachFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
+			+ "<input type='hidden' name='qnaAttachFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
+	});<%--each-end--%>
+	
+	if (attachFileInputHTML != ""){
+		frmBoard.append(attachFileInputHTML) ;	
+	}
+<%--//form에 설정되어 있으므로 실행할 필요가 없습니다.	
+	frmBoard.method="post";
+	frmBoard.action="${contextPath}/myboard/register";
+--%>
+	frmBoard.submit();
+
 });
 
 </script>
+<%-- <<<<<< 첨부파일 관련 코드 >>>>>> --%>
+<script>
 
+<%--input 초기화: div 요소의 "비어있는 input 요소를 복사"해서 저장함.--%>
+<%--
+	var cloneFileInput = $(".uploadDiv").clone(); //clone(): 선택된 요소의 자식요소가 복사됨 
+--%>
+<%--복사된 것을 사용하는 경우, 첨부파일 삭제 및 추가 시에는, 동작하지 않음--%>
+
+<%-- 업로드 파일에 대한 확장자 및 크기 제한 --%>
+function checkUploadFile(fileName, fileSize) {
+	
+	var allowedMaxSize = 104857600 ;
+	var regExpForbiddenFileExtension = /((\.(exe|dll|sh|c|zip|alz|tar)$)|^[^.]+$|(^\..{1,}$))/i ;
+	
+	if (fileSize > allowedMaxSize) {
+		alert("업로드 파일의 제한된 크기(1MB)를 초과했습니다.") ;
+		return false ;
+	}
+
+	if(regExpForbiddenFileExtension.test(fileName)){
+		alert("확장명이 없거나 [exe,dll,sh,c,zip,alz,tar] 형식 파일들은\n업로드 할 수 없습니다.") ;
+		return false ;
+		
+	}
+	
+	return true ;
+}
+
+function showUploadResult(uploadResult) {
+	
+	if(!uploadResult || uploadResult.length == 0) {
+		return ;
+	}
+	
+	var fileUploadResult = $(".fileUploadResult ul") ;
+	var htmlStr = "";
+	
+	$(uploadResult).each(function(i, qnaAttachFile){
+		
+		var fullFileName = encodeURI(qnaAttachFile.repoPath + "/" +
+									 qnaAttachFile.uploadPath + "/" +
+									 qnaAttachFile.uuid + "_" +
+									 qnaAttachFile.fileName ) ;
+		
+		if(qnaAttachFile.fileType == "F") {
+			htmlStr 
+			+="<li data-uploadpath='" + qnaAttachFile.uploadPath + "'" 
+			+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
+			+ "    data-filename='" + qnaAttachFile.fileName + "'" 
+			+ "    data-filetype='F'>"
+//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
+			+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
+			+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
+//			+ "    </a>"
+			+  "  <span data-filename='" + fullFileName + "' data-filetype='F'>[삭제]</span>"
+			+ "</li>" ;
+			
+		} else { //else if(attachFile.fileType == "I") {
+			
+			var thumbnail = encodeURI(qnaAttachFile.repoPath + "/" +
+									  qnaAttachFile.uploadPath + "/s_" +
+									  qnaAttachFile.uuid + "_" +
+									  qnaAttachFile.fileName ) ;
+			
+		
+			htmlStr 
+			+="<li data-uploadpath='" + qnaAttachFile.uploadPath + "'" 
+			+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
+			+ "    data-filename='" + qnaAttachFile.fileName + "'" 
+			+ "    data-filetype='I'>"
+//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
+//			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
+			+ "        <img src='${contextPath}/qnadisplayThumbnail?fileName=" + thumbnail + "'>"
+			+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
+//			+ "    </a>"
+			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
+			+ "</li>" ;
+		}
+			
+	}); <%--foreach-end--%>
+	
+	fileUploadResult.append(htmlStr) ;
+	
+}
+	
+<%-- 업로드 처리 --%>
+<%--파일 업로드 처리: 파일 input 요소의 "내용이 바뀌면" 업로드가 수행되도록 수정 --%>
+$("#inputFile").on("change", function(){
+	
+	var formData = new FormData() ;
+	
+	var fileInputs = $("input[name='uploadFiles']") ;
+	
+	var yourFiles = fileInputs[0].files ;
+	
+	console.log(yourFiles) ;
+	
+	if(yourFiles == null || yourFiles.length == 0) {
+		alert("파일을 선택하세요");
+		return ;
+	}
+	
+	<%--FormData() 객체에 input의 파일을 모두 저장함--%>
+	for(var i = 0 ; i < yourFiles.length ; i++) {
+		
+		<%--업로드 파일의 파일 크기/확장자 제한 검사--%>
+		if(!checkUploadFile(yourFiles[i].name, yourFiles[i].size)){
+			console.log("파일이름: " + yourFiles[i].name) ;
+			console.log("파일크기: " + yourFiles[i].size) ;
+			return ;
+		}
+		
+		formData.append("yourUploadFiles", yourFiles[i])
+		
+	}
+	
+<%--FormData() 객체(formData)를 서버로 전송(By Ajax)
+	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
+	$.ajax({
+		type: "post" ,
+		url: "${contextPath}/qnafileUploadAjaxAction" ,
+		data: formData ,
+		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
+		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
+		dataType: "json" ,
+/* 		beforeSend: function(xhr){
+			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken)
+		} , */
+		success: function(uploadResult, status){
+			
+<%--		//복사된 file-input을 삽입하는 경우, 첨부파일 삭제/추가 시에는, 초기화 되지 않음.
+			$(".uploadDiv").html(cloneFileInput.html()) ;
+--%>			
+			$(".inputFile").val("") ;
+			
+			showUploadResult(uploadResult);
+		}
+	});
+	
+}) ;
+
+
+<%-- 업로드 파일 삭제: 서버에 업로드된 파일이 삭제되고, 이를 화면에 반영해 주어야 함 --%>
+<%-- body > div.fileUploadResult > ul > li:nth-child(2) > span --%>
+$(".fileUploadResult ul").on("click","li span", function(e){
+	var fileName = $(this).data("filename") ;
+	var fileType = $(this).data("filetype") ;
+	
+	var parentLi = $(this).parent() ;
+	
+	$.ajax({
+		type: "post" ,
+		url: "${contextPath}/qnadeleteFile" ,
+		data: {fileName: fileName, fileType: fileType} ,
+		dataType: "text" , 
+/* 		beforeSend: function(xhr){
+			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+		} , */
+		success: function(result){
+			if(result == "S") {
+				alert("파일이 삭제되었습니다.") ;
+				parentLi.remove() ;
+				
+			} else {
+				if(confirm("파일이 존재하지 않습니다. 해당 항목을 삭제하시겠습니까 ?") ) {
+					parentLi.remove() ;
+					alert("파일이 삭제되었습니다.") ;	
+				
+				}
+			}
+		} <%--success-end--%>
+		
+	});  <%--ajax-end--%>
+	
+});
+
+
+</script>
 
 <%@include file="../pageinclude/footer.jsp" %> 

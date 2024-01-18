@@ -14,8 +14,8 @@ import lombok.ToString;
 @ToString
 public class MypageDTO {
 	
-	private long count;
-	private int pcalculated;
+	private long cal_0;
+	private long cal_1;
 
 	
 	

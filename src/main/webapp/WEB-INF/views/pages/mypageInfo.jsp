@@ -47,12 +47,6 @@
                 </div><!-- /.panel-heading -->
                 
                 <div class="panel-body form-horizontal">
-                	<div class="form-group">
-					    <label class="col-sm-2 control-label" style="white-space: nowrap;">프로필 사진</label>
-					    <div class="col-lg-10">
-					    	
-						</div>
-					</div>
 					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">닉네임</label>
 					    <div class="col-sm-8">
@@ -106,12 +100,16 @@
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">가입일자</label>
 					    <div class="col-sm-8">
 					    	<input class="form-control" name="regDate" id="regDate" 
-					    		   value="<fmt:formatDate value="${memberData.regDate }" pattern="yyyy/MM/dd HH:mm:ss"/>" readonly="readonly">
+					    		   value="<fmt:formatDate value="${memberData.regDate }" pattern="yyyy-MM-dd"/>" readonly="readonly">
 						</div>
 					</div>
-					
-					
-		
+					<div class="form-group">
+					    <label class="col-sm-2 control-label" style="white-space: nowrap;">마지막 정보수정일자</label>
+					    <div class="col-sm-8">
+					    	<input class="form-control" name="modDate" id="modDate" 
+					    		   value="<fmt:formatDate value="${memberData.modDate }" pattern="yyyy-MM-dd"/>" readonly="readonly">
+						</div>
+					</div>
                 </div><%-- /.panel-body --%>
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>

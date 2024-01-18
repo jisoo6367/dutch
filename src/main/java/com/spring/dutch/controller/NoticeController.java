@@ -18,7 +18,7 @@ import com.spring.dutch.service.NoticeService;
 import lombok.Setter;
 
 @Controller
-@RequestMapping("/notice")
+@RequestMapping("/pages")
 public class NoticeController {
 
 //	@Setter(onMethod_ = @Autowired )

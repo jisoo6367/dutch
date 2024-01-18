@@ -4,13 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dutch.mapper.MypageMapper">
 
-<!-- mno로 회원정보 가져오기 -->
+<!-- 회원정보 가져오기 -->
 <select id="selectMemberData" resultType="com.spring.dutch.domain.MemberVO"
 		parameterType="String">
 	SELECT  mno, nickname, bank, bank_account,
 		    username, email, password, cellphone,
-		    reg_date, mod_date, del_flag, enabled,
-		    login_type, gender, age
+		    TO_TIMESTAMP(TO_CHAR(reg_date, 'YYYY-MM-DD')) AS regDate,
+		    TO_TIMESTAMP(TO_CHAR(mod_date, 'YYYY-MM-DD')) AS modDate,
+		    del_flag, enabled, login_type, gender, age
 	FROM dutch.tbl_member
 	WHERE nickname = #{nickname}
 </select>
@@ -19,8 +20,8 @@
 	<update id="updateMember" parameterType="com.spring.dutch.domain.MemberVO">
 		UPDATE dutch.tbl_member
 		SET password = #{password} ,
-			hp = #{hp} ,
-			cellphone = #{cellphone} 
+			cellphone = #{cellphone} ,
+			mod_date = sysdate,
 		WHERE nickname = #{nickname}	
 	</update>
 
@@ -36,21 +37,130 @@
 		WHERE nickname = #{nickname} 
 	</delete>
 	
-	
-<!-- participants 테이블에서 닉네임으로 리스트 가져오기 -->
-	<select id="selectPersonal" parameterType="String" resultType="com.spring.dutch.domain.ParticipantsVO">
-		select pno, ptitle,  TO_CHAR(pregdate, 'YYYY-MM-DD') as pregdate , ppersonal, pcalculated, nickname
-		from dutch.tbl_participants
-		where nickname = #{nickname}
-	</select>
-	
 <!-- participants 테이블에서 닉네임으로 방 갯수 가져오기 -->
 	<select id="selectDutchCount" parameterType="String" resultType="com.spring.dutch.dto.MypageDTO">
-		SELECT COUNT(*)AS count, pcalculated
+		SELECT COUNT(CASE WHEN pcalculated = 0 THEN 0 END) AS CAL_0,
+		       COUNT(CASE WHEN pcalculated = 1 THEN 1 END) AS CAL_1
 		FROM dutch.tbl_participants
 		WHERE nickname = #{nickname}
-		GROUP BY pcalculated
 	</select>
+
+<!-- participants 테이블에서 닉네임으로 리스트 가져오기 --><!-- 
+	<select id="selectPersonal_0" parameterType="String" resultType="com.spring.dutch.domain.ParticipantsVO">
+		select pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate , ppersonal, pcalculated, nickname
+		from dutch.tbl_participants
+		where nickname = #{nickname} and pcalculated = 0
+	</select>
+	
+	<select id="selectPersonal_1" parameterType="String" resultType="com.spring.dutch.domain.ParticipantsVO">
+		select pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate , ppersonal, pcalculated, nickname
+		from dutch.tbl_participants
+		where nickname = #{nickname} and pcalculated = 1
+	</select> -->
+	
+<!--페이징 입힌거-->
+
+
+	<select id="selectPersonal_0" resultType="com.spring.dutch.domain.ParticipantsVO"
+	        parameterType="com.spring.dutch.dto.MypagePagingNicknameDTOongoing">
+	    <![CDATA[
+			SELECT pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate, ppersonal, pcalculated, nickname
+			FROM (
+		            SELECT /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */ ROWNUM rn, b.*
+		            FROM (select /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */  a.*
+		                    from dutch.tbl_participants a
+		                    where nickname= #{nickname} and pcalculated = 0
+	                   		order by pregdate desc) b 
+	            	WHERE ROWNUM <= (#{mypagePaging.pageNum_0} * #{mypagePaging.rowAmountPerPage})
+	            )
+	    	WHERE rn >= ((#{mypagePaging.pageNum_0} * #{mypagePaging.rowAmountPerPage}) - (#{mypagePaging.rowAmountPerPage} - 1))
+	    ]]>
+
+	</select>
+	<select id="selectPersonal_1" resultType="com.spring.dutch.domain.ParticipantsVO"
+	        parameterType="com.spring.dutch.dto.MypagePagingNicknameDTOhistory">
+	    <![CDATA[
+			SELECT pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate, ppersonal, pcalculated, nickname
+			FROM (
+		            SELECT /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */ ROWNUM rn, b.*
+		            FROM (select /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */  a.*
+		                    from dutch.tbl_participants a
+		                    where nickname=#{nickname} and pcalculated = 1
+	                   		order by pregdate desc) b 
+	            	WHERE ROWNUM <= (#{mypagePaging.pageNum_1} * #{mypagePaging.rowAmountPerPage})
+	            )
+	    	WHERE rn >= ((#{mypagePaging.pageNum_1} * #{mypagePaging.rowAmountPerPage}) - (#{mypagePaging.rowAmountPerPage} - 1))
+	    ]]>
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+	<select id="selectPersonal_0" resultType="com.spring.dutch.domain.ParticipantsVO"
+			parameterType="com.spring.dutch.dto.MypagePagingNicknameDTO">
+		    <![CDATA[
+		        SELECT pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate , ppersonal, pcalculated, nickname
+		        FROM ( SELECT /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */ ROWNUM rn, a.* 
+		               FROM dutch.tbl_participants a
+		               WHERE ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+		               and nickname = #{nickname} and pcalculated = 0
+		    ]]>
+		    <![CDATA[       
+		               ) 
+		               WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+		    ]]>
+	</select>
+	
+	<select id="selectPersonal_1" resultType="com.spring.dutch.domain.ParticipantsVO"
+			parameterType="com.spring.dutch.dto.MypagePagingDTO">
+		<![CDATA[
+			SELECT pno, ptitle, TO_TIMESTAMP(TO_CHAR(pregdate, 'YYYY-MM-DD')) as pregdate , ppersonal, pcalculated, nickname
+			FROM ( SELECT /*+ INDEX_DESC (a FK_NICKNAME_MEMBER_PARTI) */ ROWNUM rn, a.* 
+	               FROM dutch.tbl_participants a
+	               WHERE
+		]]>
+	
+		<![CDATA[      			       
+				       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+				      )
+		]]>	
+				      and nickname = #{nickname} and pcalculated = 1
+		<![CDATA[ 
+				WHERE rn > = ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+		]]>	
+	</select> -->
+
+
+
+<!-- 게시물 총 개수 조회(페이징) -->	
+	<select id="selectRowTotal_0" resultType="long" parameterType="String">
+		SELECT COUNT(*) rowTotal
+		FROM dutch.tbl_participants
+		WHERE pcalculated = 0 and nickname = #{nickname}
+	</select>
+	
+	<select id="selectRowTotal_1" resultType="long" parameterType="String">
+		SELECT COUNT(*) rowTotal
+		FROM dutch.tbl_participants
+		WHERE pcalculated = 1 and nickname = #{nickname}
+	</select>
+
+
+
+
+
+
 
 
 

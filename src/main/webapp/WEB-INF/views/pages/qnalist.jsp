@@ -80,11 +80,11 @@
 					<td><c:out value="${qna.qno }"/></td>
 					<td style="text-align: left">
 						<c:out value="${qna.qtitle }"/>
-						<small>[답변유무: <strong><c:out value="${qna.qsignal}"/></strong>]</small>
+						<small>[답변: <strong><c:out value="${qna.qreplyCnt}"/></strong>]</small>
 					</td>
 					<td>${qna.nickname }</td>
-					<td class="center"><fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-					<td class="center"><fmt:formatDate value="${qna.qmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${qna.qmodDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
 				 </tr>
 			</c:otherwise>
 		</c:choose>

@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.dutch.domain.QnaReplyVO;
 import com.spring.dutch.dto.QnaReplyPagingCreatorDTO;
 import com.spring.dutch.dto.QnaReplyPagingDTO;
-import com.spring.dutch.mapper.AttachFileMapper;
 import com.spring.dutch.mapper.QnaMapper;
 import com.spring.dutch.mapper.QnaReplyMapper;
 
@@ -64,7 +63,7 @@ public class QnaReplyServiceImpl implements QnaReplyService{
 	@Override
 	@Transactional
 	public Long registerReplyForReply(QnaReplyVO qnareply) {
-		qnaReplyMapper.insertQnaReplyForQna(qnareply);
+		qnaReplyMapper.insertQnaReplyForReply(qnareply);
 		
 		qnaMapper.updateQreplyCnt(qnareply.getQno(), 1);
 		

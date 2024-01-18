@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.dutch.dto.AttachFileDTO;
+import com.spring.dutch.dto.QnaAttachFileDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
-public class FileUploadAjaxController {
+public class QnaFileUploadAjaxController {
 	
 	private String uploadFileRepoDir = "C:/myupload" ;
 	
@@ -34,7 +34,7 @@ public class FileUploadAjaxController {
 	
 	//1. 파일 업로드 요청 JSP 페이지 호출
 	
-	@GetMapping(value= {"/fileUploadAjax"})
+	@GetMapping(value= {"/qnafileUploadAjax"})
 	public String callFileUploadAjaxPage() {
 		System.out.println("'Ajax를 통한 업로드 테스트' JSP 페이지 호출======== ");
 		return "sample/fileUploadAjax";
@@ -42,11 +42,11 @@ public class FileUploadAjaxController {
 	}
 	//이미지파일에 대한 썸네일이미지 저장
 	//Step1: 업로드파일에 대한 이미지 파일여부 검사 메소드
-	private boolean isImageFile(File file) {
+	private boolean isImageFile(File yourFile) {
 		
 		String yourFileContentType = null;
 		try {
-			yourFileContentType = Files.probeContentType(file.toPath());
+			yourFileContentType = Files.probeContentType(yourFile.toPath());
 			System.out.println("fileContentType: " + yourFileContentType);
 			
 			return yourFileContentType.startsWith("image");
@@ -68,14 +68,14 @@ public class FileUploadAjaxController {
 	}
 	
 	//2. 파일 업로드 처리
-	@PostMapping(value = "/fileUploadAjaxAction", 
+	@PostMapping(value = "/qnafileUploadAjaxAction", 
 				 produces = "application/json; charset=utf-8") 
 	@ResponseBody
-	public List<AttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
+	public List<QnaAttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
 		
-		List<AttachFileDTO> attachFileList = new ArrayList<AttachFileDTO>();
+		List<QnaAttachFileDTO> qnaAttachFileList = new ArrayList<QnaAttachFileDTO>();
 		
-		AttachFileDTO attachFile = null ;
+		QnaAttachFileDTO qnaAttachFile = null ;
 		
 		//파일이름이 저장되는 변수
 		String fileName = null ;
@@ -98,23 +98,23 @@ public class FileUploadAjaxController {
 			System.out.println("Upload File Name: " + uploadFile.getOriginalFilename());
 			System.out.println("Upload File Size: " + uploadFile.getSize());
 			
-			attachFile = new AttachFileDTO() ;
+			qnaAttachFile = new QnaAttachFileDTO() ;
 			
-			attachFile.setUploadPath(dateFmtStr) ;
-			attachFile.setRepoPath(uploadFileRepoDir) ;
+			qnaAttachFile.setUploadPath(dateFmtStr) ;
+			qnaAttachFile.setRepoPath(uploadFileRepoDir) ;
 			
 			
 			fileName = uploadFile.getOriginalFilename();
 			// 파일이름.확장자, 경로명\파일이름.확장자, 파일이름만 남기는 처리.
 			fileName = fileName.substring(fileName.lastIndexOf("\\") + 1) ;
 			
-			attachFile.setFileName(fileName);
+			qnaAttachFile.setFileName(fileName);
 			
 			
 			//UUID를 이용한 고유한 파일이름 적용
 			myUuid = UUID.randomUUID().toString() ;
 			
-			attachFile.setUuid(myUuid) ;
+			qnaAttachFile.setUuid(myUuid) ;
 			
 			
 			fileName = myUuid + "_" + fileName ;
@@ -127,37 +127,37 @@ public class FileUploadAjaxController {
 				//이미지파일이면 썸네일 생성
 				if(isImageFile(saveUploadFile)) {
 					
-					attachFile.setFileType("I") ;
+					qnaAttachFile.setFileType("I") ;
 					
 					File thumbnameFile = new File(fileUploadPath, "s_" + fileName);
 					
-					FileOutputStream Fos = 
+					FileOutputStream myFos = 
 							new FileOutputStream(thumbnameFile) ;
 							
 					
-					InputStream Is = uploadFile.getInputStream() ;
+					InputStream myIs = uploadFile.getInputStream() ;
 					
-					Thumbnailator.createThumbnail(Is, Fos, 30, 30) ;
+					Thumbnailator.createThumbnail(myIs, myFos, 30, 30) ;
 					
-					Is.close() ;
-					Fos.flush() ; 
-					Fos.close() ;
+					myIs.close() ;
+					myFos.flush() ; 
+					myFos.close() ;
 				} else {
-					attachFile.setFileType("F") ;
+					qnaAttachFile.setFileType("F") ;
 				}
 				
 			} catch (IllegalStateException | IOException e) {
 				System.out.println("error: " + e.getMessage());
 			} 
 			
-			attachFileList.add(attachFile) ;
+			qnaAttachFileList.add(qnaAttachFile) ;
 
 		}//for-end
 		
-		return attachFileList ;
+		return qnaAttachFileList ;
 	}
 	
-	@PostMapping("/deleteFile")
+	@PostMapping("/qnadeleteFile")
 	public ResponseEntity<String> deleteFile(String fileName, String fileType){
 //		System.out.println("fileName: " + fileName);
 //		System.out.println("fileType: " + fileType);

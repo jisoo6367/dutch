@@ -18,7 +18,6 @@ import lombok.ToString;
 public class QnaVO {
 
 	private long qno; //리스트고유번호
-//	private long mno; //회원고유번호(사용안함)
 	private String nickname;//닉네임(기본)
 	private String qtitle; //제목
 	private String qcontent; //내용
@@ -27,8 +26,9 @@ public class QnaVO {
 	private int qdelFlag; //삭제 '1'삭제
 	private int qdelFlagAdmin; //삭제요청 '1'삭제
 	private int qsignal; //'1'시그널보냄
+	private int qreplyCnt;
 	
-	private List<AttachFileVO> attachFileList;
+	private List<QnaAttachFileVO> qnaAttachFileList;
 	
 	/*
 	qno number(10,0) primary key,--리스트고유번호

@@ -1,16 +1,7 @@
 package com.spring.dutch.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,21 +9,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.dto.MypageDTO;
-import com.spring.dutch.domain.ParticipantsVO;
-import com.spring.dutch.dto.mypageAttachFileDTO;
+import com.spring.dutch.dto.MypagePagingCreatorDTOhistory;
+import com.spring.dutch.dto.MypagePagingCreatorDTOongoing;
+import com.spring.dutch.dto.MypagePagingDTOhistory;
+import com.spring.dutch.dto.MypagePagingDTOongoing;
+import com.spring.dutch.dto.MypagePagingNicknameDTOhistory;
+import com.spring.dutch.dto.MypagePagingNicknameDTOongoing;
 import com.spring.dutch.service.MypageService;
 
-import lombok.extern.log4j.Log4j;
-import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
-@Log4j
 @RequestMapping("/mypage")
 public class MypageController {
 
@@ -43,17 +33,20 @@ public class MypageController {
 	}
 
 	// 마이페이지 첫 화면 호출
+	// 더치페이 방 수 도 받아옴
 	@GetMapping(value = "/home")
 	@PreAuthorize("isAuthenticated()")
 	public String showMypage(Principal principal, Model model) {
 		
 		MemberVO memberData = mypageService.getMemberData(principal.getName());
 		model.addAttribute("memberData", memberData);		
+		System.out.println("========================마이페이지 첫화면 memberData : "+memberData);
 
-		
-		List<MypageDTO> dutchCount = mypageService.getDutchCount(principal.getName());
+
+		System.out.println("========================마이페이지 첫화면 nickname : "+ principal.getName());
+		MypageDTO dutchCount = mypageService.getDutchCount(principal.getName());
 		model.addAttribute("dutchCount", dutchCount);
-		System.out.println("============================dutchCount : "+ dutchCount);
+		System.out.println("========================마이페이지 첫화면 dutchCount : "+ dutchCount);
 		
 		
 		
@@ -145,33 +138,39 @@ public class MypageController {
 		return "redirect:/loginPage";
 	}
 
-	// 더치페이 내역 > 정산 중인 방 호출
-	@GetMapping(value = "/ongoing")
-	public String showDutchOngoingList() {
-
-		System.out.println("더치페이 내역 > 정산 중인 방");
-
-		return "/pages/mypageDutchOngoing";
-	}
-
-	// 더치페이 내역 > 정산 완료 방 호출
+	// 더치페이 내역 > 상세보기
 	//닉네임으로 participants테이블에서 튜플 가져오기
 	@GetMapping(value = "/history")
 	@PreAuthorize("isAuthenticated()")
-	public String showDutchHistoryList(Principal principal, Model model) {
+	public String showDutchHistoryList(Principal principal, Model model,
+										MypagePagingDTOhistory pagingHistory, MypagePagingDTOongoing pagingOngoing) {
+	    
+	    System.out.println("=================페이징 히스토리 pagenum_0 : " + pagingOngoing.getPageNum_0());
+	    System.out.println("=================페이징 히스토리 pagenum_1 : " + pagingHistory.getPageNum_1());
 		
-		System.out.println("더치페이 내역 > 정산 완료 방");
-		System.out.println(principal.getName());
-		
-		model.addAttribute("nickname", principal.getName());
-		
-		List<ParticipantsVO> personalData = mypageService.getPersonal(principal.getName());
-		model.addAttribute("personalData", personalData);
-		
+	    model.addAttribute("nickname", principal.getName());
+
+	    MypagePagingNicknameDTOongoing ongoingDTO = new MypagePagingNicknameDTOongoing();
+	    ongoingDTO.setMypagePaging(pagingOngoing);
+	    ongoingDTO.setNickname(principal.getName());
+
+	    MypagePagingCreatorDTOongoing pagingCreator_0 = mypageService.getPersonal_0(ongoingDTO);
+	    model.addAttribute("pagingCreator_0", pagingCreator_0);
+	    
+	    
+	    
+	    MypagePagingNicknameDTOhistory historyDTO = new MypagePagingNicknameDTOhistory();
+	    historyDTO.setMypagePaging(pagingHistory);
+	    historyDTO.setNickname(principal.getName());
+	    
+	    MypagePagingCreatorDTOhistory pagingCreator_1 = mypageService.getPersonal_1(historyDTO);
+	    model.addAttribute("pagingCreator_1", pagingCreator_1);
+	    
 		return "/pages/mypageDutchHistory";
 	}
-	
-	
+
+
+
 	
 	
 	

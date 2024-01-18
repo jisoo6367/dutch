@@ -3,8 +3,12 @@ package com.spring.dutch.mapper;
 import java.util.List;
 
 import com.spring.dutch.domain.MemberVO;
-import com.spring.dutch.dto.MypageDTO;
 import com.spring.dutch.domain.ParticipantsVO;
+import com.spring.dutch.dto.MypageDTO;
+import com.spring.dutch.dto.MypagePagingDTOhistory;
+import com.spring.dutch.dto.MypagePagingDTOongoing;
+import com.spring.dutch.dto.MypagePagingNicknameDTOhistory;
+import com.spring.dutch.dto.MypagePagingNicknameDTOongoing;
 
 public interface MypageMapper {
 
@@ -21,8 +25,20 @@ public interface MypageMapper {
 	public int deleteMemberAuth(String nickname);
 	
 	//나의 개인정산금액 가져오기 
-	public List<ParticipantsVO> selectPersonal(String nickname);
+//	public List<ParticipantsVO> selectPersonal_0 (String nickname, MypagePagingDTO mypagePaging);
+//	public List<ParticipantsVO> selectPersonal_1(String nickname, MypagePagingDTO mypagePaging);
+	
+	public List<ParticipantsVO> selectPersonal_0 (MypagePagingNicknameDTOongoing mypagePagingNickname);
+	public List<ParticipantsVO> selectPersonal_1(MypagePagingNicknameDTOhistory mypagePagingNickname);
+	
 	
 	//더치페이 내역 방 갯수 가져오기
-	public List<MypageDTO> selectDutchCount(String nickname);
+	public MypageDTO selectDutchCount(String nickname);
+	
+	//게시물 총 개수 조회(페이징)
+//	public long selectRowTotal_0(MypagePagingDTOongoing mypagePaging);
+//	public long selectRowTotal_1(MypagePagingDTOhistory mypagePaging);
+	public long selectRowTotal_0(MypagePagingNicknameDTOongoing mypagePaging);
+	public long selectRowTotal_1(MypagePagingNicknameDTOhistory mypagePaging);
+	
 }

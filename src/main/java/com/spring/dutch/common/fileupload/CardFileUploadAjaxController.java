@@ -27,7 +27,7 @@ import com.spring.dutch.dto.AttachFileDTO;
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
-public class FileUploadAjaxCardController {
+public class CardFileUploadAjaxController {
 	
 	private String uploadFileRepoDir = "C:/myupload" ;
 	
@@ -69,7 +69,7 @@ public class FileUploadAjaxCardController {
 	}
 	
 	//2. 파일 업로드 처리
-	@PostMapping(value = "/fileUploadAjaxCardAction", 
+	@PostMapping(value = "/CardfileUploadAjaxAction", 
 				 produces = "application/json; charset=utf-8") 
 	@ResponseBody
 	public List<AttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
@@ -156,38 +156,38 @@ public class FileUploadAjaxCardController {
 		return attachFileList ;
 	}
 	
-	@PostMapping("/deleteCardFile")
-	public ResponseEntity<String> deleteFile(String fileName, String fileType){
-//		System.out.println("fileName: " + fileName);
-//		System.out.println("fileType: " + fileType);
-//		fileName: C:/myupload/2023/12/15/0d62242c-c8cf-4365-8ab6-cebd21e247e1_%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8PPT%ED%8C%8C%EC%9D%BC.pptx
-//		fileType: F
-		
-		try {
-			fileName = URLDecoder.decode(fileName, "utf-8") ;
-			System.out.println("fileName: " + fileName);
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		File delFile = new File(fileName) ;
-		
-		boolean delResult = delFile.delete() ; //일반파일과 썸네일 파일 삭제
-		//정상삭제: true 반환, 삭제실패: false 반환
-		if (!delResult) {
-			return new ResponseEntity<String>("F", HttpStatus.OK) ;
-		}
-		
-		if(fileType.equals("I")) {
-			delFile = new File(fileName.replaceFirst("s_", ""));
-			delResult = delFile.delete() ;
-		}
-		
-		return delResult ? new ResponseEntity<String>("S", HttpStatus.OK)
-						 : new ResponseEntity<String>("F", HttpStatus.OK) ;
-		
-		
-	}
+//	@PostMapping("/deleteCardFile")
+//	public ResponseEntity<String> deleteFile(String fileName, String fileType){
+////		System.out.println("fileName: " + fileName);
+////		System.out.println("fileType: " + fileType);
+////		fileName: C:/myupload/2023/12/15/0d62242c-c8cf-4365-8ab6-cebd21e247e1_%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8PPT%ED%8C%8C%EC%9D%BC.pptx
+////		fileType: F
+//		
+//		try {
+//			fileName = URLDecoder.decode(fileName, "utf-8") ;
+//			System.out.println("fileName: " + fileName);
+//			
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		File delFile = new File(fileName) ;
+//		
+//		boolean delResult = delFile.delete() ; //일반파일과 썸네일 파일 삭제
+//		//정상삭제: true 반환, 삭제실패: false 반환
+//		if (!delResult) {
+//			return new ResponseEntity<String>("F", HttpStatus.OK) ;
+//		}
+//		
+//		if(fileType.equals("I")) {
+//			delFile = new File(fileName.replaceFirst("s_", ""));
+//			delResult = delFile.delete() ;
+//		}
+//		
+//		return delResult ? new ResponseEntity<String>("S", HttpStatus.OK)
+//						 : new ResponseEntity<String>("F", HttpStatus.OK) ;
+//		
+//		
+//	}
 }

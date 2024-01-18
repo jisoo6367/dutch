@@ -38,6 +38,7 @@
 				<value>classpath:com/spring/dutch/mapper/NoticeMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/QnaMapper.xml</value>
 				<value>classpath:com/spring/dutch/mapper/QnaReplyMapper.xml</value>
+				<value>classpath:com/spring/dutch/mapper/QnaAttachFileMapper.xml</value>
 			</list>
 		</property>
 	</bean>

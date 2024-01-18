@@ -16,7 +16,7 @@
  	<select id="selectQnaList" resultType="com.spring.dutch.domain.QnaVO"
 			parameterType="com.spring.dutch.dto.QnaPagingDTO">
 	<![CDATA[
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
+		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
 		FROM ( SELECT /*+ INDEX_DESC (a FK_QNA_NICKNAME) */ ROWNUM rn, a.*
 		       FROM dutch.tbl_qna a
 		       WHERE ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
@@ -45,24 +45,19 @@
 				 DEFAULT,   
 				 DEFAULT,   
 				 DEFAULT,   
-				 #{qcontent})
+				 #{qcontent},
+				 DEFAULT)
 	</insert>
 
 <!-- 특정 게시물 조회(modify.jsp) -->
 	<select id="selectQna2" resultType="com.spring.dutch.domain.QnaVO">
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
+		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
 		FROM dutch.tbl_qna
 		WHERE qno = #{qno }
 	</select>
 	
 <!-- 특정 게시물 조회(detail.jsp) -->
-	<select id="selectQna" resultType="com.spring.dutch.domain.QnaVO">
-		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal
-		FROM dutch.tbl_qna
-		WHERE qno = #{qno }
-	</select> 
-	<!-- 
-	 <resultMap type="com.spring.dutch.domain.AttachFileVO" id="attachFileMap">
+	 <resultMap type="com.spring.dutch.domain.QnaAttachFileVO" id="attachFileMap">
 		<result property="uuid" column="uuid"/>
 		<result property="uploadPath" column="uploadPath"/>
 		<result property="fileName" column="fileName"/>
@@ -70,7 +65,7 @@
 		<result property="qno" column="myqno"/>
 	</resultMap>
 	
-	<resultMap type="com.spring.dutch.domain.QnaVO" id="QnaMap">
+	<resultMap type="com.spring.dutch.domain.QnaVO" id="myboardMap">
 		<result property="qno" column="qno"/>
 		<result property="qtitle" column="qtitle"/>
 		<result property="qcontent" column="qcontent"/>
@@ -81,16 +76,16 @@
 		<result property="qreplyCnt" column="qreplyCnt"/>
 		<result property="qdelFlag" column="qdelFlag"/>
 		<result property="qdelFlagAdmin" column="qdelFlagAdmin"/>
-		<collection property="attachFileList"  resultMap="attachFileMap"/>
+		<collection property="qnaAttachFileList"  resultMap="attachFileMap"/>
 	</resultMap>
 	
-	<select id="selectQna" resultType="com.spring.dutch.domain.QnaVO">
+	<select id="selectQna" resultMap="myboardMap">
 		SELECT a.qno, a.qtitle, a.qcontent, a.nickname, 
 		       a.qregDate, a.qmodDate, a.qsignal, a.qreplyCnt, a.qdelFlag, a.qdelFlagAdmin,
 		       b.uuid, b.uploadPath, b.fileName, b.fileType, b.qno AS myqno   
-		FROM dutch.tbl_qna a LEFT OUTER JOIN dutch.tbl_AttachFiles b ON (a.qno = b.qno) 
+		FROM dutch.tbl_qna a LEFT OUTER JOIN dutch.tbl_QnaAttachFiles b ON (a.qno = b.qno) 
 		WHERE a.qno = #{qno}
-	</select> -->
+	</select>
 	
 <!-- 수정 -->
 	<update id="updateQna" parameterType="com.spring.dutch.domain.QnaVO">
@@ -114,12 +109,12 @@
 		WHERE qno = #{qno }
 	</delete>
 	
-<!-- 시그널 -->
+<!-- 시그널 --><!-- 
 	<update id="updateQsignal" parameterType="com.spring.dutch.domain.QnaVO">
 		UPDATE dutch.tbl_qna
-		SET qsignal =1
+		SET qsignal = qsignal + #{amount}
 		WHERE qno = #{qno }
-	</update>
+	</update> -->
 	
 <!-- 댓글 개수 수정 
 	 댓글추가 시에 #{amount}에 1, 댓글삭제 시 #{amount}에 -1 이 각각 전달됨-->

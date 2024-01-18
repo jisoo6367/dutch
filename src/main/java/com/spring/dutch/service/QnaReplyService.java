@@ -2,7 +2,6 @@ package com.spring.dutch.service;
 
 import java.util.List;
 
-import com.spring.dutch.domain.AttachFileVO;
 import com.spring.dutch.domain.QnaReplyVO;
 import com.spring.dutch.dto.QnaReplyPagingCreatorDTO;
 import com.spring.dutch.dto.QnaReplyPagingDTO;

@@ -43,8 +43,7 @@
 											 /></strong>
 									<span>&nbsp;&nbsp;</span>
 								</span>
-								<span>답변유무:&nbsp;<strong><c:out value="${qna.qsignal}"/></strong>
-								</span>
+				
 							</span>
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
@@ -130,33 +129,33 @@
 	                    <ul> 
 <%-- 업로드 후 처리결과가 표시될 영역 --%> 
 <c:choose>
-<c:when test="${empty qna.attachFileList }">
+<c:when test="${empty qna.qnaAttachFileList }">
 	<li style="font-size: 12pt;">첨부파일이 없습니다</li>
 </c:when>
 <c:otherwise>
-	<c:forEach var="attachFile" items="${qna.attachFileList }">
+	<c:forEach var="qnaAttachFile" items="${qna.qnaAttachFileList }">
 		<c:choose>
-		<c:when test="${attachFile.fileType == 'F' }">
+		<c:when test="${qnaAttachFile.fileType == 'F' }">
 			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
+				data-repopath = "${qnaAttachFile.repoPath }"
+			    data-uploadpath = "${qnaAttachFile.uploadPath }" 
+			    data-uuid = "${qnaAttachFile.uuid }" 
+			    data-filename = "${qnaAttachFile.fileName }" 
 			    data-filetype = "F" >
 			        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
+			        &nbsp;&nbsp;${qnaAttachFile.fileName}
 			</li>
 		</c:when>
 		<c:otherwise>
-			<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
+			<c:set var="thumbnail" value="${qnaAttachFile.repoPath}/${qnaAttachFile.uploadPath}/s_${qnaAttachFile.uuid}_${attachFile.fileName}"/>
 			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
+				data-repopath = "${qnaAttachFile.repoPath }"
+			    data-uploadpath = "${qnaAttachFile.uploadPath }" 
+			    data-uuid = "${qnaAttachFile.uuid }" 
+			    data-filename = "${qnaAttachFile.fileName }" 
 			    data-filetype = "I" >
 			        <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
+			        &nbsp;&nbsp;${qnaAttachFile.fileName}
 			</li>
 			<c:remove var="thumbnail"/>
 		</c:otherwise>
@@ -189,6 +188,7 @@
 			<div class="panel-heading">
 				<div style="margin-bottom: 0px; font-size: 16px;">
 					<strong style="padding-top: 2px;">
+					<span>댓글&nbsp;<c:out value="${qna.qreplyCnt}"/>개</span>
 						<span id="replyTotal"></span>
 						<span>&nbsp;</span>
 						
@@ -206,7 +206,7 @@
 			<%-- 댓글 입력창 div 시작 --%>
 				<div class="form-group" style="margin-bottom: 5px;">
 					<textarea class="form-control txtBoxCmt" name="qrcontent"
-							  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
+							  placeholder="댓글 작성 버튼을 클릭해주세요."
 							  readonly="readonly"
 							 ></textarea>
 				</div>
@@ -309,19 +309,19 @@ function runModal(result) {
 $(".attachLi").on("click", function(){
 	var objLi = $(this) ;
 	
-	var FileName = objLi.data("repoPath") + "/" + objLi.data("uploadPath") + "/" 
-				   + objLi.data("uuid") + "_" + objLi.data("fileName") ;
+	var myFileName = objLi.data("repopath") + "/" + objLi.data("uploadpath") + "/" 
+				   + objLi.data("uuid") + "_" + objLi.data("filename") ;
 	
-	var FileType = objLi.data("fileType") ;
+	var myFileType = objLi.data("filetype") ;
 	
-	if(FileType == "I") {
-		$("#attachModal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" 
-										      + encodeURI(FileName) 
+	if(myFileType == "I") {
+		$("#attachModal-body").html("<img src='${contextPath}/qnafileDownloadAjax?fileName=" 
+										      + encodeURI(myFileName) 
 										      + "' style='width:100%;'>") ;
 		$("#attachModal").modal("show") ;
 	
 	} else {
-		self.location.href ="${contextPath}/fileDownloadAjax?fileName="  + encodeURI(FileName) ;
+		self.location.href ="${contextPath}/qnafileDownloadAjax?fileName="  + encodeURI(myFileName) ;
 	}
 	
 });
@@ -330,6 +330,11 @@ $(".attachLi").on("click", function(){
 $("#attachModal").on("click", function(){
 	$("#attachModal").modal("hide") ;
 });
+
+</script>
+
+<%-- 댓글이 달리면 답변유무 시그널이 올라감 --%>
+<script>
 
 </script>
 
@@ -434,7 +439,7 @@ function showCmtList(pageNum){
 		
 		function(qnareplyPagingCreator){
 			
-			$("#replyTotal").html("댓글&nbsp;" + qnareplyPagingCreator.replyTotCnt + "개") ;
+			/* $("#replyTotal").html("댓글&nbsp;" + qnareplyPagingCreator.replyTotCnt + "개") ; */
 			
 			frmCmtPagingValue.find("input[name='pageNum']").val(pageNum) ;
 			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(qnareplyPagingCreator.qnareplyPaging.rowAmountPerPage) ;
@@ -475,16 +480,8 @@ function showCmtList(pageNum){
 					} else if (qnareplyPagingCreator.qnareplyList[i].lvl == 2){
 				str += '<div style="padding-left: 25px;">' ;
 					
-					} else if (qnareplyPagingCreator.qnareplyList[i].lvl == 3){
-				str += '<div style="padding-left: 50px;">' ;		
+					} 
 					
-					} else if (qnareplyPagingCreator.qnareplyList[i].lvl == 4){
-				str += '<div style="padding-left: 70px;">' ;
-					
-					} else { <%-- 답글의 레벨이 5이상이면 동일한 들여쓰기 --%>
-				str += '<div style="padding-left: 100px;">' ;
-						
-					}
 				<%-- 답글에 대한 아이콘 표시  --%>	
 				if(qnareplyPagingCreator.qnareplyList[i].lvl > 1) {
 				str += '    <i class="fa fa-reply fa-fw"></i>&nbsp;';
@@ -506,7 +503,7 @@ function showCmtList(pageNum){
 				    + '    <button type="button" style="display:in-block;" ' 
 				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글작성</button>'
 					+ '</li>' ;
-				}
+				} 
 
 			}<%--for-end--%>
 			
@@ -531,7 +528,7 @@ function resetCmtRegElements(){
 //	$("#spanLoginUser").attr("style", "display:none;") ;
 	$(".txtBoxCmt").val("")
 				   .attr("readonly", true)
-				   .attr("placeholder", "댓글작성을 원하시면,\n댓글 작성 버튼을 클릭해주세요.") ;
+				   .attr("placeholder", "댓글 작성 버튼을 클릭해주세요.") ;
 
 }
 
@@ -607,7 +604,7 @@ $("#chat").on("click","li .btnChgReplyReg" , function(){
 	
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxReply' name='qrcontent' style='margin-bottom:10px;'"
-		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
+		+ " 		 placeholder='답글 등록 버튼을 클릭해주세요.'"
 		+ "			></textarea>"
 		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
 		+ "<button type='button' class='btn btn-danger btn-xs btnCancelRegReply'"

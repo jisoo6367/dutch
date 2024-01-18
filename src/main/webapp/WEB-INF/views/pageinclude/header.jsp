@@ -56,8 +56,8 @@
                  role="button" aria-haspopup="true" aria-expanded="false">고객센터 
                  <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="${contextPath }/notice/noticelist">공지사항</a></li>
-                <li><a href="${contextPath }/qna/qnalist">1:1문의</a></li>
+                <li><a href="${contextPath }/pages/noticelist">공지사항</a></li>
+                <li><a href="${contextPath }/pages/qnalist">1:1문의</a></li>
                 <!-- <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>

@@ -2,7 +2,7 @@ package com.spring.dutch.service;
 
 import java.util.List;
 
-import com.spring.dutch.domain.AttachFileVO;
+import com.spring.dutch.domain.QnaAttachFileVO;
 import com.spring.dutch.domain.QnaVO;
 import com.spring.dutch.dto.QnaPagingCreatorDTO;
 import com.spring.dutch.dto.QnaPagingDTO;
@@ -32,7 +32,7 @@ public interface QnaService {
 	public boolean removeQna(long qno);
 
 	//첨부파일 목록 조회
-	public List<AttachFileVO> getQnaAttachFileList(Long qno);//String nickname
+	public List<QnaAttachFileVO> getQnaAttachFileList(Long qno);//String nickname
 
 	
 		

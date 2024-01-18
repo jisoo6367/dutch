@@ -5,24 +5,19 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.dutch.domain.AttachFileVO;
 import com.spring.dutch.domain.NoticeVO;
 import com.spring.dutch.dto.NoticePagingCreatorDTO;
 import com.spring.dutch.dto.NoticePagingDTO;
-import com.spring.dutch.mapper.AttachFileMapper;
 import com.spring.dutch.mapper.NoticeMapper;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{
 
 	private NoticeMapper noticeMapper;
-	private AttachFileMapper attachFileMapper;
 	
 	//모든 필드 초기 생성자
-	public NoticeServiceImpl(NoticeMapper noticeMapper,
-							 AttachFileMapper attachFileMapper) {
+	public NoticeServiceImpl(NoticeMapper noticeMapper) {
 		this.noticeMapper = noticeMapper;
-		this.attachFileMapper = attachFileMapper;
 //		System.out.println("NoticeServiceImpl 초기 생성자 입니다.");
 	}
 

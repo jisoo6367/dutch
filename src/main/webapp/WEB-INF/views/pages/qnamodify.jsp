@@ -102,7 +102,7 @@
 
 var frmModify = $("#frmModify") ;
 
-$(".qnabtns").on("click", function(){
+/* $(".qnabtns").on("click", function(){
 	
 	var operation = $(this).data("oper") ;
 	//alert("operation: " + operation) ;
@@ -127,8 +127,100 @@ $(".qnabtns").on("click", function(){
 	}
 	
 	frmModify.submit() ;
-});
+}); */
 
+<%--수정된 게시물 입력값 유무 확인 함수--%>
+function checkBoardValues(){
+	
+	var qtitle = document.getElementById("qtitle").value ;
+	var qcontent = document.getElementById("qcontent").value ;
+	
+	if( qtitle.length==0 || qcontent.length==0  ){
+		return false ;
+
+	} else {
+		return true ;
+	}
+}
+
+$(".qnabtns").on("click", function(){
+	
+	if (!checkBoardValues()){
+		alert("글제목/글내용을 모두 입력해야 합니다.");
+		return ;
+	}	
+	
+	var operation = $(this).data("oper") ;
+	//alert("operation: " + operation) ;
+	
+	if (operation == "Qnamodify") {
+		
+/* 		if(!loginUser || bwriter != loginUser){
+			alert("로그인 후 수정이 가능합니다!");
+			return;
+		} */
+		
+		var emptyLi = $(".fileUploadResult ul li") ;
+//		console.log(emptyLi)  ;
+//		alert(emptyLi);
+		if(emptyLi.data("filename") == undefined){
+			//$(".fileUploadResult ul li").remove() ;
+			emptyLi.remove() ;
+		}
+		
+		<%-- #wrapper > div.row > div > div > div.panel-body > div.fileUploadResult ul  li:nth-child(1) --%>
+
+		var attachFileInputHTML = "";
+		
+		<%-- li요소의 값들을 읽어와서 hidden input을 생성하는 택스트를 만드는 함수 --%>
+		<%--div.form-group.fileUploadResult > ul > li:nth-child(1)--%>
+		$("div.fileUploadResult ul li").each(function(i, obj){
+			
+			var objLi = $(obj) ;
+
+	 		if(objLi == null){
+				return ;
+			} 
+			
+			attachFileInputHTML 
+				+="<input type='hidden' name='qnaAttachFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
+				+ "<input type='hidden' name='qnaAttachFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
+				+ "<input type='hidden' name='qnaAttachFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
+				+ "<input type='hidden' name='qnaAttachFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
+		});<%--each-end--%>
+		
+		if (attachFileInputHTML != ""){
+			frmModify.append(attachFileInputHTML) ;	
+		}
+		
+		
+	
+		frmModify.attr("action", "${contextPath}/pages/qnamodify") ;
+	
+	} else if (operation == "Qnaremove"){
+		
+/* 		if(!loginUser || bwriter != loginUser){
+			alert("로그인 후 수정이 가능합니다!");
+			return;
+		} */
+		
+		frmModify.attr("action", "${contextPath}/pages/qnaremove") ;
+	
+	} else {  //else if (operation == "list"){
+		
+		var pageNumInput = $("#pageNum").clone() ;
+		var rowAmountPerPageInput = $("input[name='rowAmountPerPage']").clone() ;
+		
+		frmModify.empty() ;
+		
+		frmModify.append(pageNumInput) ;
+		frmModify.append(rowAmountPerPageInput) ;
+		
+		frmModify.attr("action", "${contextPath}/pages/qnalist").attr("method", "get") ; 
+	}
+	
+	frmModify.submit() ;
+});
 </script>
 
 <%-- <<<<<< 첨부파일 관련 코드 >>>>>> --%>
@@ -167,41 +259,39 @@ function showUploadResult(uploadResult) {
 	} else {
 	
 	
-		$(uploadResult).each(function(i, attachFile){
+		$(uploadResult).each(function(i, qnaAttachFile){
 			
-			var fullFileName = encodeURI(attachFile.repoPath + "/" +
-										 attachFile.uploadPath + "/" +
-										 attachFile.uuid + "_" +
-										 attachFile.fileName ) ;
+			var fullFileName = encodeURI(qnaAttachFile.repoPath + "/" +
+										 qnaAttachFile.uploadPath + "/" +
+										 qnaAttachFile.uuid + "_" +
+										 qnaAttachFile.fileName ) ;
 			
-			if(attachFile.fileType == "F") {
+			if(qnaAttachFile.fileType == "F") {
 				htmlStr 
-				+="<li data-uploadpath='" + attachFile.uploadPath + "'" 
-				+ "    data-uuid='" + attachFile.uuid + "'" 
-				+ "    data-filename='" + attachFile.fileName + "'" 
+				+="<li data-uploadpath='" + qnaAttachFile.uploadPath + "'" 
+				+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
+				+ "    data-filename='" + qnaAttachFile.fileName + "'" 
 				+ "    data-filetype='F'>"
-	//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
 				+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
-				+ "        &nbsp;&nbsp;" + attachFile.fileName 
-	//			+ "    </a>"
+				+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
 				+  "  <button type='button' class='btn btn-danger btn-xs' data-filename='" + fullFileName + "' data-filetype='F'>X</button>"
 				+ "</li>" ;
 				
 			} else { //else if(attachFile.fileType == "I") {
 				
-				var thumbnail = encodeURI(attachFile.repoPath + "/" +
-										  attachFile.uploadPath + "/s_" +
-										  attachFile.uuid + "_" +
-										  attachFile.fileName ) ;
+				var thumbnail = encodeURI(qnaAttachFile.repoPath + "/" +
+										  qnaAttachFile.uploadPath + "/s_" +
+										  qnaAttachFile.uuid + "_" +
+										  qnaAttachFile.fileName ) ;
 				
 			
 				htmlStr 
-				+="<li data-uploadpath='" + attachFile.uploadPath + "'" 
-				+ "    data-uuid='" + attachFile.uuid + "'" 
-				+ "    data-filename='" + attachFile.fileName + "'" 
+				+="<li data-uploadpath='" + qnaAttachFile.uploadPath + "'" 
+				+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
+				+ "    data-filename='" + qnaAttachFile.fileName + "'" 
 				+ "    data-filetype='I'>"
-				+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
-				+ "        &nbsp;&nbsp;" + attachFile.fileName 
+				+ "        <img src='${contextPath}/qnadisplayThumbnail?fileName=" + thumbnail + "'>"
+				+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
 				
 				htmlStr
 				+=  "  <button type='button' class='btn btn-danger btn-xs' data-filename='" + thumbnail + "' data-filetype='I'>X</button>"
@@ -278,7 +368,7 @@ $("#inputFile").on("change", function(){
 	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/fileUploadAjaxAction" ,
+		url: "${contextPath}/qnafileUploadAjaxAction" ,
 		data: formData ,
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>

@@ -16,28 +16,28 @@
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">${nickname}님의 My page -> 더치페이 내역 -> 상세보기</h3>
-
             <button type="button" id="btnToBack" style="margin-bottom: 8px;"
 				class="btn btn-primary pull-right" ><span>이전페이지로 이동</span></button>
-
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
         <div class="col-lg-12">
-        
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">Dutch In Progress</div><!-- 
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">정기권 등록</button>
-						</div> -->
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">Dutch In Progress</div>
 					</div>
 				</div><%-- /.panel-heading --%>
-                
+
+<form class="form-inline" id="frmSendValue_0" action="${contextPath }/pages/mypageDutchHistory" method="get" name="frmSendValue_0">
+		
+	<input type="hidden" id="pageNum_0" name="pageNum_0" value="${pagingCreator_0.mypagePaging.pageNum_0 }" >
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator_0.mypagePaging.rowAmountPerPage }" >
+	<input type="hidden" id="lastPageNum_0" name="lastPageNum_0" value="${pagingCreator_0.lastPageNum_0 }" >
+	
+</form>  
                 <div class="panel-body">
-            
-					<table class="table table-striped table-bordered table-hover" 
+					<table class="table table-striped table-bordered table-hover" id="table_0"
 					       style="width:100%;text-align: center;">
 					    <thead>
 					        <tr>
@@ -48,29 +48,67 @@
 					        </tr>
 					    </thead>
 					    <tbody>
-						    <c:choose>
-						    <c:when test="${not empty personalData}">
-								<c:forEach var="personal" items="${personalData}">
-									<c:choose>
-									<c:when test="${personal.pcalculated == 0 }">
-										<tr class="ongoing" style="text-align: center" >
+					    	<c:choose>
+						    <c:when test="${not empty pagingCreator_0.dutchlist}">
+								<c:forEach var="personal" items="${pagingCreator_0.dutchlist}">
+									<c:if test="${personal.pcalculated == 0 }">
+										<tr class="history" style="text-align: center" >
 											<td><c:out value="${personal.pno }"/></td>
 											<td><c:out value="${personal.ptitle }"/></td>
-											<td><c:out value="${personal.pregDate }"/></td>
+											<td><fmt:formatDate value="${personal.pregDate }" pattern="yyyy-MM-dd"/></td>
 											<td><c:out value="${personal.ppersonal }"/></td>
 										</tr>
-									</c:when>
-									</c:choose>
+									</c:if>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr class="odd gradeX">
 									<td colspan="6">진행중인 더치페이 내역이 없습니다.</td>
 								</tr>
-							</c:otherwise>
-							</c:choose>                        
+							</c:otherwise>	    	
+					    	</c:choose>
 						</tbody>
                 	</table><%-- /.table-responsive --%>
+					<div style="text-align: center;">
+						<ul class="pagination pagination-sm" id="ul_0" >
+							<c:if test="${pagingCreator_0.prev_0 }">
+								<li class="pagination-button">
+									<a href="1" aria-label="Previous">
+										<span aria-hidden="true">&laquo</span>
+									</a>
+								</li>
+							</c:if>
+							<c:if test="${pagingCreator_0.prev_0 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_0.startPagingNum_0 - 1 }" aria-label="Previous">
+										<span aria-hidden="true">이전</span>
+									</a>
+								</li>
+							</c:if>
+							<c:forEach begin="${pagingCreator_0.startPagingNum_0 }" 
+							           end="${pagingCreator_0.endPagingNum_0 }" 
+							           var="pagingNum">
+								
+								<li class='pagination-button ${(pagingNum == pagingCreator_0.mypagePaging.pageNum_0) ? "active" : ""}'>
+									<a href="${pagingNum }">${pagingNum }</a>
+								</li>     
+							</c:forEach>
+							<c:if test="${pagingCreator_0.next_0 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_0.endPagingNum_0 + 1 }" aria-label="Next">
+										<span aria-hidden="true">다음</span>
+									</a>
+								</li>
+							</c:if>
+							<c:if test="${pagingCreator_0.next_0 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_0.lastPageNum_0 }" aria-label="Next">
+										<span aria-hidden="true">&raquo</span>
+									</a>
+								</li>
+							</c:if>
+						</ul>
+					</div>
 				</div><%-- /.panel-body --%>
         	</div><%-- /.panel --%>
     	</div><%-- /.col-lg-12 --%>
@@ -82,17 +120,23 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-        
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">Dutch History</div>
 					</div>
 				</div><%-- /.panel-heading --%>
-                
+				
+								
+<form class="form-inline" id="frmSendValue_1" name="frmSendValue_1">
+		
+	<input type="hidden" id="pageNum_1" name="pageNum_1" value="${pagingCreator_1.mypagePaging.pageNum_1 }" >
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator_1.mypagePaging.rowAmountPerPage }" >
+	<input type="hidden" id="lastPageNum_1" name="lastPageNum_1" value="${pagingCreator_1.lastPageNum_1 }" >
+	
+</form>  				
                 <div class="panel-body">
-            
-					<table class="table table-striped table-bordered table-hover" 
+					<table class="table table-striped table-bordered table-hover" id="table_1" 
 					       style="width:100%;text-align: center;">
 					    <thead>
 					        <tr>
@@ -102,30 +146,68 @@
 					            <th>내가 낸 금액</th>
 					        </tr>
 					    </thead>
-					    <tbody>
-						    <c:choose>
-						    <c:when test="${not empty personalData}">
-								<c:forEach var="personal" items="${personalData}">
-									<c:choose>
-									<c:when test="${personal.pcalculated == 1 }">
-										<tr class="ongoing" style="text-align: center" >
+						<tbody>
+					    	<c:choose>
+						    <c:when test="${not empty pagingCreator_1.dutchlist}">
+								<c:forEach var="personal" items="${pagingCreator_1.dutchlist}">
+									<c:if test="${personal.pcalculated == 1 }">
+										<tr class="history" style="text-align: center" >
 											<td><c:out value="${personal.pno }"/></td>
 											<td><c:out value="${personal.ptitle }"/></td>
-											<td><c:out value="${personal.pregDate }"/></td>
+											<td><fmt:formatDate value="${personal.pregDate }" pattern="yyyy-MM-dd"/></td>
 											<td><c:out value="${personal.ppersonal }"/></td>
 										</tr>
-									</c:when>
-									</c:choose>
+									</c:if>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr class="odd gradeX">
 									<td colspan="6">완료한 더치페이 내역이 없습니다.</td>
 								</tr>
-							</c:otherwise>
-							</c:choose>                        
+							</c:otherwise>	    	
+					    	</c:choose>
 						</tbody>
                 	</table><%-- /.table-responsive --%>
+					<div style="text-align: center;" >
+						<ul class="pagination pagination-sm" id="ul_1" >
+							<c:if test="${pagingCreator_1.prev_1 }">
+								<li class="pagination-button">
+									<a href="1" aria-label="Previous">
+										<span aria-hidden="true">&laquo</span>
+									</a>
+								</li>
+							</c:if>
+							<c:if test="${pagingCreator_1.prev_1 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_1.startPagingNum_1 - 1 }" aria-label="Previous">
+										<span aria-hidden="true">이전</span>
+									</a>
+								</li>
+							</c:if>
+							<c:forEach begin="${pagingCreator_1.startPagingNum_1 }" 
+							           end="${pagingCreator_1.endPagingNum_1 }" 
+							           var="pagingNum">
+								
+								<li class='pagination-button ${(pagingNum == pagingCreator_1.mypagePaging.pageNum_1) ? "active" : ""}'>
+									<a href="${pagingNum }">${pagingNum }</a>
+								</li>     
+							</c:forEach>
+							<c:if test="${pagingCreator_1.next_1 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_1.endPagingNum_1 + 1 }" aria-label="Next">
+										<span aria-hidden="true">다음</span>
+									</a>
+								</li>
+							</c:if>
+							<c:if test="${pagingCreator_1.next_1 }">
+								<li class="pagination-button">
+									<a href="${pagingCreator_1.lastPageNum_1 }" aria-label="Next">
+										<span aria-hidden="true">&raquo</span>
+									</a>
+								</li>
+							</c:if>
+						</ul>
+					</div><%-- 페이징 div --%>               	
 				</div><%-- /.panel-body --%>
         	</div><%-- /.panel --%>
     	</div><%-- /.col-lg-12 --%>
@@ -149,6 +231,8 @@
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
 
+
+
 <script>
 
 <%-- 회원정보 상세 페이지 이동 --%>
@@ -157,178 +241,40 @@ $("#btnToBack").on("click", function(){
 	window.location.href = "${contextPath}/mypage/home";
 });
 
+
+var frmSendValue_0 = $("#frmSendValue_0");
+var frmSendValue_1 = $("#frmSendValue_1");
+
+
+<%--진행중인 목록 페이징 버튼에 대한 클릭 이벤트를 처리--%>
+$("#ul_0 li.pagination-button a").on("click", function(e) {
+	e.preventDefault() ;
+	frmSendValue_0.find("input[name='pageNum_0']").val($(this).attr("href")) ;
+	console.log(frmSendValue_0.find("input[name='pageNum_0']").val());
+	frmSendValue_0.attr("action", "${contextPath}/mypage/history") ;
+	frmSendValue_0.attr("method", "get") ;
+	
+	frmSendValue_0.submit() ;
+});
+
+<%--완료된 목록 페이징 버튼에 대한 클릭 이벤트를 처리--%>
+$("#ul_1 li.pagination-button a").on("click", function(e) {
+	e.preventDefault() ;
+	frmSendValue_1.find("input[name='pageNum_1']").val($(this).attr("href")) ;
+	console.log(frmSendValue_1.find("input[name='pageNum_1']").val());
+	frmSendValue_1.attr("action", "${contextPath}/mypage/history") ;
+	frmSendValue_1.attr("method", "get") ;
+	
+	frmSendValue_1.submit() ;
+});
+	
+	
+
+
+
+
 </script>
 
-<!-- 
 
-<script>
-
-var frmSendValue = $("#frmSendValue") ;
-var result = '<c:out value="${result}" />' ;
-//alert("result.length: " + result.length)
-
-//등록페이지 이동
-$("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/noticeBoard/register" ; //권장
-//	location.href = "${contextPath}/myboard/register" ;
-//	self.location.href = "${contextPath}/myboard/register" ;
-//	self.location = "${contextPath}/myboard/register" ;
-	
-});
-
-//상세페이지 이동
-$(".moveDetail").on("click", function(){
-	var npost_number = $(this).data("npost_number") ;
-	
-//	window.location.href = "${contextPath}/myboard/detail?bno=" + bno ;
-	
-	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>")
-	frmSendValue.attr("action", "${contextPath}/noticeBoard/detail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="npost_number"]').remove() ;  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
-														//bno값이 계속 url에 추가되는 현상 해결
-	
-});
-
-//모달 호출 함수
-function runModal(result) {
-	
-	if (result.length == 0) {
-		return ;
-	
-	} else if ( result == "successRemove" ) {
-		var myMsg =  "게시글이 삭제되었습니다. " ;
-		
-	} else if ( parseInt(result) > 0 ) {
-		var myMsg =  result + "번 게시글이 등록되었습니다. "
-	
-	} 
-
-	
-	//$(".modal-body").html(myMsg) ;
-	$("#yourModal-body").html(myMsg) ;
-	
-	$("#yourModal").modal("show") ;
-	
-	myMsg = "" ;
-}
-
-
-//페이지징 처리: 검색 목록 페이지 이동
-$("li.pagination-button a").on("click", function(e){
-	e.preventDefault() ;
-	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
-	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/noticeBoard/list") ;
-	frmSendValue.attr("method", "get") ;
-	
-	frmSendValue.submit() ;
-	
-});
-
-//검색 관련 요소의 이벤트 처리
-//표시행수 변경 이벤트 처리
-$("#selectAmount").on("change", function(){
-	frmSendValue.find("input[name='pageNum']").val(1) ;
-	frmSendValue.submit() ;
-} );
-
-
-//키워드 검색버튼 클릭 이벤트 처리
-$("#btnSearchGo").on("click", function() {
-   
-   var scope = $("#selectScope").find("option:selected").val();
-   
-   if(!scope || scope == '' ){
-      alert("검색범위를 선택해주세요.");
-      return false;
-   }
-   
-   var keyword = $("#keyword").val() ;
-   
-   if(!keyword || keyword.length == 0){
-      alert("검색어를 입력해주세요.");
-      return ;      
-   }
-   
-   frmSendValue.find("input[name='pageNum']").val(1);
-   frmSendValue.submit();
-});
-
-$("#selectScope").on("change", function(){
-	
-	var keyword = $("#keyword").val() ;
-	   
-	if(keyword || keyword.length != 0){
-		$("#pageNum").val(1) ;
-		frmSendValue.submit() ;      
-	}
-
-});
-
-
-//기간 검색버튼 클릭 이벤트 처리
-$("#btnIntervalSearch").on("click", function(){
-	
-	var startDate = $("#startDate").val() ;
-	var endDate = $("#endDate").val() ;
-	
-//	alert("변환전 endDate: " + endDate);
-	
-	if (!startDate || startDate == "" || !endDate || endDate == "") {
-		alert("시작날짜와 끝날짜를 모두 선택하세요") ;
-		return ;
-	}
-/*	
-	if (beginDate == endDate) {
-		var _endDate = new Date(endDate) ;
-		
-		_endDate.setDate(_endDate.getDate() + 1) ; //하루 후의 날짜
-		
-		_endDate = _endDate.toISOString().slice(0, 10) ;
-
-		$("#endDate").val(_endDate);
-		
-		endDate = $("#endDate").val() ;
-		alert("변환후 endDate: " + endDate);
-	}
-*/	
-	frmSendValue.find("input[name='pageNum']").val(1) ;
-	frmSendValue.submit() ;
-	
-});
-
-
-//검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시
-$("#btnReset").on("click", function(){
-	$("#selectAmount").val(10) ;
-	$("#selectScope").val("") ;
-	$("#keyword").val("") ;
-	$("#startDate").val("") ;
-	$("#endDate").val("") ;
-	$("#pageNum").val(1) ;
-	
-	frmSendValue.submit() ;
-
-});
-
-
-
-
-$(document).ready(function(){
-	runModal(result) ;
-	
-	window.addEventListener("popstate", function(event){
-		history.pushState(null, null, location.href) ;
-		
-	});
-	
-	history.pushState(null, null, location.href) ;
-	
-});
-
-
-
-</script>  -->
 
 <%@include file="../pageinclude/footer.jsp" %> 
