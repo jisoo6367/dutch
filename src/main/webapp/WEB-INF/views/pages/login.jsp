@@ -51,7 +51,7 @@
       
       <script type="text/javascript">
       		$("#moveRegisterPage").on("click", function(){
-      			window.location.href="${contextPath}/memberregister";
+      			window.location.href="${contextPath}/member/register";
       		});
       		
       		$("#moveFinder").on("click", function(){

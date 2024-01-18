@@ -195,7 +195,7 @@ $(".qnabtns").on("click", function(){
 		
 		
 	
-		frmModify.attr("action", "${contextPath}/pages/qnamodify") ;
+		frmModify.attr("action", "${contextPath}/qna/modify") ;
 	
 	} else if (operation == "Qnaremove"){
 		
@@ -204,7 +204,7 @@ $(".qnabtns").on("click", function(){
 			return;
 		} */
 		
-		frmModify.attr("action", "${contextPath}/pages/qnaremove") ;
+		frmModify.attr("action", "${contextPath}/qna/remove") ;
 	
 	} else {  //else if (operation == "list"){
 		
@@ -216,7 +216,7 @@ $(".qnabtns").on("click", function(){
 		frmModify.append(pageNumInput) ;
 		frmModify.append(rowAmountPerPageInput) ;
 		
-		frmModify.attr("action", "${contextPath}/pages/qnalist").attr("method", "get") ; 
+		frmModify.attr("action", "${contextPath}/qna/list").attr("method", "get") ; 
 	}
 	
 	frmModify.submit() ;
@@ -234,7 +234,7 @@ function getAttachFileInfo(){
 	$.ajax({
 		
 		type:"get" ,
-		url: "${contextPath}/pages/getFiles" ,
+		url: "${contextPath}/qna/getFiles" ,
 		data: {qno: qno} ,
 		dataType: "json" ,
 		success: function(uploadResult){

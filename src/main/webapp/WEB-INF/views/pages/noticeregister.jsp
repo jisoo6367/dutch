@@ -22,7 +22,7 @@
                 
                 <div class="panel-body">
 
-<form role="form" action="${contextPath }/pages/noticeregister" 
+<form role="form" action="${contextPath }/notice/register" 
       method="post" name="frmNotice" id="frmNotice">
 	<div class="form-group">
 	<%--	<label>카테고리</label>
@@ -54,7 +54,7 @@
 	<button type="button" class="btn btn-primary" onclick="sendBoard();" id="btnRegister">등록</button> -->
 	<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
 	<button type="button" class="btn btn-warning" 
-	        onclick="location.href='${contextPath}/pages/noticelist';">취소</button>
+	        onclick="location.href='${contextPath}/notice/list';">취소</button>
 	<%-- 
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> 
 	<sec:csrfInput/>--%>

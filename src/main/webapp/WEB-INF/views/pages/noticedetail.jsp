@@ -206,14 +206,14 @@ $("#btnToList").on("click", function(){
 
 	/* window.location.href="${contextPath}/pages/noticelist" */ ;
 
- 	frmSendValue.attr("action", "${contextPath}/pages/noticelist").attr("method", "get") ;
+ 	frmSendValue.attr("action", "${contextPath}/notice/list").attr("method", "get") ;
 	frmSendValue.submit() ; 
 });
 
 <%-- 게시물 수정-삭제 페이지 이동 --%>
 $("#btnToModify").on("click", function(){
 	
-	window.location.href='${contextPath}/pages/noticemodify?cno=<c:out value="${notice.cno}"/>' ;
+	window.location.href='${contextPath}/notice/modify?cno=<c:out value="${notice.cno}"/>' ;
 	
 	/* var cno = '<c:out value="${notice.cno}"/>' ;
 	

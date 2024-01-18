@@ -1,9 +1,11 @@
 package com.spring.dutch.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +54,9 @@ public class CommunityController {
 		
 //		//등록 처리	
 		@PostMapping("/register")
-//		@PreAuthorize("isAuthenticated()")
+		@PreAuthorize("isAuthenticated()")
 		public String registerNewBoard(CommunityVO community,
+									   Principal principal,
 				                       RedirectAttributes redirectAttr) {
 			
 			List<CommunityAttachFileVO> myAttachFileList = community.getAttachFileList() ;
@@ -65,6 +68,8 @@ public class CommunityController {
 				System.out.println("<<<<<<<<<<<<<<<<<<< 첨부파일 없음 >>>>>>>>>>>>>>>>>>>>>");
 			}
 			System.out.println();
+			
+			community.setNickname(principal.getName());
 			
 			
 			long tno = communityService.registerCommunity(community) ;

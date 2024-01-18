@@ -20,7 +20,7 @@ import com.spring.dutch.dto.QnaPagingDTO;
 import com.spring.dutch.service.QnaService;
 
 @Controller
-@RequestMapping("/pages")
+@RequestMapping("/qna")
 public class QnaController {
 	
 	private QnaService qnaService;
@@ -31,7 +31,7 @@ public class QnaController {
 	}
 	
 	//목록조회	
-	@GetMapping("/qnalist")
+	@GetMapping("/list")
 	public String showQnaList(QnaPagingDTO qnaPaging, Model model) {
 		
 		System.out.println("qnaPaging: " + qnaPaging);
@@ -44,7 +44,7 @@ public class QnaController {
 	}
 	
 	//등록페이지 호출
-	@GetMapping("/qnaregister")
+	@GetMapping("/register")
 //	@PreAuthorize("isAuthenticated()")
 	public String showQnaRegisterPage() {
 		
@@ -52,7 +52,7 @@ public class QnaController {
 	}
 	
 	//게시물등록 처리
-	@PostMapping("/qnaregister")
+	@PostMapping("/register")
 //	@PreAuthorize("isAuthenticated()")
 	public String registerQna(QnaVO qna, 
 							  RedirectAttributes redirectAttr) {
@@ -77,7 +77,7 @@ public class QnaController {
 	}
 	
 	//특정 게시물 조회 + 수정 후 조회
-	@GetMapping("/qnadetail")
+	@GetMapping("/detail")
 	public String showQnaDetail(Long qno, Model model, String result,
 								@ModelAttribute("qnaPaging") QnaPagingDTO qnaPaging) {
 		
@@ -92,7 +92,7 @@ public class QnaController {
 	}
 	
 	//특정 게시물 수정삭제 페이지 호출
-	@GetMapping("/qnamodify")
+	@GetMapping("/modify")
 //	@PreAuthorize("isAuthenticated() && principal.username == #nickname")
 	public String showQnaModify(Long qno, String nickname, Model model,
 								QnaPagingDTO qnaPaging) {
@@ -105,7 +105,7 @@ public class QnaController {
 	}
 	
 	//특정 게시물 수정
-	@PostMapping("/qnamodify")
+	@PostMapping("/modify")
 	public String modifyQna(QnaVO qna,
 							RedirectAttributes redirectAttr,
 							QnaPagingDTO qnaPaging) {
@@ -127,7 +127,7 @@ public class QnaController {
 	}
 	
 	//특정 게시물 삭제 
-	@PostMapping("/qnaremove")
+	@PostMapping("/remove")
 	//@PreAuthorize("isAuthenticated() && principal.username == #qna.nickname")
 	public String removeQna(QnaVO qna, Long qno,
 							RedirectAttributes redirectAttr,

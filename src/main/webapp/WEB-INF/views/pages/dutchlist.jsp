@@ -33,7 +33,7 @@
 					</div>
 				</div><%-- /.panel-heading --%>
    
-<form class="form-inline" id="frmSendValue" action="${contextPath }/pages/dutchlist" method="get" name="frmSendValue">
+<form class="form-inline" id="frmSendValue" action="${contextPath }/pay/list" method="get" name="frmSendValue">
 		
 	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.dutchPaging.pageNum }" >
 	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.dutchPaging.rowAmountPerPage }" >
@@ -159,7 +159,7 @@ var frmSendValue = $("#frmSendValue");
 
 <%--dutchregister.jsp 페이지로 이동 --%>
 $("#btnToRegister").on("click", function(){
-	window.location.href = "${contextPath}/pages/dutchregister" ;
+	window.location.href = "${contextPath}/pay/register" ;
 	
 	
 });
@@ -171,7 +171,7 @@ $(".moveDetail").on("click", function(){
 <%-- window.location.href = "${contextPath}/pages/dutchdetail?pno=" + pno ; --%>
 	
 	frmSendValue.append("<input type='hidden' name='pno' value=' " + pno + " '/>");
-	frmSendValue.attr("action", "${contextPath}/pages/dutchdetail").attr("method", "get");
+	frmSendValue.attr("action", "${contextPath}/pay/detail").attr("method", "get");
 	frmSendValue.submit();
 	frmSendValue.find('input[name="pno"]').remove(); //웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동, pno값이 계속 url에 추가됨
 	

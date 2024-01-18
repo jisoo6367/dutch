@@ -22,7 +22,7 @@ import com.spring.dutch.domain.ParticipantsVO;
 import com.spring.dutch.service.DutchBoardService;
 
 @Controller
-@RequestMapping("/pages")
+@RequestMapping("/pay")
 public class DutchBoardController {
 
 	  private DutchBoardService dutchBoardService ;
@@ -33,7 +33,7 @@ public class DutchBoardController {
 
 
 	//더치페이 목록 조회
-	@GetMapping("/dutchlist") 
+	@GetMapping("/list") 
 	public String showBoardList(DutchBoardPagingDTO dutchboardPaging, Model model) { 
 	    System.out.println("dutchboardPagingDTO" + dutchboardPaging); 
 
@@ -46,7 +46,7 @@ public class DutchBoardController {
 	}
 
 	//더치페이 게시물 페이지 호출
-	@GetMapping("/dutchregister")
+	@GetMapping("/register")
 	public String showBoardRegisterPage() {
 		System.out.println("등록페이지 호출..........");
 
@@ -54,7 +54,7 @@ public class DutchBoardController {
 	}
 
 	//더치페이 등록 처리
-	@PostMapping(value="/dutchregister")
+	@PostMapping(value="/register")
 	@PreAuthorize("isAuthenticated()")
 	public String registerNewBoard(DutchRegisterDTO dutchRegister,
 									Principal principal,
@@ -82,7 +82,7 @@ public class DutchBoardController {
 	
 
 	//특정 더치페이 게시물 조회 페이지 or 수정 후 조회 페이지
-	@GetMapping("/dutchdetail")
+	@GetMapping("/detail")
 	public String showDutchBoardDetail(Long pno, Model model,
 			                           @ModelAttribute("dutchboardPaging") 
 	                                   DutchBoardPagingDTO dutchboardPaging) {

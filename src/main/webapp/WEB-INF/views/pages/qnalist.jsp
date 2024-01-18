@@ -33,7 +33,7 @@
                 
              <div class="panel-body"> 
 
-	<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/pages/qnalist" method="get" >
+	<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/qna/list" method="get" >
 		<div class="form-group">
 			<label class="sr-only">frmSendValues</label>
 				<select class="form-control" id="selectAmount" name="rowAmountPerPage">
@@ -175,14 +175,14 @@ var result = '<c:out value="${result}" />' ;
 
 <%-- 등록페이지 이동 --%>
 $("#btnToRegister").on("click", function(){
-	window.location.href = "${contextPath}/pages/qnaregister" ;
+	window.location.href = "${contextPath}/qna/register" ;
 });
 
 <%-- 상세페이지 이동 --%>
 $(".moveDetail").on("click", function(){
 	var qno = $(this).data("qno");
 	
-	window.location.href = "${contextPath}/pages/qnadetail?qno=" + qno ;
+	window.location.href = "${contextPath}/qna/detail?qno=" + qno ;
 	
 /* 	frmSendValue.append("<input type='hidden' name='qno' value='" + qno + "'/>")
 	frmSendValue.attr("action", "${contextPath}/pages/qnadetail").attr("method", "get") ;
@@ -218,7 +218,7 @@ $("li.pagination-button a").on("click", function(e){
 	e.preventDefault() ;
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
  	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/pages/qnalist") ;
+	frmSendValue.attr("action", "${contextPath}/qna/list") ;
 	frmSendValue.attr("method", "get") ;
 	
 	frmSendValue.submit() ;

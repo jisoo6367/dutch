@@ -31,7 +31,7 @@
 
 				<div class="panel-body">
 					
-					<form role="form" action="${contextPath }/pages/dutchregister"
+					<form role="form" action="${contextPath }/pay/register"
 						method="post" name="frmBoard" id="frmBoard">
 						<div class="form-group">
 							<label>방제목</label> <input class="form-control" name="ptitle"
@@ -72,7 +72,7 @@
 						<button type="button" class="btn btn-primary" id="btnRegister">게시물
 							등록</button>
 						<button type="button" class="btn btn-warning"
-							onclick="location.href='${contextPath}/pages/dutchlist';">취소</button>
+							onclick="location.href='${contextPath}/pay/list';">취소</button>
 
 
 					</form>

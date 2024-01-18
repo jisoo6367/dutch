@@ -48,16 +48,16 @@
           <ul class="nav navbar-nav">
             <li class="active homeBtn"><a href="${contextPath }/">홈</a></li>
             <li><a href="${contextPath }/mypage/home">마이페이지</a></li>
-            <li><a href="${contextPath }/pages/dutchlist">더치페이 게시판</a></li>
+            <li><a href="${contextPath }/pay/list">더치페이 게시판</a></li>
             <li><a href="${contextPath }/community/list">커뮤니티</a></li>
-            <li id="moveCard"><a href="${contextPath }/card">추천카드</a></li>
+            <li id="moveCard"><a href="${contextPath }/card/list">추천카드</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
                  role="button" aria-haspopup="true" aria-expanded="false">고객센터 
                  <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="${contextPath }/pages/noticelist">공지사항</a></li>
-                <li><a href="${contextPath }/pages/qnalist">1:1문의</a></li>
+                <li><a href="${contextPath }/notice/list">공지사항</a></li>
+                <li><a href="${contextPath }/qna/list">1:1문의</a></li>
                 <!-- <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>
@@ -67,7 +67,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right" id="loginLogoutUl">
           
-          	<li><a href="${contextPath }/memberregister">회원가입</a></li>
+          	<li><a href="${contextPath }/member/register">회원가입</a></li>
           	
           </ul>
           

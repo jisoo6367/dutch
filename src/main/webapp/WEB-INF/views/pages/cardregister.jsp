@@ -36,7 +36,7 @@
                 	
                 <div class="panel-body">
 
-<form role="form" action="${contextPath }/sendcard" 
+<form role="form" action="${contextPath }/card/sendcard" 
       method="post" name="frmBoard" id="frmBoard">
 	<div class="form-group">
 	    <label>카드이름</label>
@@ -68,7 +68,7 @@
 	<button class="btn btn-primary pull-right">수정</button>
 	<button type="button" class="btn btn-success" id="btnRegister">등록</button>
 	<button type="button" class="btn btn-warning" 
-	        onclick="location.href='${contextPath}/card';">취소</button>
+	        onclick="location.href='${contextPath}/card/list';">취소</button>
 	
 	<sec:csrfInput/>
 	

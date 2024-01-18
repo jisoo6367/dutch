@@ -18,7 +18,7 @@ import com.spring.dutch.service.NoticeService;
 import lombok.Setter;
 
 @Controller
-@RequestMapping("/pages")
+@RequestMapping("/notice")
 public class NoticeController {
 
 //	@Setter(onMethod_ = @Autowired )
@@ -52,7 +52,7 @@ public class NoticeController {
 //		return "pages/noticelist";
 //	}
 	
-	@GetMapping("/noticelist")
+	@GetMapping("/list")
 	public String showNoticeList(NoticePagingDTO noticePaging ,Model model) {
 		
 		System.out.println("noticePaging: " + noticePaging);
@@ -65,7 +65,7 @@ public class NoticeController {
 	}
 	
 	//등록페이지 호출
-	@GetMapping("/noticeregister")
+	@GetMapping("/register")
 	//@PreAuthorize("isAuthenticated()")
 	public String showNoticeRegisterPage() {
 		
@@ -74,7 +74,7 @@ public class NoticeController {
 	}
 	
 	//게시물 등록 처리
-	@PostMapping("/noticeregister")
+	@PostMapping("/register")
 	//@PreAuthorize("isAuthenticated()")
 	public String registerNotice(NoticeVO notice, 
 								 RedirectAttributes redirectAttr) {
@@ -98,7 +98,7 @@ public class NoticeController {
 //	}
 	
 	//특정 게시물 조회, 수정 후 조회
-	@GetMapping(value = "/noticedetail")
+	@GetMapping(value = "/detail")
 	public String showNoticeDetail(Long cno, Model model, String result,
 								   @ModelAttribute("noticePaging") 
 								   NoticePagingDTO noticePaging
@@ -125,7 +125,7 @@ public class NoticeController {
 	}
 	
 	//특정 게시물 수정삭제 페이지 호출
-	@GetMapping(value ="/noticemodify")
+	@GetMapping(value ="/modify")
 //	@PreAuthorize("isAuthenticated() && principal.username == #mno")
 	public String showNoticeModify(Long cno, String nickname, Model model, 
 								   NoticePagingDTO noticePaging) {
@@ -138,7 +138,7 @@ public class NoticeController {
 	}
 	
 	//특정 게시물 수정
-	@PostMapping("/noticemodify")
+	@PostMapping("/modify")
 	public String modifyNotice(NoticeVO notice,
 							   RedirectAttributes redirectAttr,
 							   NoticePagingDTO noticePaging) {
@@ -163,7 +163,7 @@ public class NoticeController {
 	}		
 	
 	//특정 게시물 삭제
-	@PostMapping("/noticeremove")
+	@PostMapping("/remove")
 	//@PreAuthorize("isAuthenticated() && principal.username == #notice.mno")
 	public String removeNotice(NoticeVO notice, Long cno,
 							   RedirectAttributes redirectAttr,

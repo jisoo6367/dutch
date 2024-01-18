@@ -19,7 +19,7 @@
 </style>
 <div class="center">
 <form role="form" name="frmSendMember" id="frmSendMember" 
-	  method="post" action="${contextPath}/sendmember">
+	  method="post" action="${contextPath}/member/sendmember">
 		
 	<div class="row">
         <div class="col-lg-6">
@@ -304,7 +304,7 @@
 			
 			$.ajax({
 				type: "post",
-				url: "/dutch/memberregister",
+				url: "/dutch/member/register",
 				data: JSON.stringify(frmData),
 				contentType: "application/json;charset=utf-8",
 				dataType: "text",
@@ -335,7 +335,7 @@
 		
 		$.ajax({
 			type: "post",
-			url: "${contextPath}/checkNickname",
+			url: "${contextPath}/member/checkNickname",
 			data: {nickname : nickname},
 			dataType: "text",
 			sucess: function(result, status){

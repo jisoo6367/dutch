@@ -42,7 +42,7 @@
 	<div class="col-xs-12 col-sm-9">
 
 		<form class="form-inline" id="frmSendValue" name="frmSendValue"
-			action="${contextPath }/card" method="get">
+			action="${contextPath }/card/list" method="get">
 			<div class="form-group">
 				<label class="sr-only">frmSendValues</label> <select
 					class="form-control" id="selectAmount" name="rowAmountPerPage">
@@ -189,7 +189,7 @@ var frmSendValue = $("#frmSendValue");
 		e.preventDefault();
 		frmSendValue.find("input[name='pageNum']").val($(this).attr("href"));
 		console.log(frmSendValue.find("input[name='pageNum']").val());
-		frmSendValue.attr("action", "${contextPath}/card");
+		frmSendValue.attr("action", "${contextPath}/card/list");
 		frmSendValue.attr("method", "get");
 
 		frmSendValue.submit();
@@ -200,7 +200,7 @@ var frmSendValue = $("#frmSendValue");
 	
 <%-- 카드 등록 페이지로 이동 --%>
 	$("#moveCardRegisterPageBtn").on("click", function(){
-		window.location.href="${contextPath}/cardregister";
+		window.location.href="${contextPath}/card/register";
 	});
 	
 </sec:authorize>
@@ -254,18 +254,6 @@ var frmSendValue = $("#frmSendValue");
 		frmSendValue.submit();
 
 	});
-
-/* 	$(document).ready(function() {
-		runModal(result);
-
-		window.addEventListener("popstate", function(event) {
-			history.pushState(null, null, location.href);
-
-		});
-
-		history.pushState(null, null, location.href);
-
-	}); */
 
 </script>
 

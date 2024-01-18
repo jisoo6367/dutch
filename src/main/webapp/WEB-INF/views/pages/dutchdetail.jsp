@@ -137,7 +137,7 @@ var frmSendValue = $("#frmSendValue") ;
 <%-- 게시물 목록 페이지로 이동 --%>
 $("#btnToList").on("click", function(){
 	
-	frmSendValue.attr("action", "${contextPath}/pages/dutchlist").attr("method", "get");
+	frmSendValue.attr("action", "${contextPath}/pay/list").attr("method", "get");
 	frmSendValue.submit();
 	
 });
@@ -145,7 +145,7 @@ $("#btnToList").on("click", function(){
 <%-- 게시물 수정-삭제 페이지로 이동 --%>
 $("#btnToModify").on("click", function(){
 	
-	frmSendValue.attr("action", "${contextPath}/pages/dutchmodify").attr("method", "get");
+	frmSendValue.attr("action", "${contextPath}/pay/modify").attr("method", "get");
 	frmSendValue.submit();
 	
 	

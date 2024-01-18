@@ -266,7 +266,7 @@ $("#btnToList").on("click", function(){
 <%--
 	window.location.href="${contextPath}/myboard/list" ;
 --%>
-	frmSendValue.attr("action", "${contextPath}/pages/qnalist").attr("method", "get") ;
+	frmSendValue.attr("action", "${contextPath}/qna/list").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
 
@@ -279,7 +279,7 @@ $("#btnToModify").on("click", function(){
 	var qno = '<c:out value="${qna.qno}"/>' ;
 	
 	frmSendValue.append("<input type='hidden' name='qno' value='" + qno + "'/>") ;
-	frmSendValue.attr("action", "${contextPath}/pages/qnamodify").attr("method", "get") ;
+	frmSendValue.attr("action", "${contextPath}/qna/modify").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
 

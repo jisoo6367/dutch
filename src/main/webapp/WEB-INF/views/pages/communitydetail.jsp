@@ -406,22 +406,6 @@
     }
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <%-- 댓글/답글 자바스크립트 시작--%>
 <script src="${contextPath }/resources/js/mycomment.js"></script>
 <script>

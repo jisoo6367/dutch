@@ -22,7 +22,7 @@
                 
                 <div class="panel-body">
 
-					<form role="form" action="${contextPath }/pages/qnaregister" 
+					<form role="form" action="${contextPath }/qna/register" 
 					      method="post" name="frmBoard" id="frmBoard">
 						<div class="form-group">
 						    <label>문의제목</label>
@@ -42,7 +42,7 @@
 						</div>
 						<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
 						<button type="button" class="btn btn-warning" 
-						        onclick="location.href='${contextPath}/pages/qnalist';">취소</button>
+						        onclick="location.href='${contextPath}/qna/list';">취소</button>
 						<%-- 
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> 
 						<sec:csrfInput/>

@@ -18,6 +18,7 @@ import com.spring.dutch.domain.SendMemberVO;
 import com.spring.dutch.service.MemberRegisterService;
 
 @Controller
+@RequestMapping("/member")
 public class MemberRegisterController {
 	
 	private MemberRegisterService memberRegisterService;
@@ -26,7 +27,7 @@ public class MemberRegisterController {
 		this.memberRegisterService = memberRegisterService;
 	}
 	
-	@GetMapping(value="/memberregister")
+	@GetMapping(value="/register")
 	public String showRegister() {
 		return "/pages/memberregister";
 	}

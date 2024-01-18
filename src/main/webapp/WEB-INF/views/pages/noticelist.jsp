@@ -53,7 +53,7 @@
                 
 
                 
- <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/pages/noticelist" method="get" >
+ <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/notice/list" method="get" >
 	<div class="form-group">
 		<label class="sr-only">frmSendValues</label>
  	<select class="form-control" id="selectAmount" name="rowAmountPerPage">
@@ -198,7 +198,7 @@ var result = '<c:out value="${result}" />' ;
 
 <%-- 등록페이지 이동 --%>
 $("#btnToRegister").on("click", function(){
-	window.location.href = "${contextPath}/pages/noticeregister" ;
+	window.location.href = "${contextPath}/notice/register" ;
 });
 
 
@@ -206,7 +206,7 @@ $("#btnToRegister").on("click", function(){
 $(".moveDetail").on("click", function(){
 	var cno = $(this).data("cno");
 	
-	window.location.href = "${contextPath}/pages/noticedetail?cno=" + cno ;
+	window.location.href = "${contextPath}/notice/detail?cno=" + cno ;
 	
 /* 	frmSendValue.append("<input type='hidden' name='cno' value='" + cno +"'/>");
 	frmSendValue.attr("action", "${contextPath}/pages/noticedetail").attr("method", "get") ;
@@ -243,7 +243,7 @@ $("li.pagination-button a").on("click", function(e){
 	e.preventDefault() ;
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
 	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/pages/noticelist") ;
+	frmSendValue.attr("action", "${contextPath}/notice/list") ;
 	frmSendValue.attr("method", "get") ;
 	
 	frmSendValue.submit() ;

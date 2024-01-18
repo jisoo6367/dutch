@@ -110,10 +110,10 @@ $(".mybtns").on("click", function(){
 	//alert("operation: " + operation) ;
 	
 	if (operation == "modify") {
-		frmModify.attr("action", "${contextPath}/pages/noticemodify") ;
+		frmModify.attr("action", "${contextPath}/notice/modify") ;
 	
 	} else if (operation == "Noticeremove"){
-		frmModify.attr("action", "${contextPath}/pages/noticeremove") ;
+		frmModify.attr("action", "${contextPath}/notice/remove") ;
 	
 	} else {  //else if (operation == "list"){
 		
@@ -127,7 +127,7 @@ $(".mybtns").on("click", function(){
 		frmModify.append(rowAmountPerPageInput) ;
 		frmModify.append(keywordInput) ;
 		
-		frmModify.attr("action", "${contextPath}/pages/noticelist").attr("method", "get") ; 
+		frmModify.attr("action", "${contextPath}/notice/list").attr("method", "get") ; 
 	}
 	
 	frmModify.submit() ;

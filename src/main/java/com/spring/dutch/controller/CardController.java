@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.CardAttachFileVO;
@@ -17,6 +18,7 @@ import com.spring.dutch.service.CardService;
 import lombok.Getter;
 
 @Controller
+@RequestMapping("/card")
 public class CardController {
 	
 	private CardService cardService;
@@ -25,7 +27,7 @@ public class CardController {
 		this.cardService = cardService;
 	}
 	
-	@GetMapping(value="/card")
+	@GetMapping(value="/list")
 	public String showCardList(Model model, CardPagingDTO cardPaging) {
 		
 		model.addAttribute("listData", cardService.showCardList(cardPaging)) ;
@@ -33,7 +35,7 @@ public class CardController {
 		return "/pages/cardlist";
 	}
 	
-	@GetMapping(value = "/cardregister")
+	@GetMapping(value = "/register")
 	public String showCardRegister() {
 		return "/pages/cardregister";
 	}
