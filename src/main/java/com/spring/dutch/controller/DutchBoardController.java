@@ -63,6 +63,13 @@ public class DutchBoardController {
 		System.out.println("principal.getName(): " + principal.getName());
 		System.out.println("dutchRegister.getParticipants(): " + dutchRegister.getParticipants());
 		
+		ParticipantsVO participants = new ParticipantsVO();
+		participants.setNickname(principal.getName());
+		
+		List<ParticipantsVO> partiList = dutchRegister.getParticipants();
+		partiList.add(participants);
+		dutchRegister.setParticipants(partiList);
+		
 		System.out.println("participants: " + dutchRegister);
 		long pno = dutchBoardService.DutchregisterBoard(dutchRegister);
 
