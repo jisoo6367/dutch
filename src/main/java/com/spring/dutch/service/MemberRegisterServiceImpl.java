@@ -43,9 +43,9 @@ public class MemberRegisterServiceImpl implements MemberRegisterService{
 	}
 	
 	@Override
-	public int checkNicknameService(String nickname) {
+	public String checkNicknameService(String nickname) {
 		int check = memberRegisterMapper.selectNick(nickname);
 		
-		return check;
+		return check == 1 ? "exist" : "empty";
 	}
 }

@@ -94,13 +94,13 @@ public class MemberRegisterController {
 	}
 	
 	@PostMapping(value = "/checkNickname")
-	public @ResponseBody ResponseEntity<Boolean> checkNick(@RequestBody String nickname){
+	public @ResponseBody ResponseEntity<String> checkNick(@RequestBody String nickname){
 		System.out.println("send nickname: " + nickname);
 		
 		nickname = nickname.replaceAll("nickname=", "");
 		System.out.println("replaced nickname: " + nickname);
 		
-		Boolean result = (memberRegisterService.checkNicknameService(nickname) == 1);
+		String result = (memberRegisterService.checkNicknameService(nickname));
 		
 		System.out.println("컨트롤러 result: "+result);
 		

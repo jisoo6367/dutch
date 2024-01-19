@@ -7,5 +7,5 @@ public interface MemberRegisterService {
 	
 	public String findNicknameService(MemberVO member);
 	
-	public int checkNicknameService(String nickname);
+	public String checkNicknameService(String nickname);
 }

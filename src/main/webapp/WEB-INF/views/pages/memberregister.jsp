@@ -324,7 +324,7 @@
 		
 	});//register-end
 	
-	
+	/* 닉네임 중복확인 */
 	$("#checkNicknameBtn").on("click", function(){
 		var nickname = $("#nickname").val();
 		
@@ -340,7 +340,7 @@
 			dataType: "text",
 			sucess: function(result, status){
 				console.log(result);
-				if(result == false){
+				if(result == "exist"){
 					$("#showCheckedId").css("color", "black").text("사용 가능한 닉네임입니다.");
 				} else {
 					$("#showCheckedId").css("color", "red").text("사용 불가능한 닉네임입니다.");
