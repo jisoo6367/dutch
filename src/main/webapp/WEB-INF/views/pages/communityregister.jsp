@@ -28,18 +28,11 @@
 	                
 	                   <div class="panel-body">
 	<form role="form" action="${contextPath }/community/register" 
-	      method="post" name="frmCommunity" id="frmCommunity" 
-	      >
+	      method="post" name="frmCommunity" id="frmCommunity">
  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	    <div class="form-group">
 		    <label>카테고리</label>
-		    <select class="form-control" name="tcategory" id="tcategory">
-		    	<option value="자유">자유게시글</option>
-		    	<option value="거지">거지방</option>
-		    	<option value="친목">친목</option>
-		    	<option value="절약">절약</option>
-		    	<option value="공동구매">공동구매</option>
-		    </select>
+		    <input class="form-control" name="tcategory" id="tcategory" placeholder="카테고리를 선택하세요...">
 		</div>
 		
 		<div class="form-group">
@@ -55,7 +48,8 @@
 		
 		<%-- <div class="form-group">
 		    <label>작성자</label> 
-		    <input class="form-control" name="nickname" id="nickname" placeholder="작성자의 아이디를 입력하세요..."readonly="readonly"
+		    <input class="form-control" name="nickname" id="nickname" placeholder="작성자의 아이디를 입력하세요..."
+		    readonly="readonly"
 		    	   value='<sec:authentication property="principal.username"/>' />
 		</div> --%>
 
@@ -105,8 +99,9 @@ function checkCommunityValues(){
 	var tcategory = document.getElementById("tcategory").value ;
 	var ttitle = document.getElementById("ttitle").value ;
 	var tcontent = document.getElementById("tcontent").value ;
+/* 	var nickname = document.getElementById("nickname").value ; */
 	
-	if( tcategory.length==0 || ttitle.length==0 || tcontent.length==0){
+	if( tcategory.length==0 || ttitle.length==0 || tcontent.length==0 ){
 		return false ;
 
 	} else {
@@ -203,10 +198,10 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + attachFile.uuid + "'" 
 			+ "    data-filename='" + attachFile.fileName + "'" 
 			+ "    data-filetype='F'>"
-//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
+			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
 			+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
-//			+ "    </a>"
+			+ "    </a>"
 			+  "  <span data-filename='" + fullFileName + "' data-filetype='F'>[삭제]</span>"
 			+ "</li>" ;
 			
@@ -277,7 +272,7 @@ $("#inputFile").on("change", function(){
 	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/QnafileUploadAjaxAction" ,
+		url: "${contextPath}/fileUploadAjaxAction" ,
 		data: formData ,
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>

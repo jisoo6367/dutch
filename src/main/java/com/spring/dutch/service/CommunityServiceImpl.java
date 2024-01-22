@@ -25,10 +25,11 @@ import com.spring.dutch.mapper.CommunityMapper;
 public class CommunityServiceImpl implements CommunityService {
 	
 		private CommunityMapper communityMapper;
-		private CommunityAttachFileMapper communityAttachFileMapper;
+		private CommunityAttachFileMapper attachFileMapper;
 		
-		public CommunityServiceImpl(CommunityMapper communityMapper) {			
+		public CommunityServiceImpl(CommunityMapper communityMapper, CommunityAttachFileMapper attachFileMapper) {			
 			this.communityMapper = communityMapper;
+			this.attachFileMapper = attachFileMapper;
 		}
 	
 	@Override
@@ -80,28 +81,36 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		List<CommunityAttachFileVO> attachFileList = community.getAttachFileList() ;
 		
-		attachFileList.forEach(
-				
-				attachFile -> {
-					attachFile.setTno(community.getTno());
-					communityAttachFileMapper.insertAttachFile(attachFile);
-				});
-							
+		if (attachFileList != null && attachFileList.size() > 0) {
+					
+			attachFileList.forEach(
+					
+					attachFile -> {
+						attachFile.setTno(community.getTno()) ;
+						attachFileMapper.insertAttachFile(attachFile) ;
+						
+			}); //forEach-end
+									
+		} 
 		return community.getTno() ;
 	}
-
+	
+	
 	
 	//게시물 조회
 	@Override
 	public CommunityVO getCommunity1(long tno, String result) {
+		
 		CommunityVO community = communityMapper.selectCommunity(tno) ;
+		
+		List<CommunityAttachFileVO> fileList = attachFileMapper.selectAttachFiles(tno);
+		
+		community.setAttachFileList(fileList);
 		
 		if (result == null) {//목록페이지에서 조회요청 시에만
 			communityMapper.updateTviewCntCommunity(tno);
 		}
-		
-		System.out.println("community: " + community);
-		System.out.println("조회수: " + community.getTviewCnt());
+		System.out.println("서비스 communityVO     ===" + community);
 		
 		return community ; 
 	}
@@ -115,24 +124,26 @@ public class CommunityServiceImpl implements CommunityService {
 		return community;
 	}
 
-	//게시물 수정
+	//특정게시물 수정
 	@Override
 	@Transactional
 	public boolean modifyCommunity(CommunityVO community) {
 		
 		long tno = community.getTno();
-		
+	
+		Integer updateResult = communityMapper.updateCommunity(community);
 
-		boolean communityModifyResult = (communityMapper.updateCommunity(community) == 1);
+		boolean communityModifyResult = (updateResult != null && updateResult == 1);
+
 		
-		communityAttachFileMapper.deleteAttachFiles(tno); 
+		attachFileMapper.deleteAttachFiles(tno); 
 		
 		List<CommunityAttachFileVO> attachFileList = community.getAttachFileList() ;
 		
 		if (communityModifyResult && attachFileList != null) {
 			for(CommunityAttachFileVO attachFile : attachFileList) {
 				attachFile.setTno(tno);
-				communityAttachFileMapper.insertAttachFile(attachFile) ;	
+				attachFileMapper.insertAttachFile(attachFile) ;	
 			}
 			
 		}
@@ -146,14 +157,14 @@ public class CommunityServiceImpl implements CommunityService {
 	public boolean removeCommunity(long tno) {
 		
 		//첨부파일 정보를 저장할 리스트 객체 생성
-		List<CommunityAttachFileVO> attachFileList = communityAttachFileMapper.selectAttachFiles(tno) ;
+		List<CommunityAttachFileVO> attachFileList = attachFileMapper.selectAttachFiles(tno) ;
 		
 		//업로드 파일 정보 삭제				
-		int attachFileDeleteRows = communityAttachFileMapper.deleteAttachFiles(tno);
+		int attachFileDeleteRows = attachFileMapper.deleteAttachFiles(tno);
 		System.out.println("attachFileDeleteRows: " + attachFileDeleteRows);
 		
 		//업로드 파일 삭제
-		removeAttachFiles(attachFileList);		
+		attachFileMapper.deleteAttachFiles(tno);		
 		
 		int rows = communityMapper.deleteCommunity(tno);
 				
@@ -177,7 +188,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public List<CommunityAttachFileVO> getAttachFileList(Long tno) {
 	
-		return communityAttachFileMapper.selectAttachFiles(tno);
+		return attachFileMapper.selectAttachFiles(tno);
 	}
 
 	

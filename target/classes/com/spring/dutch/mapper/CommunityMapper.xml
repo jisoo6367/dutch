@@ -57,8 +57,15 @@
 		WHERE tno = #{tno}
 	</select>
 
+<!-- 특정 게시물 조회(modify.jsp): jsp로 community 정보 표시 후, ajax로 첨부파일 정보 표시 -->
+<!-- 	<select id="selectCommunity" resultType="com.spring.dutch.domain.CommunityVO">
+		SELECT tno, ttitle, nickname, tcontent, tregdate, treplyCnt, tmoddate, trecommend, tviewCnt, tdelFlag, treport, tcategory
+		FROM dutch.tbl_community
+		WHERE tno = #{tno}
+	</select> -->
+
 	
-	<!-- 특정 게시물 조회(detail.jsp): OUTER JOIN 사용 -->	
+	<!-- 특정 게시물 조회(detail.jsp): OUTER JOIN 사용	 -->
 	<resultMap type="com.spring.dutch.domain.CommunityAttachFileVO" id="attachFileMap">
 		<result property="uuid" column="uuid"/>
 		<result property="uploadPath" column="uploadPath"/>
@@ -85,20 +92,18 @@
 
 	<select id="selectCommunity" resultMap="communityMap">
 		SELECT a.tno, a.nickname, a.ttitle, a.tcontent, 
-			   a.tregDate, a.tmodDate, a.tdelFlag,a.tviewCnt,  a.tviewCnt, a.trecommend, a.treplyCnt, a.tcategory,
+			   a.tregDate, a.tmodDate, a.tdelFlag,a.tviewCnt, a.tviewCnt, a.trecommend, a.treplyCnt, a.tcategory,
 			   b.uuid, b.uploadPath, b.fileName, b.fileType, b.tno AS mytno    
-		FROM dutch.tbl_community a LEFT OUTER JOIN dutch.tbl_myAttachFiles b ON (a.tno = b.tno) 
+		FROM dutch.tbl_community a LEFT OUTER JOIN dutch.tbl_community_attachFiles b ON (a.tno = b.tno) 
 		WHERE a.tno = #{tno}
 	</select>
-
-
-
 
 
 <!-- 게시물 등록(CREATE) -->
 	<insert id="insertCommunity" parameterType="com.spring.dutch.domain.CommunityVO">
 		<selectKey order="BEFORE" keyProperty="tno" resultType="long">
-			SELECT dutch.seq_community.nextval FROM dual
+			SELECT dutch.seq_community.NEXTVAL FROM dual
+
 		</selectKey>
 		INSERT INTO dutch.tbl_community
 		VALUES (#{tno},
@@ -128,8 +133,9 @@
 	<!-- 게시물 수정(UPDATE) -->
 	<select id="updateCommunity" parameterType="com.spring.dutch.domain.CommunityVO">
 		UPDATE dutch.tbl_Community
-		SET ttitle = #{ttitle}
-			tcontent = #{tcontent}
+		SET tcategory = #{tcategory},
+			ttitle = #{ttitle},
+			tcontent = #{tcontent},
 		 	tmodDate = DEFAULT
 		WHERE tno = #{tno}
 		

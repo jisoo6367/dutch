@@ -278,17 +278,17 @@ function runModal(result) {
 
 	
 <%-- 페이지징 처리: 검색 목록 페이지 이동 --%>
-	$("li.pagination-button a").on("click", function() {
-		e.preventDefault();
-		frmSendValue.find("input[name='pageNum']").val($(this).attr("href"));
+	$("li.pagination-button a").on("click", function(e){
+		e.preventDefault() ;
+		frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
 		console.log(frmSendValue.find("input[name='pageNum']").val());
-		frmSendValue.attr("action", "${contextPath}/community/list");
-		frmSendValue.attr("method", "get");
-
-		frmSendValue.submit();
-
+		frmSendValue.attr("action", "${contextPath}/community/list") ;
+		frmSendValue.attr("method", "get") ;
+		
+		frmSendValue.submit() ;
+		
 	});
-
+	
 	
 <%--키워드 검색버튼 클릭 이벤트 처리 --%>
 $("#btnSearchGo").on("click", function() {

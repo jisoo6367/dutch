@@ -93,34 +93,43 @@
 
 			<input type="hidden" id="pageNum" name="pageNum"
 				value="${listData.cardPaging.pageNum }">
+
+		</form>
+		
+		
 			<input type="hidden" id="lastPageNum" name="lastPageNum"
 				value="${listData.lastPageNum }">
 			<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" 
 				value="${listData.cardPaging.rowAmountPerPage }" >
-
-		</form>
 
 		<div class="row">
 			<div class="col-lg-4">
 			<c:choose>
 				<c:when test="${not empty listData.cardList }">
 					<c:forEach var="card" items="${listData.cardList }">
-						<div class="col-xs-6 col-lg-4" data-kno="${card.kno }">
+						<div class="col-xs-6 col-lg-4 moveDetail"  data-kno="${card.kno }">
 							<!-- 카드이미지공간 -->
 							<h3>${card.kname }</h3>
 							<p>${card.kcontent }</p>
 							<p>${card.kcompany }</p>
 							<sec:authorize access="isAuthenticated()">
-								<button id="removeCard" type="button">삭제</button>
+								<!-- <button id="removeCard" type="button">삭제</button> -->
 							</sec:authorize>
 						</div>
 						<!--/.col-xs-6.col-lg-4-->
-
 					</c:forEach>
 				</c:when>
+				<c:otherwise><!-- 상세페이지 클릭 -->
+				<tr class="moveDetail" data-kno="${card.kno }">
+					<td><c:out value="${card.kname }"/></td><%-- 
+					<td style="text-align: left"><a href="${contextPath }/myboard/detail?bno=${myboard.bno}" ><c:out value="${myboard.btitle }"/></a></td> --%>
+				 	<td><c:out value="${card.kcontent }"/></td>
+				 	<td><c:out value="${card.kcompany }"/></td>
+				 </tr>
+			</c:otherwise>
 			</c:choose>
 			</div>
-		</div>
+		</div> 
 		<!--/row-->
 
 		<div style="text-align: center;">
@@ -204,6 +213,20 @@ var frmSendValue = $("#frmSendValue");
 	});
 	
 </sec:authorize>
+
+<%-- 상세페이지 이동 --%>
+$(".moveDetail").on("click", function(){
+	var kno = $(this).data("kno");
+	
+	 /* 
+	window.location.href = "${contextPath}/carddetail?kname=" + kname ; */
+	 
+    frmSendValue.append("<input type='hidden' name='kno' value='" + kno +"'/>");
+	frmSendValue.attr("action", "${contextPath}/card/detail").attr("method", "get") ;
+	frmSendValue.submit() ;
+	frmSendValue.find('input[name="kno"]').remove() ;   //웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
+														//kno값이 계속 url에 추가되는 현상 해결
+});	
 	
 <%--표시행수 변경 이벤트 처리--%>
 	$("#selectAmount").on("change", function() {

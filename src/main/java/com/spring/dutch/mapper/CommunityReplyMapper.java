@@ -18,19 +18,19 @@ public interface CommunityReplyMapper {
 		public long selectRowTotalCommunityReply(long tno) ;
 		
 		//특정 게시물에 대한 댓글 등록(prno: null)
-		public long insertCommunityReplyForCommunity(CommunityReplyVO myreply) ;
+		public long insertCommunityReplyForCommunity(CommunityReplyVO communitymyreply) ;
 
-		//댓글에 대한 답글 등록(prno: 부모글의 rno 값)
-		public long insertCommunityReplyForCommunityReply(CommunityReplyVO myreply) ;
+		//댓글에 대한 답글 등록(prno: 부모글의 trno 값)
+		public long insertCommunityReplyForCommunityReply(CommunityReplyVO communitymyreply) ;
 		
 		//특정 게시물에 대한 특정 댓글/답글 조회
-		public CommunityReplyVO selectCommunityReply(@Param("tno") long tno, @Param("trno") long rno) ;
+		public CommunityReplyVO selectCommunityReply(@Param("tno") long tno, @Param("trno") long trno) ;
 		
 		//특정 게시물에 대한 특정 댓글/답글 수정
 		public int updateCommunityReply(CommunityReplyVO communityreply) ;
 		
 		//특정 게시물에 대한 특정 댓글/답글 삭제(rdelFlag를 1로 업데이트)
-		public int updateTrdelFlag(@Param("tno") long tno, @Param("trno") long trno) ;
+		public int updateTrdelFlag(@Param("tno") Long tno, @Param("trno") Long trno) ;
 		 
 		//특정 게시물에 대한 모든 댓글 삭제
 		public int deleteAllReply(long tno) ;

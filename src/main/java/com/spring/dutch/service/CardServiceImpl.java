@@ -1,5 +1,9 @@
 package com.spring.dutch.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +53,84 @@ public class CardServiceImpl implements CardService{
 		return card.getKno();
 	}
 	
+	@Override //특정카드조회
+	public CardVO getCard(String kno) {
+		
+		CardVO card = cardMapper.selectCard(kno);
+		System.out.println("card: " + card);
+		
+		return card;
+	}
 	
+	@Override //수정페이지
+	public CardVO getCard2(String kno) {
+		CardVO card = cardMapper.selectCard2(kno);
+		
+		return card;
+	}
 	
+	@Override //수정
+	public boolean modifyCard(CardVO card) {
+
+		String kno = card.getKno();
+		
+		boolean cardModifyResult = (cardMapper.updateCard(card) == 1);
+		
+		cardMapper.deleteAttachFiles(kno);
+		
+		List<CardAttachFileVO> attachFileList = card.getAttachFileList();
+		
+		if (cardModifyResult && attachFileList != null) {
+			for(CardAttachFileVO attachFile : attachFileList) {
+				attachFile.setKno(kno);
+				cardMapper.insertAttachFile(attachFile); 	
+			}
+			
+		}
+		
+		return cardModifyResult;
+	}
+	
+	@Override //실 삭제
+	public boolean removeCard(String kno) {
+
+		List<CardAttachFileVO> attachFileList = getAttachFileList(kno);
+		
+		int attachFileDeleteRows = cardMapper.deleteAttachFiles(kno);
+		
+		removeAttachFiles(attachFileList);
+		
+		int rows = cardMapper.deleteCard(kno);
+		
+		return (rows == 1);
+	}
+	
+	@Override
+	public List<CardAttachFileVO> getAttachFileList(String kno) {
+		
+		return cardMapper.selectAttachFiles(kno);
+	}
+	
+private void removeAttachFiles(List<CardAttachFileVO> attachFileList) {
+		
+		if(attachFileList == null || attachFileList.size() == 0) {
+			return ;
+		}
+		
+		for(CardAttachFileVO attachFile : attachFileList) {
+			Path filePath = Paths.get(attachFile.getRepoPath() ,
+									  attachFile.getUploadPath() ,
+									  attachFile.getUuid() + "_" + attachFile.getFileName() );
+			
+			boolean deleteFileResult = false ; 
+			
+			try {
+				deleteFileResult = Files.deleteIfExists(filePath);
+				
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+	}
 }

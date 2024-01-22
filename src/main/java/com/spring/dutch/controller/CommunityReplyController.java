@@ -18,7 +18,8 @@ import com.spring.dutch.dto.CommunityReplyPagingDTO;
 import com.spring.dutch.service.CommunityReplyService;
 
 @RestController
-@RequestMapping(value={"/replies", "/myreplies"})
+//@RequestMapping(value={"/replies", "/communityreplies"})
+@RequestMapping(value={"/communityreplies"})
 public class CommunityReplyController {
 
 	private CommunityReplyService communityReplyService;
@@ -31,7 +32,7 @@ public class CommunityReplyController {
 		     produces = {"application/json;charset=utf-8" , 
 		    			 "application/xml;charset=utf-8"  })			 
 	public ResponseEntity<CommunityReplyPagingCreatorDTO>
-			showReplyList(  @PathVariable("tno") long tno,
+			showReplyCommunityList(  @PathVariable("tno") long tno,
 							@PathVariable("pageNum") Integer pageNum ){
 		
 		CommunityReplyPagingCreatorDTO communityReplyPagingCreator =
@@ -46,12 +47,12 @@ public class CommunityReplyController {
 	}
 	
 	
-	//게시물에 대한 댓글 등록(rno 반환) POST 		/replies/{bno}/new
+	//게시물에 대한 댓글 등록(rno 반환) POST 		/replies/{tno}/new
 		@PostMapping(value = "/{tno}/new" , 
 					 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 					 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 		@PreAuthorize("isAuthenticated()")
-		public ResponseEntity<String> registerReplyForBoard(@PathVariable("bno") long bno ,
+		public ResponseEntity<String> registerReplyForCommunity(@PathVariable("tno") long tno ,
 															@RequestBody CommunityReplyVO communityreply) {
 			Long registeredTrno = communityReplyService.registerCommunityReplyForCommunity(communityreply);
 			String _registeredTrno = null ;
@@ -70,26 +71,26 @@ public class CommunityReplyController {
 		}
 	
 	
-		//댓글의 답글 등록(trno 반환) POST 	/replies/{tno}/new
-		@PostMapping(value = "/{tno}/{prno}/new" , 
+		//댓글의 답글 등록(trcno 반환) POST 	/replies/{tno}/new
+		@PostMapping(value = "/{tno}/{trcno}/new" , 
 					 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 					 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 		@PreAuthorize("isAuthenticated()")
-		public ResponseEntity<String> registerReplyForReply(@PathVariable("tno") long tno ,
-															@PathVariable("trcno") long trcno,
+		public ResponseEntity<String> registerCommunityReplyForReply(@PathVariable("tno") Long tno ,
+															@PathVariable("trcno") Long trcno,
 														    @RequestBody CommunityReplyVO communityreply) {
-		Long registeredTrno = communityReplyService.registerCommunityReplyForCommunityReply(communityreply);
-		String _registeredTrno = null ;
-		if (registeredTrno != null) {
-			_registeredTrno = String.valueOf(registeredTrno) ;
+		Long registeredTrcno = communityReplyService.registerCommunityReplyForCommunityReply(communityreply);
+		String _registeredTrcno = null ;
+		if (registeredTrcno != null) {
+			_registeredTrcno = String.valueOf(registeredTrcno) ;
 		} else {
-			_registeredTrno = String.valueOf(registeredTrno) ;
+			_registeredTrcno = String.valueOf(registeredTrcno) ;
 		}
 		
-		System.out.println("_registeredTrno: " + _registeredTrno);
+		System.out.println("_registeredTrcno: " + _registeredTrcno);
 		
-		return registeredTrno != null ? new ResponseEntity<String>(_registeredTrno, HttpStatus.OK) 
-									 : new ResponseEntity<String>(_registeredTrno, HttpStatus.INTERNAL_SERVER_ERROR);
+		return registeredTrcno != null ? new ResponseEntity<String>(_registeredTrcno, HttpStatus.OK) 
+									 : new ResponseEntity<String>(_registeredTrcno, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 			
 	
@@ -97,7 +98,7 @@ public class CommunityReplyController {
 		//게시물에 대한 특정 댓글 조회 GET 
 		@GetMapping(value="/{tno}/{trno}" , 
 					produces = "application/json;charset=utf-8")
-		public CommunityReplyVO showReply(@PathVariable("tno") Long tno,
+		public CommunityReplyVO showCommunityReply(@PathVariable("tno") Long tno,
 								   @PathVariable("trno") Long trno){
 
 			return communityReplyService.getCommunityReply(tno, trno) ;
@@ -110,8 +111,8 @@ public class CommunityReplyController {
 						method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 						consumes = "application/json;charset=utf-8" ,
 						produces = "text/plain;charset=utf-8") 
-		@PreAuthorize("isAuthenticated() && principal.username == #myreply.rwriter")
-		public String modifyReply(@PathVariable("tno") Long tno ,
+		@PreAuthorize("isAuthenticated() && #communityreply != null &&  principal.username == #communityreply.nickname")
+		public String modifyCommunityReply(@PathVariable("tno") Long tno ,
 								  @PathVariable("trno") Long trno ,
 								  @RequestBody CommunityReplyVO communityreply){
 			System.out.println("컨트롤러에 전달된 communityreply: " + communityreply);
@@ -125,12 +126,12 @@ public class CommunityReplyController {
 	
 		//특정 게시물에 대한 특정 댓글/답글 삭제(rdelFlag를 1로 업데이트)	/replies/{tno}/{trno}
 		@DeleteMapping(value = "/{tno}/{trno}" ,
-					   consumes = "application/json; charset=utf-8",
-					   produces = "text/plain;charset=utf-8")
-		@PreAuthorize("isAuthenticated() && principal.username == #yourReply.rwriter")
-		public ResponseEntity<String> removeReply(@PathVariable("tno") Long tno, 
+				   consumes = "application/json; charset=utf-8",
+				   produces = "text/plain;charset=utf-8")
+		@PreAuthorize("isAuthenticated() && principal.username == #communityReply.nickname")
+		public ResponseEntity<String> removeCommunityReply(@PathVariable("tno") Long tno, 
 												  @PathVariable("trno") Long trno,
-												  @RequestBody CommunityReplyVO yourReply) {
+												  @RequestBody CommunityReplyVO communityReply) {
 			
 			return communityReplyService.modifyTrdelFlag(tno, trno)
 				   ? new ResponseEntity<String>("removeSuccess", HttpStatus.OK)
@@ -139,7 +140,7 @@ public class CommunityReplyController {
 		
 		//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
 		@DeleteMapping(value = "/{tno}" , produces = "text/plain;charset=utf-8")
-		public ResponseEntity<String> removeAllReply(@PathVariable("tno") Long tno){
+		public ResponseEntity<String> removeAllCommunityReply(@PathVariable("tno") Long tno){
 			
 			int deleteRows = communityReplyService.removeAllCommunityReply(tno);
 			

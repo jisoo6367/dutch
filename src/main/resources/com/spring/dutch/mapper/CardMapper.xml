@@ -60,11 +60,70 @@
 		
 	</insert>
 	
+	<!-- 특정 카드 조회(modify.jsp) -->
+	<select id="selectCard2" resultType="com.spring.dutch.domain.CardVO">
+		SELECT kno, category, kname, kcontent, kcompany, kcomment
+		FROM dutch.tbl_card
+		WHERE kno = #{kno}
+	</select>
+	
+	<!-- 특정 카드 조회(detail.jsp) -->
+	<resultMap type="com.spring.dutch.domain.CardAttachFileVO" id="attachFileMap">
+		<result property="uuid" column="uuid"/>
+		<result property="uploadPath" column="uploadPath"/>
+		<result property="fileName" column="fileName"/>
+		<result property="kno" column="mykno"/>
+	</resultMap>
+	
+	<resultMap type="com.spring.dutch.domain.CardVO" id="CardMap">
+		<result property="kno" column="kno"/>
+		<result property="category" column="category"/>
+		<result property="kname" column="kname"/>
+		<result property="kcontent" column="kcontent"/>
+		<result property="kcompany" column="kcompany"/>
+		<result property="kcomment" column="kcomment"/>
+		<collection property="attachFileList"  resultMap="attachFileMap"/>
+	</resultMap>
+	<select id="selectCard" resultMap="CardMap">
+		SELECT a.kno, a.category, a.kname, a.kcontent, a.kcompany, a.kcomment,
+			   b.uuid, b.uploadPath, b.fileName, b.kno AS mykno
+		FROM dutch.tbl_card a LEFT OUTER JOIN dutch.tbl_cardAttachFiles b ON (a.kno = b.kno) 
+		WHERE a.kno = #{kno}
+	</select>
+	
+	<!-- 게시물 수정(UPDATE) -->
+	<update id="updateCard" parameterType="com.spring.dutch.domain.CardVO">
+		UPDATE dutch.tbl_card
+		SET category = #{category} ,
+	    	kname = #{kname} ,
+	    	kcontent = #{kcontent},
+	    	kcompany = #{kcompany},
+	    	kcomment = #{kcomment}
+		WHERE kno = #{kno}	
+	</update>
+	
+	<!-- 카드 삭제 -->
+	<delete id="deleteCard" parameterType="String">
+		DELETE FROM dutch.tbl_card
+		WHERE kno = #{kno} 
+	</delete>
+	
 	<!-- 카드 이미지 등록 -->
 	<insert id="insertAttachFile" parameterType="com.spring.dutch.domain.CardAttachFileVO">
-		INSERT INTO dutch.tbl_myAttachFiles
+		INSERT INTO dutch.tbl_cardAttachFiles
 		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{kno})
 	</insert>
+	
+	<!-- 특정 카드 이미지 삭제 -->
+	<delete id="deleteAttachFile">
+		DELETE FROM dutch.tbl_card
+		WHERE uuid = #{uuid}
+	</delete>
 
+	<!-- 모든 이미지 삭제 -->
+	<delete id="deleteAttachFiles">
+		DELETE FROM dutch.tbl_card
+		WHERE kno = #{kno}
+	</delete>
 
 </mapper>

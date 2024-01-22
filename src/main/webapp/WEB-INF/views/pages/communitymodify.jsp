@@ -36,6 +36,12 @@
 	</div>
 	
 	<div class="form-group">
+	    <label>카테고리</label>
+	    <input class="form-control" name="tcategory" id="tcategory" 
+	           value="${community.tcategory }">
+	</div>
+	
+	<div class="form-group">
 	    <label>글제목</label>
 	    <input class="form-control" name="ttitle" id="ttitle" 
 	    	   value="${community.ttitle }" >
@@ -115,10 +121,11 @@ var frmModify = $("#frmModify") ;
 <%--수정된 게시물 입력값 유무 확인 함수--%>
 function checkCommunityValues(){
 	
+	var tcategory = document.getElementById("tcategory").value ;
 	var ttitle = document.getElementById("ttitle").value ;
 	var tcontent = document.getElementById("tcontent").value ;
 	
-	if( ttitle.length==0 || tcontent.length==0  ){
+	if( tcategory.length==0 || ttitle.length==0 || tcontent.length==0  ){
 		return false ;
 
 	} else {

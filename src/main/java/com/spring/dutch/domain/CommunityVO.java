@@ -16,7 +16,6 @@ public class CommunityVO {
 
 	
 	private long tno;
-	private long mno;
 	private String nickname;
 	private String ttitle;
 	private String tcontent;
@@ -29,8 +28,7 @@ public class CommunityVO {
 	private int treport;
 	private String tcategory;
 	
-	private List<CommunityAttachFileVO> 
-				attachFileList ;
+	private List<CommunityAttachFileVO> attachFileList ;
 
 //	   tno   number(10) NOT NULL, --커뮤니티고유번호
 //	   mno   number(10) NOT NULL, --회원고유번호

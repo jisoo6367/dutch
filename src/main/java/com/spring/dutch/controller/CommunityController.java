@@ -53,11 +53,13 @@ public class CommunityController {
 		}	
 		
 //		//등록 처리	
-		@PostMapping("/register")
+
 		@PreAuthorize("isAuthenticated()")
-		public String registerNewBoard(CommunityVO community,
-									   Principal principal,
+		@PostMapping("/register")
+		public String registerNewBoard(CommunityVO community,Principal principal,
 				                       RedirectAttributes redirectAttr) {
+			
+			community.setNickname(principal.getName());
 			
 			List<CommunityAttachFileVO> myAttachFileList = community.getAttachFileList() ;
 			
@@ -69,16 +71,12 @@ public class CommunityController {
 			}
 			System.out.println();
 			
-			community.setNickname(principal.getName());
-			
 			
 			long tno = communityService.registerCommunity(community) ;
-			
-					
+								
 			redirectAttr.addFlashAttribute("result", tno) ;
-			System.out.println("result: " + redirectAttr.getFlashAttributes());
 			
-			return "redirect:/pages/communitylist";
+			return "redirect:/community/list";
 			
 		}
 //		
@@ -86,15 +84,17 @@ public class CommunityController {
 		@GetMapping("/detail")
 		public String ShowCommunityDetail(Long tno, Model model, String result,
 										  @ModelAttribute("communityPaging") CommunityPagingDTO communityPaging) {
-			
-			System.out.println("페이지 넘버 확인222222: " + communityPaging.getPageNum());		
-			
+						
 			CommunityVO community =null;
 			
 			community = communityService.getCommunity1(tno, result);
 			
+			System.out.println("communityVO     ===" + community);
+			
 			model.addAttribute("community", community);
 			model.addAttribute("result", result);
+			
+			
 			
 			return "pages/communitydetail";
 		}
@@ -105,7 +105,6 @@ public class CommunityController {
 		public String showCommunityModify(Long tno, Model model, 
 										  CommunityPagingDTO communityPaging ) {
 		
-			System.out.println("페이지 넘버 확인33333: " + communityPaging.getPageNum());
 			
 			CommunityVO community = communityService.getCommunity2(tno);
 		
@@ -115,8 +114,7 @@ public class CommunityController {
 		}
 		
 //		특정 게시물 수정
-		@PostMapping("/modify")
-		
+		@PostMapping("/modify")		
 		public String modifyCommunity(CommunityVO community,
 							      RedirectAttributes redirectAttr,
 							      CommunityPagingDTO communityPaging) {
@@ -138,7 +136,7 @@ public class CommunityController {
 			redirectAttr.addAttribute("beginDate", communityPaging.getBeginDate()) ;
 			redirectAttr.addAttribute("endDate", communityPaging.getEndDate()) ;
 			
-			return "redirect:/pages/communitydetail" ;
+			return "redirect:/community/detail" ;
 		}
 		
 //		특정 게시물 삭제 POST 
@@ -161,10 +159,10 @@ public class CommunityController {
 			redirectAttr.addAttribute("beginDate", communityPaging.getBeginDate()) ;
 			redirectAttr.addAttribute("endDate", communityPaging.getEndDate()) ;
 			
-			return "redirect:/pages/communitylist" ;
+			return "redirect:/community/list" ;
 		}
 		
-		//특정 게시물의 첨부파일 정보를 JSON으로 전달(특정 게시물의 수정페이지에서 사용) ###########################
+		//특정 게시물의 첨부파일 정보를 JSON으로 전달(특정 게시물의 수정페이지에서 사용) 
 		@GetMapping(value = "/getFiles" , produces = {"application/json; charset=utf-8"})
 		public @ResponseBody ResponseEntity<List<CommunityAttachFileVO>> showAttachFiles(Long tno) {
 			return new ResponseEntity<List<CommunityAttachFileVO>>(communityService.getAttachFileList(tno), HttpStatus.OK);

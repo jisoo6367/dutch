@@ -10,13 +10,13 @@
 			resultType="com.spring.dutch.domain.CommunityReplyVO"
 			parameterType="com.spring.dutch.dto.CommunityReplyPagingDTO">
 	<![CDATA[
-		SELECT lvl, trno, tno, mno, nickname, trcontent, trmodDate, trdelFlag, trregDate, trrecommend, trreport, trcno
+		SELECT lvl, trno, tno, nickname, trcontent, trmodDate, trdelFlag, trregDate, trrecommend, trreport, trcno
 		FROM ( 	SELECT /*+ INDEX(a IDX_TNO_TRNO_REPLY)  */ ROWNUM rn, LEVEL lvl, a.*
 				FROM dutch.tbl_community_reply a
 				WHERE tno = #{tno}
 				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
-				START WITH prno IS NULL
-				CONNECT BY PRIOR tno = trcno
+				START WITH trcno IS NULL
+				CONNECT BY PRIOR trno = trcno
 			  )
 		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
 
@@ -31,23 +31,32 @@
 	
 <!-- 특정 게시물에 대한 댓글 등록 -->
 	<insert id="insertCommunityReplyForCommunity" parameterType="com.spring.dutch.domain.CommunityReplyVO">
-		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+		<selectKey keyProperty="trno" order="BEFORE" resultType="long">
 			SELECT dutch.seq_community_reply.NEXTVAL FROM dual 
 		</selectKey>
 	
 	INSERT INTO dutch.tbl_community_reply
-	VALUES (#{trno},#{tno},#{mno},#{nickname},#{trcontent}, DEFAULT, DEFAULT, DEFAULT, DEFAULT ,DEFAULT ,NULL,)
+	VALUES (#{trno},
+			#{tno},
+			#{nickname},
+			#{trcontent}, 
+			DEFAULT, 
+			DEFAULT, 
+			DEFAULT, 
+			DEFAULT,
+			DEFAULT,
+			NULL)
 	
 	</insert>
 
-<!-- 댓글에 대한 답글 등록(prno: 부모글의 rno 값) -->
+<!-- 댓글에 대한 답글 등록(trcno: 부모글의 trno 값) -->
 	<insert id="insertCommunityReplyForCommunityReply" parameterType="com.spring.dutch.domain.CommunityReplyVO">
-		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+		<selectKey keyProperty="trno" order="BEFORE" resultType="long">
 			SELECT dutch.seq_community_reply.NEXTVAL FROM dual
 		</selectKey>
 	
 	INSERT INTO dutch.tbl_community_reply
-	VALUES (#{trno},#{trcontent},#{nickname},DEFAULT,DEFAULT,#{tno},#{trcno},DEFAULT)
+	VALUES (#{trno},#{tno},#{nickname},#{trcontent},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{trcno})
 	
 	</insert>
 	
@@ -70,8 +79,8 @@
 <!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
 	<update id="updateTrdelFlag">
 		UPDATE dutch.tbl_community_reply
-		SET rdelFlag = 1,
-			rmodDate = DEFAULT
+		SET trdelFlag = 1,
+			trmodDate = DEFAULT
 		WHERE tno = #{tno} AND trno = #{trno}
 	</update>
 

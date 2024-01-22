@@ -3,27 +3,29 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../pageinclude/header.jsp" %>
 
 
-<!-- JSP 폼 입니다 아래 공간 안에서 코딩하시면 됩니다 -->
+<style>
+ th {text-align: center;}
+ p {white-space:pre-wrap;}
+</style>  
 
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"
-				style="white-space: nowrap;" >community - Detail
+				style="white-space: nowrap;" >Board - Detail
 				 <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${community.tno}"/>번 게시물
-				 </small>
+					 &nbsp;&nbsp;&nbsp;<c:out value="${community.tno}"/>번 게시물
+						 </small>
 			</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
-    
-    
     <div class="row">
         <div class="col-lg-12">
         
@@ -51,18 +53,14 @@
 							<div class="button-group pull-right">
 
 
-<%-- <sec:authorize access="isAuthenticated()">
+<sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="username"/>
-		<c:if test="${username eq myboard.bwriter }">
+		<c:if test="${username eq community.nickname }">
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정페이지로 이동</span></button>
 		</c:if>
-</sec:authorize> --%>
-							<button type="button" id="btnToModify" 
-									class="btn btn-primary"><span>수정페이지로 이동</span></button>
-
-									
-							<button type="button" id="btnToList" 
+</sec:authorize>													
+							<button type="button" id="btnToList" data-oper="list"
 									class="btn btn-warning"><span>목록페이지로 이동</span></button>
 							</div>
 						</div>
@@ -70,8 +68,15 @@
                 </div><!-- /.panel-heading --><%-- /.panel-heading --%>
 
                 
-                <div class="panel-body form-horizontal">
-	
+  <div class="panel-body form-horizontal">	
+	  <div class="form-group">
+		    <label class="col-sm-2 control-label" style="white-space: nowrap;">카테고리</label>
+		    <div class="col-sm-10">
+		    	<input class="form-control" name="tcategory" id="tcategory" 
+		    		   value="${community.tcategory }" readonly="readonly">
+			</div>
+		</div>
+  
 	<div class="form-group">
 	    <label class="col-sm-2 control-label" style="white-space: nowrap;">글제목</label>
 	    <div class="col-sm-10">
@@ -79,8 +84,7 @@
 	    		   value="${community.ttitle }" readonly="readonly">
 		</div>
 	</div>
-	
-	
+		
 	<div class="form-group">
 	    <label class="col-sm-2 control-label" style="white-space: nowrap;">글내용</label>
 
@@ -91,41 +95,30 @@
 		</div>	    			  
 	</div>
 
-
 	<div class="form-group">
 	    <label class="col-sm-2 control-label" style="white-space: nowrap;">최종수정일</label>
 	    <div class="col-sm-10">
 	    	<input class="form-control" name="tmodDate" id="tmodDate" 
 	      		   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${community.tmodDate }"/>' readonly="readonly">
 		</div>
-	</div class="form-group">
-
-	<div>
-		<button type="button" id="trecommend" onclick="toggleRecommend" >
-			<span>추천</span>
-		</button>
-
 	</div>
 
-
-
-	<%-- Modal: 게시물 수정 후, 수정 결과 표시 모달 --%>
-	<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" id="yourModalLabel">Modal title</h4>
-	            </div>
-	            <div class="modal-body" id="yourModal-body">메시지</div>
-	            
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-	            </div>
-	        </div><%-- /.modal-content --%>
-	    </div><%-- /.modal-dialog --%>
-	</div><%-- /.modal --%>
-
+<%-- Modal: 게시물 수정 후, 수정 결과 표시 모달 --%>
+<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="yourModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="yourModal-body">메시지</div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div><%-- /.modal-content --%>
+    </div><%-- /.modal-dialog --%>
+</div><%-- /.modal --%>
 		
 		<form id="frmSendValue">
 		 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
@@ -136,7 +129,7 @@
 			<input type="hidden" name="beginDate" value="${communityPaging.beginDate }" >
 			<input type="hidden" name="endDate" value="${communityPaging.endDate }" >
 		</form>
-            </div><%-- /.panel-body --%>
+  </div><%-- /.panel-body --%>
             
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
@@ -150,9 +143,9 @@
                 	<strong style="font-size:16px;">첨부 파일</strong>
                 </div><!-- /.panel-heading -->
                 
-                <div class="panel-body">
-<div class="form-group fileUploadResult">
-	<ul>
+		     <div class="panel-body">
+		<div class="form-group fileUploadResult">
+			<ul>
 		<%-- 업로드 후 처리결과가 표시될 영역 --%>
 		<c:choose>
 		<c:when test="${empty community.attachFileList }">
@@ -191,12 +184,13 @@
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-	</ul>
+						</ul>
 	                </div>
                 </div><!-- /.panel-body -->
             </div><!-- /.panel -->
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
+
 
 <%-- Modal: 첨부파일 이미지 표시 --%>
 <div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
@@ -218,98 +212,97 @@
 				<div style="margin-bottom: 0px; font-size: 16px;">
 				
 					<strong style="padding-top: 2px;">
-						<span>댓글&nbsp;<c:out value="${community.treplyCnt}"/>개</span>
+				<%-- 		<span>댓글&nbsp;<c:out value="${community.treplyCnt}"/> 개</span> --%>
 						<span id="replyTotal"></span>
 						<span>&nbsp;</span>
 						
-						<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>
-												
-						<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
-								style="display:none">댓글 등록</button>
-						<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm"
-								style="display:none">취소</button>&nbsp;&nbsp;&nbsp;
-					</strong>
-				</div>
-			</div> <%-- /.panel-heading --%>
-			<div class="panel-body">
+				<sec:authorize access="isAuthenticated()">						
+					<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>								
+					<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm" style="display:none">댓글 등록</button>
+					<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm" style="display:none">취소
+			</button>&nbsp;&nbsp;&nbsp;						
+				</sec:authorize>
+	
+				<sec:authorize access="isAuthenticated()">
+					<span id="spanLoginUser" style="display:none">
+						<strong><sec:authentication property="principal.username"/> 님 작성</strong>
+					</span>	
+				</sec:authorize>						
+			</strong>
+		</div>
+	</div> <%-- /.panel-heading --%>
+	
+<div class="panel-body">
+		<sec:authorize access="isAuthenticated()">
+					<%-- 댓글 입력창 div 시작 --%>
+						<div class="form-group" style="margin-bottom: 5px;">
+							<textarea class="form-control txtBoxCmt" name="trcontent"
+									  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
+									  readonly="readonly"></textarea>
+						</div>
+		</sec:authorize>
+						<hr style="margin-top: 10px; margin-bottom: 10px;"><%-- 댓글 입력창 div 끝 --%>
+				</div><%-- /.panel-body --%>
 
-			<%-- 댓글 입력창 div 시작 --%>
-				<div class="form-group" style="margin-bottom: 5px;">
-					<textarea class="form-control txtBoxCmt" name="rcontent"
-							  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
-							  readonly="readonly"
-							 ></textarea>
-				</div>
-				<hr style="margin-top: 10px; margin-bottom: 10px;"><%-- 댓글 입력창 div 끝 --%>
 
 
 <ul class="chat" id="chat">
-<%-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
-	<li class="left clearfix commentLi" data-tno="${communityReply.tno }" data-trno="${communityReply.trno }">
-		<div>
-			<div>
-				<span class="header info-rwriter">
-					<strong class="primary-font"><c:out value="${communityReply.nickname} "/>user00</strong>
-					<span>&nbsp;</span>
-					<small class="text-muted"><c:out value="${communityReply.trregDate} "/>2018-01-01 13:13</small>
-				</span>
-				<p><c:out value="${communityReply.trcontent} "/>앞으로 사용할 댓글 표시 기본 템플릿입니다.</p>
-			</div>
-			
-			<div class="btnsComment" style="margin-bottom:10px">
-				<button type="button" style="display:in-block"
-						class="btn btn-primary btn-xs btnChgReg">답글 작성</button>
-				<button type="button" style="display:none"
-						class="btn btn-warning btn-xs btnRegCmt">답글 등록</button>
-				<hr class="txtBoxCmtHr" style="margin-top:10px; margin-bottom:10px">
-				<textarea class="form-control txtBoxCmtMod" name="rcontent" 
-						  style="margin-bottom:10px"
-						  placeholder="답글작성을 원하시면,&#10;답글 작성 버튼을 클릭해주세요."
-						 ></textarea>
-			</div>
-		</div>
-	</li>
+<!-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다. -->	
+</ul><!-- /.chat	 -->
 
+	
 
-
-
-</ul><%-- /.chat --%>
-
-	</div><%-- /.panel-body --%>
 			<div class="panel-footer text-center" id="showCmtPagingNums">
 				<%-- 댓글 목록의 페이징 번호 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
-			</div>
+			</div>							
 		</div><%-- /.panel --%>
 	</div><%-- .col-lg-12 --%>
 </div><%-- .row : 댓글 화면 표시 끝 --%>
+
 
 <form id = "frmCmtPagingValue">
   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	<input type="hidden" name="pageNum" value="">
 	<input type="hidden" name="rowAmountPerPage" value="">
 </form>
-
 </div><%-- /#page-wrapper --%>
+
+<%-- Modal --%>
+<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="yourModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="yourModal-body">메시지</div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div><%-- /.modal-content --%>
+    </div><%-- /.modal-dialog --%>
+</div><%-- /.modal --%>
+
+
+
 
 
 <%-- 게시물 상세 자바스크립트 시작 --%>
 <script>
 
 	var frmSendValue = $("#frmSendValue") ;
-
+	"${contextPath}/community/list"
 	<%-- 게시물 목록 페이지 이동 --%>
 	$("#btnToList").on("click", function(){
-	
-		 frmSendValue.attr("action", "${contextPath}/community/list").attr("method", "get") ;
-		frmSendValue.submit() ; 
 		
+		frmSendValue.attr("action", "${contextPath}/community/list").attr("method", "get") ;
+		frmSendValue.submit() ;
 	});
 	
-	
 	<%-- 게시물 수정-삭제 페이지 이동 --%>
-	$("#btnToModify").on("click", function(){
-	console.log('작동확인용');
-	
+	$("#btnToModify").on("click", function(){	
+		
 		 var tno = '<c:out value="${community.tno}"/>' ;
 		
 		frmSendValue.append("<input type='hidden' name='tno' value='" + tno + "'/>") ;
@@ -318,7 +311,7 @@
 	});
 	
 	
-	var result = '<c:out value="${result}" />' ;
+	 var result = '<c:out value="${result}" />' ;
 	
 	function runModal(result) {
 		if (result.length == 0) {
@@ -334,10 +327,12 @@
 		$("#yourModal").modal("show") ;
 		
 		myMsg = "" ;
-	} 
+	}
 	
-	<%-- 첨부파일 이미지 표시 --%>
-	<script>
+</script>	
+	
+<%-- 첨부파일 이미지 표시 --%>
+<script>
 	$(".attachLi").on("click", function(){
 		var objLi = $(this) ;
 		
@@ -355,66 +350,42 @@
 		} else {
 			self.location.href ="${contextPath}/fileDownloadAjax?fileName="  + encodeURI(myFileName) ;
 		}
-		
-		
-		
-		
+
 	});	
 	
 	<%-- 표시된 이미지 모달 감추기 --%>
-	/* $("#attachModal").on("click", function(){
+	$("#attachModal").on("click", function(){
 		$("#attachModal").modal("hide") ;
-	}); */
+	});
 
 </script>
 
 
-<%-- 추천 버튼 추가 --%>
-<script>
-    function toggleRecommend() {
-        var itemId = document.getElementById("itemId").value;
-        var recommendButton = document.getElementById("recommendButton");
-        var recommendCountSpan = document.getElementById("recommendCount");
+<script type="text/javascript" src="${contextPath }/resources/js/communitycomment.js"></script>
 
 
-        // 예시: 추천 버튼이 이미 눌려있는지 여부를 확인
-        var isRecommended = recommendButton.classList.contains("recommended");
+<script type="text/javascript">
+console.log(communityReplyClsr.myDateTimeFmt());
 
-        // 서버에 전송 후 성공적으로 처리되면 추천 여부 및 추천 수 업데이트
-        // 실제로는 AJAX나 fetch 등을 사용하여 서버에 데이터를 전송하고 응답을 받아와야 합니다.
-        // 아래는 가상의 함수입니다.
+var myCsrfHeaderName = "${_csrf.headerName}" ;
+var myCsrfToken = "${_csrf.token}" ;
 
-        // 서버에 전송하고, 성공적으로 처리되면 아래 코드 실행
-        if (toggleRecommendOnServer(itemId, !isRecommended)) {
-            if (isRecommended) {
-                recommendButton.classList.remove("recommended");
-                recommendCountSpan.innerText = "총 추천 수: " + (parseInt(recommendCountSpan.innerText.split(":")[1]) - 1);
-            } else {
-                recommendButton.classList.add("recommended");
-                recommendCountSpan.innerText = "총 추천 수: " + (parseInt(recommendCountSpan.innerText.split(":")[1]) + 1);
-            }
-        }
-    }
-
-    // 가상의 함수: 서버에 추천 상태 전송
-    function toggleRecommendOnServer(itemId, isRecommended) {
-        // 실제로는 AJAX 또는 fetch 등을 사용하여 서버에 데이터를 전송하고 응답을 받아와야 합니다.
-        // 아래는 가상의 함수로, 실제 구현에 맞게 수정해야 합니다.
-        // 반환값으로 서버에서 처리 결과를 전달하도록 합니다.
-        console.log("서버에 전송: 아이템 ID " + itemId + ", 추천 여부 " + isRecommended);
-        return true; // 가상의 성공적인 처리
-    }
-</script>
-
-<%-- 댓글/답글 자바스크립트 시작--%>
-<script src="${contextPath }/resources/js/mycomment.js"></script>
-<script>
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+		
+});
 
 var tnoValue = '<c:out value="${community.tno}"/>' ;
 
 var commentUL = $("#chat") ;
 
 var frmCmtPagingValue = $("#frmCmtPagingValue") ;
+
+var loginUser = "" ;
+
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>' ;
+</sec:authorize>
 
 
 <%-- 댓글 페이징 번호 표시 --%>
@@ -489,7 +460,7 @@ function showCmtPagingNums(replyTotCnt, pageNum, rowAmountPerPage) {
 		$("#showCmtPagingNums").html(pagingDisplayHTML);
 }
 
-<%-- 선택된 페이징 번호 클릭 시, 게시물목록 가져오는 함수: 이벤트 전파 이용 --%>
+<%-- 선택된 페이징 번호 클릭 시, 댓글목록 가져오는 함수: 이벤트 전파 이용 --%>
 <%-- #showCmtPagingNums > div > ul > li:nth-child(2) > a --%>
 $("#showCmtPagingNums").on("click","div ul li a", function(e){
 	e.preventDefault() ;
@@ -497,23 +468,21 @@ $("#showCmtPagingNums").on("click","div ul li a", function(e){
 	showCmtList(targetPageNum) ;
 });
 
-
-<%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){
 	
-	myReplyClsr.getCmtList(
+	communityReplyClsr.getCmtList(
 		{tno: tnoValue, pageNum: pageNum || 1} ,
 		
-		function(communityReplyPagingCreator){
+		function(communityreplyPagingCreator){
 			
-			$("#replyTotal").html("댓글&nbsp;" + communityReplyPagingCreator.replyTotCnt + "개") ;
+			$("#replyTotal").html("댓글&nbsp;" + communityreplyPagingCreator.replyTotCnt + "개") ;
 			
 			frmCmtPagingValue.find("input[name='pageNum']").val(pageNum) ;
-			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(communityReplyPagingCreator.communityreplyPaging.rowAmountPerPage) ;
+			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(communityreplyPagingCreator.communityreplyPaging.rowAmountPerPage) ;
 			
 			var str = '' ;
 			
-			if(!communityReplyPagingCreator.communityreplyList || communityReplyPagingCreator.communityreplyList.length == 0){
+			if(!communityreplyPagingCreator.communityreplyList || communityreplyPagingCreator.communityreplyList.length == 0){
 				str += '<li class="left clearfix commentLi" '
 					+ ' 	style="text-align: center; background-color: lightCyan;'
 					+ ' 	height: 35px;margin-bottom: 0px;padding-bottom:0px;'
@@ -524,8 +493,8 @@ function showCmtList(pageNum){
 				return ;
 			} 
 			
-			for(var i = 0, len = communityReplyPagingCreator.communityreplyList.length; i < len ; i++) {
-				if(communityReplyPagingCreator.communityreplyList[i].trdelFlag == 1) {
+			for(var i = 0, len = communityreplyPagingCreator.communityreplyList.length; i < len ; i++) {
+				if(communityreplyPagingCreator.communityreplyList[i].trdelFlag == 1) {
 				str +='<li class="left clearfix commentLi">'
 					+ ' <div style="background-color: Moccasin; text-align: center">'
 				    + '     <em>작성자에 의해서 삭제글입니다.</em>'
@@ -535,21 +504,21 @@ function showCmtList(pageNum){
 				} else {
 				str +='<li class="left clearfix commentLi" '
 				    + '    data-tno="' + tnoValue + '" '
-				    + '    data-trno="' + communityReplyPagingCreator.communityreplyList[i].trno + '" '
-				    + '    data-nickname="' + communityReplyPagingCreator.communityreplyList[i].nickname + '" '
-				    + '    data-rdelflag="' + communityReplyPagingCreator.communityreplyList[i].trdelFlag + '">' ;
+				    + '    data-trno="' + communityreplyPagingCreator.communityreplyList[i].trno + '" '
+				    + '    data-nickname="' + communityreplyPagingCreator.communityreplyList[i].nickname + '" '
+				    + '    data-trdelFlag="' + communityreplyPagingCreator.communityreplyList[i].trdelFlag + '">' ;
 					<%-- 댓글 답글 들여쓰기 --%>
-					if(communityReplyPagingCreator.communityreplyList[i].lvl == 1){
+					if(communityreplyPagingCreator.communityreplyList[i].lvl == 1){
 				
 				str += '<div>' ;
 				
-					} else if (communityReplyPagingCreator.communityreplyList[i].lvl == 2){
+					} else if (communityreplyPagingCreator.communityreplyList[i].lvl == 2){
 				str += '<div style="padding-left: 25px;">' ;
 					
-					} else if (communityReplyPagingCreator.communityreplyList[i].lvl == 3){
+					} else if (communityreplyPagingCreator.communityreplyList[i].lvl == 3){
 				str += '<div style="padding-left: 50px;">' ;		
 					
-					} else if (communityReplyPagingCreator.communityreplyList[i].lvl == 4){
+					} else if (communityreplyPagingCreator.communityreplyList[i].lvl == 4){
 				str += '<div style="padding-left: 70px;">' ;
 					
 					} else { <%-- 답글의 레벨이 5이상이면 동일한 들여쓰기 --%>
@@ -557,35 +526,40 @@ function showCmtList(pageNum){
 						
 					}
 				<%-- 답글에 대한 아이콘 표시  --%>	
-				if(communityReplyPagingCreator.communityreplyList[i].lvl > 1) {
+				if(communityreplyPagingCreator.communityreplyList[i].lvl > 1) {
 				str += '    <i class="fa fa-reply fa-fw"></i>&nbsp;';
 				
 				}	
 
-				str +='    <span class="header info-rwriter">'
-				    + '        <strong class="primary-font">' + communityReplyPagingCreator.communityreplyList[i].trwriter + '</strong>&nbsp;&nbsp;'
+				str +='    <span class="header info-nickname">'
+				    + '        <strong class="primary-font">' + communityreplyPagingCreator.communityreplyList[i].nickname + '</strong>&nbsp;&nbsp;'
 				    + '        <small class="text-muted">' 
-				    +              myReplyClsr.myDateTimeFmt(communityReplyPagingCreator.communityreplyList[i].trmodDate) 
+				    +              communityReplyClsr.myDateTimeFmt(communityreplyPagingCreator.communityreplyList[i].trmodDate) 
 				    + '        </small>'
 				    + '    </span>'<%-- 
-				    + '    <p style="white-space:pre-wrap;" data-tno="' + myReplyPagingCreator.myreplyList[i].tno + '"' --%> 
-				    + '    <p class="rcontent-p" style="white-space:pre-wrap;"'
-				    + '       data-tno="' + communityReplyPagingCreator.communityreplyList[i].tno + '"'
-				    + '       data-trno="' + communityReplyPagingCreator.communityreplyList[i].trno + '">'
-				    +         communityReplyPagingCreator.communityreplyList[i].trcontent + '</p>'
-				    + '</div>'
-				    + '    <button type="button" style="display:in-block;" ' 
-				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글작성</button>'
-					+ '</li>' ;
+				    + '    <p style="white-space:pre-wrap;" data-tno="' + communityreplyPagingCreator.communityreplyList[i].tno + '"' --%> 
+				    + '    <p class="trcontent-p" style="white-space:pre-wrap;"'
+				    + '       data-tno="' + communityreplyPagingCreator.communityreplyList[i].tno + '"'
+				    + '       data-trno="' + communityreplyPagingCreator.communityreplyList[i].trno + '">'
+				    +         communityreplyPagingCreator.communityreplyList[i].trcontent + '</p>'
+				    + '</div>' ;
+
+<sec:authorize access="isAuthenticated()">
+
+				 str+='    <button type="button" style="display:in-block;" ' 
+				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글작성</button>' ;
+</sec:authorize>		
+
+				 str+='</li>' ;
 				}
 
 			}<%--for-end--%>
 			
 			commentUL.html(str) ;
 			
-			showCmtPagingNums(communityReplyPagingCreator.replyTotCnt, 
-							  communityReplyPagingCreator.communityreplyPaging.pageNum,
-							  communityReplyPagingCreator.communityreplyPaging.rowAmountPerPage);
+			showCmtPagingNums(communityreplyPagingCreator.replyTotCnt, 
+							  communityreplyPagingCreator.communityreplyPaging.pageNum,
+							  communityreplyPagingCreator.communityreplyPaging.rowAmountPerPage);
 			
 		}<%--callback-function-end --%>
 			
@@ -599,10 +573,11 @@ function resetCmtRegElements(){
 	$("#btnChgCmtReg").attr("style", "display:in-block;") ;
 	$("#btnRegCmt").attr("style", "display:none") ;
 	$("#btnCancelRegCmt").attr("style", "display:none;") ;
-//	$("#spanLoginUser").attr("style", "display:none;") ;
 	$(".txtBoxCmt").val("")
 				   .attr("readonly", true)
 				   .attr("placeholder", "댓글작성을 원하시면,\n댓글 작성 버튼을 클릭해주세요.") ;
+	
+	$("#spanLoginUser").attr("style", "display:none;") ;
 
 }
 
@@ -616,20 +591,22 @@ $("#btnChgCmtReg").on("click", function(){
 	$("#btnRegCmt").attr("style", "display:in-block; margin-right:2px") ;
 	$("#btnCancelRegCmt").attr("style", "display:in-block;") ;
 	$(".txtBoxCmt").attr("placeholder", "").attr("readonly", false) ;
+	$("#spanLoginUser").attr("style", "display:in-block") ;
 	
 });
 
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
-	var rcontent = $(".txtBoxCmt").val() ;
-	var loginUser = "슈퍼맨" ;
-		
+	var trcontent = $(".txtBoxCmt").val() ;
+	
+	
 	var reply = {tno: tnoValue, trcontent: trcontent, nickname: loginUser } ;
 	
-	myReplyClsr.registerCmt(
-			reply,
-			function(result){
+	
+	communityReplyClsr.registerCmt(
+			reply
+			,function(result){
 				if (result != null) {
 					alert(result + "번 댓글이 등록되었습니다.") ;	
 				} else {
@@ -658,30 +635,50 @@ $("#btnCancelRegCmt").on("click", "", function(){
 	
 });
 
-
 <%--답글 작성 초기화 함수 --%>
 function resetRelyRegElements() {
 	$(".btnRegReply").remove() ;
 	$(".btnCancelRegReply").remove() ;
 	$(".txtBoxReply").remove() ;
 	$(".btnChgReplyReg").attr("style", "display: in-block;") ;
+	$("#replyloginUserSpan").attr("style", "display: none;") ;
 }
 
 <%--답글 작성 버튼 클릭 처리:이벤트 전파
-   #chat > li:nth-child(1) > button  --%>
+#chat > li:nth-child(1) > button  --%>
 $("#chat").on("click","li .btnChgReplyReg" , function(){
 	
 	resetCmtRegElements(); <%--댓글 등록 작업 초기화 --%>
 	resetRelyRegElements() ; <%--다른 답글 등록 작업 초기화 --%>
 	resetReplyModElements() ; <%--다른 답글 수정 작업 초기화 --%>
 	
-	var strTxtBoxReply =
-		  "<textarea class='form-control txtBoxReply' name='rcontent' style='margin-bottom:10px;'"
-		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
-		+ "			></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
-		+ "<button type='button' class='btn btn-danger btn-xs btnCancelRegReply'"
-		+ " 	   style='margin-left:4px;'>취소</button>";
+<%--로그인 하지 않은 경우--%>
+	if(!loginUser) {
+		return ;
+	}
+	
+<%--로그인 계정이 자신의 댓글/답글에 답글 등록을 하려는 경우를 방지 --%>	
+	var nickname = $(this).closest("li").data("nickname") ;
+	
+	if (loginUser == nickname) {
+		return ;
+	}
+	
+	var strTxtBoxReply = "" ;
+	
+	<sec:authorize access="isAuthenticated()">
+	strTxtBoxReply
+		+='<span id="replyloginUserSpan" style="display:in-block">'  
+		+ '    <strong><sec:authentication property="principal.username"/>님 작성</strong>'
+		+ '</span>' ;
+	</sec:authorize>
+	strTxtBoxReply
+		+='<textarea class="form-control txtBoxReply" name="trcontent" style="margin-bottom:10px;"'
+		+ '		 placeholder="답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요."'
+		+ '			></textarea>'
+		+ '<button type="button" class="btn btn-warning btn-xs btnRegReply">답글 등록</button>'
+		+ '<button type="button" class="btn btn-danger btn-xs btnCancelRegReply"'
+		+ ' 	   style="margin-left:4px;">취소</button>';
 
 	$(this).after(strTxtBoxReply);
 	$(this).attr("style", "display:none;")
@@ -699,18 +696,19 @@ $("#chat").on("click", "li .btnCancelRegReply", function(){
 
 });
 
-
 <%-- 답글 등록 버튼 클릭 처리: 이벤트 전파 
 #chat > li:nth-child(1) > button.btn.btn-warning.btn-xs.btnRegReply  --%>
 $("#chat").on("click", "li .btnRegReply", function(){
 	
-	var rcontent = $(this).prev().val() ;
-	var loginUser = "홍길동" ;
-	var prno = $(this).closest("li").data("rno") ;
+	var trcontent = $(this).prev().val() ;
+
+	var trcno = $(this).closest("li").data("trno") ;
+	
+	tnoValue = parseInt(tnoValue);
 	
 	var reply = {tno: tnoValue, trcontent: trcontent, nickname: loginUser, trcno:trcno } ;
 	
-	myReplyClsr.registerReply(
+	communityReplyClsr.registerReply(
 			reply,
 			function(result){
 				alert(result + "번 답글이 등록되었습니다.") ;
@@ -723,58 +721,55 @@ $("#chat").on("click", "li .btnRegReply", function(){
 <%--댓글-답글 수정 초기화 --%>
 function resetReplyModElements() {
 	
-	$("tr").attr("style", "display:in-block;white-space:pre;") ;
+	$("p").attr("style", "display:in-block;white-space:pre;") ;
 	$(".btnModCmt").remove() ;
 	$(".btnDelCmt").remove() ;
 	$(".btnCancelCmt").remove() ;
 	$(".txtBoxMod").remove() ;
 }
 
-
-
 <%-- 댓글/답글 수정: 글내용이 표시된 p를 클릭 시 입력창, 수정, 삭제, 취소 버튼 화면 표시,  --%>
-<%-- #chat > li:nth-child(1) > div > p --%><%--
-$(".rcontent-p").on("click", function(){  //동작하지 않음 --%>
-$("#chat").on("click","li div tr", function(){ <%-- 이벤트전파 --%>
-<%-- textarea, 수정버튼, 삭제버튼, 취소버튼 표시
-	 textarea에 기존 값이 표시되고, 수정거친 후 ajax로 전송
-	 답글작성 버튼 감추기 --%>
+$("#chat").on("click","li div p", function(){ <%-- 이벤트전파 --%>
+
 	resetCmtRegElements() ;
 	resetRelyRegElements() ;
 	resetReplyModElements();
 	
+<%--로그인 하지 않은 경우--%>
+	if(!loginUser) {
+		alert("로그인 후 수정이 가능합니다.") ;
+		return ;
+	}
+
+<%--로그인 계정과 작성자가 다른 경우--%>	
+	var nickname = $(this).closest("li").data("nickname") ;
+	
+	if (loginUser != nickname) {
+		alert("작성자만 수정할 수 있습니다.") ;
+		return ;
+	}
+
+	
 	$(this).parents("li").find(".btnChgReplyReg").attr("style", "display:none") ;
 	
-	var rcontent = $(this).text() ;
+	var trcontent = $(this).text() ;
 
 	var strTxtBoxReply =
-		  "<textarea class='form-control txtBoxMod' name='rcontent' style='margin-bottom:10px;'"
+		  "<textarea class='form-control txtBoxMod' name='trcontent' style='margin-bottom:10px;'"
 		+ "         ></textarea>"
 		+ "<button type='button' class='btn btn-warning btn-sm btnModCmt'>수정</button> "
 		+ "<button type='button' class='btn btn-danger btn-sm btnDelCmt'>삭제</button>"
 		+ "<button type='button' class='btn btn-info btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
 	
 	$(this).after(strTxtBoxReply) ;
-	$(".txtBoxMod").val(rcontent);
+	$(".txtBoxMod").val(trcontent);
 	$(this).attr("style", "display:none");
-	
-<%--예, div#id1 > div#id2 > ul > li > p : $("tr").closest("div") : div#id2--%>
-<%--예, div#id1 > div#id2 > ul > li > p : $("tr").parents() : div#id1, div#id2, ul, li--%>
-<%--예, div#id1 > div#id2 > ul > li > p : $("tr").parents("div") : div#id1, div#id2--%>
-<%--예, div#id1 > div#id2 > ul > li > p : $("tr").parent() : li--%>
-<%--	
-//	잘못된 코드: $(this).closest(button): 선택된 tr를 기준으로 tr의 조상들(부모 포함) 중에 가장 가까운 button 을 찾음
-//	$(this).closest("button").attr("style", "display:none") ; 
---%>
+
 }) ;
 
 <%-- 댓글-답글 수정 취소 --%>
 <%-- #chat > li:nth-child(1) > div > button.btn.btn-info.btn-sm.btnCancelCmt --%>
 $("#chat").on("click","li div button.btnCancelCmt", function(){
-
-	<%--서버로 요청이 전달됨--%><%--
-	var _pageNum = frmCmtPagingValue.find("input[name='pageNum']").val() ;
-	showCmtList(_pageNum) ; --%>
 	
 	<%--브라우저에서 처리(서버 요청 없음)--%>
 	$(this).parents("li").find("button.btnChgReplyReg").attr("style","in-block" );
@@ -786,17 +781,17 @@ $("#chat").on("click","li div button.btnCancelCmt", function(){
 
 });
 
-
 <%-- 댓글-답글 수정 --%>
 <%-- #chat > li:nth-child(1) > div > button.btn.btn-warning.btn-sm.btnModCmt --%>
 $("#chat").on("click", "li div button.btnModCmt", function(){
 	
 	var trcontent = $(this).prev().val() ;
-	var trno = $(this).siblings("tr").data("trno") ;
+	var trno = $(this).siblings("p").data("trno") ;
+	var nickname = $(this).parents("li").data("nickname") ;
 	
-	var cmtReply = {tno: tnoValue, trno: trno, trcontent: trcontent} ;
+	var cmtReply = {tno: tnoValue, trno: trno, trcontent: trcontent, nickname: nickname} ;
 	
-	myReplyClsr.modifyCmtReply(
+	communityReplyClsr.modifyCmtReply(
 			cmtReply,
 			function(result){
 				alert("댓글(답글)이 수정되었습니다.") ;
@@ -807,7 +802,6 @@ $("#chat").on("click", "li div button.btnModCmt", function(){
 	);
 });
 
-	
 <%-- 댓글-답글 삭제 --%>
 <%-- #chat > li:nth-child(1) > div > button.btn.btn-danger.btn-sm.btnDelCmt --%>
 $("#chat").on("click","li div button.btnDelCmt", function(){
@@ -815,13 +809,14 @@ $("#chat").on("click","li div button.btnDelCmt", function(){
 		return ;
 	}
 <%--	
-	var trno = $(this).parents("li.commentLi").data("trno"); --%>
+	var rno = $(this).parents("li.commentLi").data("rno"); --%>
 	var trno = $(this).closest("li.commentLi").data("trno") ;
+	var nickname = $(this).parents("li.commentLi").data("nickname") ;
 	
-	var tnoAndRno ={tno: tnoValue, trno: trno} ;
+	var myReplyCmt ={tno: tnoValue, trno: trno, nickname: nickname} ;
 	
-	myReplyClsr.removeCmtReply(
-			tnoAndTrno,
+	communityReplyClsr.removeCmtReply(
+			myReplyCmt,
 			function(){
 				alert("글이 삭제되었습니다.") ;
 				
@@ -831,6 +826,7 @@ $("#chat").on("click","li div button.btnDelCmt", function(){
 	);
 	
 });
+
 
 </script>
 
@@ -848,12 +844,6 @@ $(document).ready(function(){
 	showCmtList(1) ;<%--댓글-답글 표시 --%>
 });
 </script>
-
-
-
-
-
-
 
 
 

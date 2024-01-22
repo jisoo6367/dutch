@@ -17,7 +17,6 @@ public class CommunityReplyVO {
 	
 	private long trno; 
     private long tno ;
-    private long mno ;
     private String nickname;
     private String trcontent ;
     private Timestamp trmodDate ;

@@ -25,7 +25,7 @@ public interface CommunityMapper {
 	public CommunityVO selectCommunity2(long tno) ;
 	
 	//특정 게시물 수정(UPDATE)
-	public int updateCommunity(CommunityVO communityVO) ;
+	public Integer updateCommunity(CommunityVO communityVO) ;
 	
 	//특정 게시물 삭제(DELETE)
 	public int deleteCommunity(long tno) ;

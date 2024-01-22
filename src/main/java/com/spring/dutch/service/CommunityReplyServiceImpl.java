@@ -21,7 +21,7 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
 									 CommunityMapper communityMapper) {
 		this.communityReplyMapper = communityReplyMapper ;
 		this.communityMapper = communityMapper ;
-		}
+		} 
 
 	//특정 게시물에 대한 댓글 목록 조회
 	@Override
@@ -37,13 +37,13 @@ public class CommunityReplyServiceImpl implements CommunityReplyService{
 			communityreplyPaging.setPageNum(pageNum) ;
 		}
 		
-		List<CommunityReplyVO> myreplyList = communityReplyMapper.selectCommunityReplyList(communityreplyPaging) ;
+		List<CommunityReplyVO> communityreplyList = communityReplyMapper.selectCommunityReplyList(communityreplyPaging) ;
 		
 		
-		CommunityReplyPagingCreatorDTO myreplyPagingCreator
-			= new CommunityReplyPagingCreatorDTO(myreplyList, replyTotCnt, communityreplyPaging);
+		CommunityReplyPagingCreatorDTO communityreplyPagingCreator
+			= new CommunityReplyPagingCreatorDTO(communityreplyList, replyTotCnt, communityreplyPaging);
 				
-		return myreplyPagingCreator ;
+		return communityreplyPagingCreator ;
 	}
 
 	

@@ -7,14 +7,23 @@ import com.spring.dutch.domain.CardVO;
 import com.spring.dutch.dto.CardPagingDTO;
 
 public interface CardMapper {
+	
 	public List<CardVO> selectList(CardPagingDTO cardPaging);
 	
 	public long selectRows(CardPagingDTO cardPaging);
 	
 	public int insertCard(CardVO card);
+	
+	public CardVO selectCard(String kno);//특정카드 데이터
+	
+	public CardVO selectCard2(String kno);//수정페이지 호출
+	
+	public int updateCard(CardVO card);//카드 수정
+	
+	public int deleteCard(String kno);//카드 삭제
 
 	//특정 게시물의 첨부파일 목록 조회
-	public CardAttachFileVO selectAttachFiles(String kno) ;
+	public List<CardAttachFileVO> selectAttachFiles(String kno) ;
 		
 	//첨부파일 추가
 	public void insertAttachFile(CardAttachFileVO attachFile) ;
