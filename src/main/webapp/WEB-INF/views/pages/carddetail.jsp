@@ -207,8 +207,8 @@
 <script>
 
 var frmSendValue = $("#frmSendValue") ;
-var card = '<c:out value="${card}"/>';
-console.log(card);
+var cardPaging = '<c:out value="${cardPaging}"/>';
+console.log(cardPaging);
 <%-- 게시물 목록 페이지 이동 --%>
 $("#btnToList").on("click", function(){
 <%--

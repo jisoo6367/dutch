@@ -62,16 +62,15 @@ public class CardController {
 	}
 	
 	@GetMapping("/detail") //카드조회
-	public String showCardDetail(String kno, Model model,
+	public String showCardDetail(String kno, Model m,
 								 @ModelAttribute("cardPaging") CardPagingDTO cardPaging) {
 		
-		CardVO card = new CardVO();
+		CardVO card = cardService.getCard(kno);
+		System.out.println("컨트롤 card: " + card);
 		
-		card = cardService.getCard(kno);
-		System.out.println("컨트롤러 card: " + card);
-		model.addAttribute("card" + card);
+		m.addAttribute("card" + card);
 		
-		System.out.println("model: " + model);
+		System.out.println("model: " + m);
 		
 		return "pages/carddetail";
 	}
