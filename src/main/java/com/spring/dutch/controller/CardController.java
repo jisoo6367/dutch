@@ -58,7 +58,7 @@ public class CardController {
 		
 		redirectAttr.addFlashAttribute("kno", kno);
 		
-		return "redirect:/card";
+		return "redirect:/card/list";
 	}
 	
 	@GetMapping("/detail") //카드조회
@@ -68,7 +68,7 @@ public class CardController {
 		CardVO card = cardService.getCard(kno);
 		System.out.println("컨트롤 card: " + card);
 		
-		m.addAttribute("card" + card);
+		m.addAttribute("card", card);
 		
 		System.out.println("model: " + m);
 		
