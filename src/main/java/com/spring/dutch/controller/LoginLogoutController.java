@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.service.MemberRegisterService;
@@ -20,10 +20,7 @@ public class LoginLogoutController {
 	private SnsValue naverSns;
 	
 	@Inject
-	private SnsValue googleSns;
-	
-	@Inject
-	private GoogleConnectionFactory googleConnectionFactory;
+	private GoogleConnectionFactory connectionFactory;
 	
 	@Inject
 	private OAuth2Parameters googleOAuth2Parameters;*/
@@ -33,6 +30,31 @@ public class LoginLogoutController {
 	public LoginLogoutController(MemberRegisterService memberRegisterService) {
 		this.memberRegisterService = memberRegisterService;
 	}
+	
+	/*@RequestMapping(value = "/auth/naver/callback",
+					method= {RequestMethod.GET, RequestMethod.POST})
+	public String snsLoginCallback(Model m, @RequestParam String code) throws Exception {
+		
+		SNSLogin snsLogin = new SNSLogin(naverSns);
+		String profile = snsLogin.getUserProfile(code);
+		System.out.println("Profile>>>>" + profile);
+		
+		m.addAttribute("result", profile);
+		
+		return "pages/loginResult";
+	}
+	
+	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
+	public void naverLoginSns(Model m) throws Exception {
+		
+		SNSLogin snsLogin = new SNSLogin(naverSns);
+		m.addAttribute("naver_url", snsLogin.getNaverAuthURL());
+		
+		OAuth2Operations authOperations = connectionFactory.getOAuthOperations();
+		String url = authOperations.buildAuthenticateUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		
+		m.addAttribute("google_url", url);
+	}*/
 	
 	
 	@GetMapping(value="/loginPage")
@@ -79,18 +101,12 @@ public class LoginLogoutController {
 		return "/pages/finder";
 	}
 	
-	/*@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public void login(Model model) throws Exception{
-		
-		SNSLogin snsLogin = new SNSLogin(naverSns);
-		model.addAttribute("naver_url", snsLogin.getNaverAuthURL());
-		
-		OAuth2Operations authOperations = googleConnectionFactory.getOAuthOperations();
-		String url = authOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		
-		model.addAttribute("google_url", url);
-		
-		
-	}*/
+	@GetMapping("/naverCallback")
+	public String naverLogin() {
+			System.out.println("네이버콜백제이에스피로 가는 컨트롤러입니다.");
+		return "pages/naverCallback";
+	}
+	
+	
 	
 }

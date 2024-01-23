@@ -48,8 +48,23 @@
                             
         </fieldset>
       </form>
-      
-      <script type="text/javascript">
+      <!-- 네이버로그인 버튼 -->
+	<div class="row">
+		<div id="naver_id_login">
+			<a href="${naver_url }"></a>
+		</div>
+	</div>
+	
+	<!-- 구글로그인 버튼 -->
+	<div class="text-center">
+		<a href="${google_url }"><img src="/resources/img/googleLoginBotton.png" alt="구글로 로그인"/></a>
+	</div>
+</div> <!-- /container -->
+    
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8">
+</script>
+    
+ <script type="text/javascript">
       		$("#moveRegisterPage").on("click", function(){
       			window.location.href="${contextPath}/member/register";
       		});
@@ -67,13 +82,32 @@
       			window.location.href="${contextPath}/dutch/memberregister";
       		} */
       		
+      		var naver_id_login = new naver_id_login("yxF4sXjfBGa0l2dQ3JtV", "http://localhost:8080/dutch/naverCallback");
+      		var state = naver_id_login.getUniqState();
+      		
+      		naver_id_login.setButton("white", 3, 40);
+      		naver_id_login.setDomain(".service.com");
+      		naver_id_login.setState(state);
+      		naver_id_login.init_naver_id_login();
+      		
+      		//https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=yxF4sXjfBGa0l2dQ3JtV&client_secret=0WoM6DNYYj&access_token=AAAANbnhuKoUSYZTn6lbs4Dlh7eXYi3UneQQ4_wHU727D6c1Zmftg7mN2tSEnpCMf5umLvlHFdeFhmV8v-9pSFoGqeg&service_provider=NAVER
       	
-      </script>
-      
-      
-      
-      
-	<div></div>
-    </div> <!-- /container -->
+</script>   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 <%@include file="../pageinclude/footer.jsp" %> 

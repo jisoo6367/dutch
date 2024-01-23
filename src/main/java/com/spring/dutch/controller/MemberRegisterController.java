@@ -28,11 +28,14 @@ public class MemberRegisterController {
 	}
 	
 	@GetMapping(value="/register")
-	public String showRegister() {
-		return "/pages/memberregister";
+	public String choiseRegister() {
+		return "/pages/choiseRegiPage";
 	}
 	
-	
+	@GetMapping(value="/normalRegister")
+	public String showRegister() {
+		return "/pages/memberRegister";
+	}
 //	@RequestMapping(value="/sendmember",
 //				 	method = {RequestMethod.POST},
 //				 	consumes = {"application/json;charset=utf-8"},

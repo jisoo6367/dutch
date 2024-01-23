@@ -71,8 +71,7 @@
 						value="https://www.googleapis.com/auth/userinfo.email"/>
 		<beans:property name="redirectUri"
 						value="googleRedirectUrl"/>
-	</beans:bean>
-	 -->
+	</beans:bean> -->
 	
 	<context:component-scan base-package="com.spring.dutch"/>
 

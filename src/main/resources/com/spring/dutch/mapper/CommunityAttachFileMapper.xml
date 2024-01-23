@@ -18,7 +18,7 @@
 	</select> -->
 
 <!--첨부파일 추가 -->
-	<insert id="insertAttachFile">
+	<insert id="insertAttachFile" parameterType="com.spring.dutch.domain.CardAttachFileVO">
 		INSERT INTO dutch.tbl_community_attachFiles
 		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{tno})
 	</insert>

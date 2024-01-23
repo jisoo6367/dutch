@@ -31,7 +31,7 @@
 					    	<input class="form-control" name="nickname" id="nickname" placeholder="닉네임을 입력하세요">
 					    	<button type="button" class="btn btn-default" id="checkNicknameBtn">중복 확인</button>
 					    	<label id="showCheckedId"></label>
-					    	<p class="p-color-font">4~20자의 영문 소문자, 숫자만 사용 가능합니다</p>
+					    	<p class="p-color-font">4~20자의 영문 소문자, 한글, 숫자만 사용 가능합니다</p>
 					    	
 						</div>
 							
@@ -42,6 +42,13 @@
 					    <div class="col-sm-10">
 					    	<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호를 입력하세요">
 					    	<p class="p-color-font">4~16자의 영문 대/소문자, 숫자, 특수문자(!,@,#)를 사용해 주세요.</p>
+						</div>
+					</div>
+					<div class="form-group">
+					    <label class="col-sm-2 control-label" style="white-space: nowrap;">비밀번호 확인</label>
+					    <div class="col-sm-10">
+					    	<input type="password" class="form-control" id="passwordChk" placeholder="비밀번호를 다시 입력하세요">
+					    	<p class="p-color-font">비밀번호를 동일하게 입력해주세요.</p>
 						</div>
 					</div>
 					<div class="form-group">
@@ -152,7 +159,7 @@
 	
 	$("#nickname").on("change", function(){
 		var nickname = $("#nickname").val();
-		var regExpNick = /^[A-Za-z0-9]{4,20}$/;
+		var regExpNick = /^[가-힣A-Za-z0-9]{4,20}$/;
 		
 		if(regExpNick.test(nickname)){
 			$(this).attr("style", "border-color: none;")
@@ -168,6 +175,20 @@
 		var regExpPw = /^[A-Za-z0-9!@#]{4,16}$/;
 		
 		if(regExpPw.test(password)){
+			$(this).attr("style", "border-color: none;")
+			$(this).siblings("p").attr("style", "display: none;")
+		} else {
+			$(this).attr("style", "border-color: red;")
+			$(this).siblings("p").attr("style", "display: in-block;")
+		}
+		
+	});
+	
+	$("#passwordChk").on("change", function(){
+		var password = $("#password").val();
+		var passwordChk = $("#passwordChk").val();
+		
+		if(password == passwordChk){
 			$(this).attr("style", "border-color: none;")
 			$(this).siblings("p").attr("style", "display: none;")
 		} else {
