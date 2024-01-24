@@ -72,7 +72,25 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">공지사항<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
 				</div>
-				<div class="panel-body">공지사항 컨테이너</div>
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-hover" 
+		          			style="width:100%;text-align: center;">
+		          		<thead>
+		          			<tr>
+		          				<th>제목</th>
+		          				<th class="text-center">공지 일자</th>
+		          			</tr>
+		          		</thead>
+						<tbody>
+							<c:forEach var="notice" items="${data.notiList }">
+								<tr>
+									<td class="col-md-8 text-left">${notice.ctitle}</td>
+									<td class="col-md-4"><fmt:formatDate value="${notice.cregDate }" pattern="yyyy-MM-dd"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -80,7 +98,29 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">인기 커뮤니티<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
 				</div>
-				<div class="panel-body">커뮤니티 컨테이너</div>
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-hover" 
+		          			style="width:100%;text-align: center;">
+		          		<thead>
+		          			<tr>
+		          				<th>카테고리</th>
+		          				<th>제목</th>
+		          				<th class="text-center">개설자</th>
+		          				<th class="text-center">개설 일자</th>
+		          			</tr>
+		          		</thead>
+						<tbody>
+							<c:forEach var="community" items="${data.commuList }">
+								<tr>
+									<td class="col-md-3 text-left">${community.tcategory}</td>
+									<td class="col-md-4 text-left">${community.ttitle}</td>
+									<td class="col-md-2">${community.nickname}</td>
+									<td class="col-md-3"><fmt:formatDate value="${community.tregDate }" pattern="yyyy-MM-dd"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -88,7 +128,25 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">인기 카드<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
 				</div>
-				<div class="panel-body">인기 카드 컨테이너</div>
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-hover" 
+		          			style="width:100%;text-align: center;">
+		          		<thead>
+		          			<tr>
+		          				<th>카드명</th>
+		          				<th class="text-center">추천수</th>
+		          			</tr>
+		          		</thead>
+						<tbody>
+							<c:forEach var="card" items="${data.cardList }">
+								<tr>
+									<td class="col-md-10 text-left">${card.kname}</td>
+									<td class="col-md-2">${card.kcomment}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -96,13 +154,33 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">최근 더치페이<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
 				</div>
-				<div class="panel-body">최근 더치페이 컨테이너</div>
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-hover" 
+		          			style="width:100%;text-align: center;">
+		          		<thead>
+		          			<tr>
+		          				<th>카테고리</th>
+		          				<th>제목</th>
+		          				<th class="text-center">개설자</th>
+		          				<th class="text-center">개설 일자</th>
+		          			</tr>
+		          		</thead>
+						<tbody>
+							<c:forEach var="dutch" items="${data.dutchList }">
+								<tr>
+									<td class="col-md-3 text-left">${dutch.category}</td>
+									<td class="col-md-4 text-left">${dutch.ptitle}</td>
+									<td class="col-md-2">${dutch.nickname}</td>
+									<td class="col-md-3"><fmt:formatDate value="${dutch.pregDate }" pattern="yyyy-MM-dd"/></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 
 	</div>
-
-	<hr>
 
 </div>
 

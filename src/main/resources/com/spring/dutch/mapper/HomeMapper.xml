@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.HomeMapper">
+	<select id="selectNoti" resultType="com.spring.dutch.domain.NoticeVO">
+		 SELECT cno, ctitle, cregDate  FROM (
+            SELECT * FROM dutch.tbl_notice ORDER BY cregDate DESC
+        <![CDATA[
+        ) WHERE ROWNUM <= 5
+        ]]>
+	</select>
+	
+	<select id="selectDutch" resultType="com.spring.dutch.domain.DutchBoardVO">
+		SELECT pno, category, ptitle, nickname, pregDate  FROM (
+            SELECT * FROM dutch.tbl_dutch ORDER BY pregDate DESC
+        <![CDATA[
+        ) WHERE ROWNUM <= 5
+        ]]>
+	</select>
+	
+	<select id="selectCommu" resultType="com.spring.dutch.domain.CommunityVO">
+		SELECT tno, tcategory, ttitle, nickname, tregDate  FROM (
+            SELECT * FROM dutch.tbl_Community ORDER BY tviewCnt DESC
+        <![CDATA[
+        ) WHERE ROWNUM <= 5
+        ]]>
+	</select>
+	
+	<select id="selectCard" resultType="com.spring.dutch.domain.CardVO">
+		SELECT kno, kname, kcomment  FROM (
+            SELECT * FROM dutch.tbl_card ORDER BY kcomment DESC
+        <![CDATA[
+        ) WHERE ROWNUM <= 5
+        ]]>
+	</select>
+	
+	
+</mapper>

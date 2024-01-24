@@ -25,6 +25,8 @@
 	<link href="${contextPath}/reources/docs/examples/navbar-static-top/navbar-static-top.css" rel="stylesheet">
 	<!-- Bootstrap offcanvas css -->
 	<link href="${contextPath}/reources/docs/examples/offcanvas/offcanvas.css" rel="stylesheet">
+	<!-- Bootstrap footer css -->
+	<link href="${contextPath}/reources/docs/examples/sticky-footer/sticky-footer.css" rel="stylesheet">
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Bootstrap JS -->
@@ -74,6 +76,8 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    
+    <div class="container" style="heigth: auto; min-height: 100%; padding-bottom: 100px;">
     
     <script>
     
