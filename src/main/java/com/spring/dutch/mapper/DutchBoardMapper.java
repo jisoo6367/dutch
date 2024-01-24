@@ -24,9 +24,28 @@ public interface DutchBoardMapper {
 	
 	//방 등록하고나서 pno, pregDate, ppersonal 가져오는 메서드
 	public DutchBoardVO selectForParticipants(DutchBoardVO boardVO);
+	
+	//방 등록하고나서 pno, pregDate, ppersonal 가져오는 메서드
+	public DutchBoardVO selectForParticipantsByPno(DutchBoardVO boardVO);
 
 	//방 등록하면서 회원닉네임 개인부담금액 방번호 방개설날짜 넣는 메서드 
 	public int insertParticipants(List<ParticipantsVO> participants);
-
+	
+	//페이방 수정할 때 Participants테이블에 다시 업데이트 하기위해서 일단 삭제먼저
+	public int deleteParticipants (long pno);
+	
+	//게시물 수정(UPDATE)
+	public int updateDutchBoard (DutchBoardVO boardVO);
+	
+	//참여자 테이블에서 데이터 가져오는 메서드
+	public List<ParticipantsVO> selectParticipants(long pno);
+   
+	//게시물 삭제(DELETE)
+	public int deleteDutchBoard (long pno);
+	
+	//정산 완료 (UPDATE)
+	public int updatePcalDutch (long pno);
+	public int updatePcalParti (long pno);
+	
 
 }

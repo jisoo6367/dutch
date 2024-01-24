@@ -27,14 +27,11 @@ public interface MypageService {
 //	public MypagePagingCreatorDTO getPersonal_0 (String nickname, MypagePagingDTO mypagePaging);
 //	public MypagePagingCreatorDTO getPersonal_1 (String nickname, MypagePagingDTO mypagePaging);
 
-
 	public MypagePagingCreatorDTOongoing getPersonal_0(MypagePagingNicknameDTOongoing mypagePagingNicknameDTO);
 	public MypagePagingCreatorDTOhistory getPersonal_1(MypagePagingNicknameDTOhistory mypagePagingNicknameDTO);
-
-	
 	
 	//더치페이 내역 방 갯수 가져오기
 	public MypageDTO getDutchCount (String nickname);
-	
+
 	
 }

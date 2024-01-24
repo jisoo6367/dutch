@@ -49,7 +49,7 @@ public class MypageServiceImpl implements MypageService {
 
 		//변경한 비밀번호 인코더처리
 		member.setPassword(pwencoder.encode(member.getPassword()));
-		
+		System.out.println("마이페이지 수정 서비스 멤버 체크: " + member);
 		int memberModifyResult = mypageMapper.updateMember(member);
 		
 
@@ -116,7 +116,6 @@ public class MypageServiceImpl implements MypageService {
     }
 
 	
-	
 ////	정산중인 방 : 0
 //	@Override
 //	public MypagePagingCreatorDTO getPersonal_0(String nickname, MypagePagingDTO mypagePaging) {
@@ -144,8 +143,6 @@ public class MypageServiceImpl implements MypageService {
 //											personalData_1);
 //	}
 
-
-	
 	
 	//더치페이 내역 방 갯수 가져오기
 	@Override
@@ -158,9 +155,6 @@ public class MypageServiceImpl implements MypageService {
 		
 		return dutchCount;
 	}
-
-	
-	
 	
 	
 	

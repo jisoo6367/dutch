@@ -29,9 +29,10 @@ public class CardController {
 	}
 	
 	@GetMapping(value="/list")
-	public String showCardList(Model model, CardPagingDTO cardPaging) {
+	public String showCardList(Model model, String result, CardPagingDTO cardPaging) {
 		
 		model.addAttribute("listData", cardService.showCardList(cardPaging)) ;
+		model.addAttribute("result", result);
 		
 		return "/pages/cardlist";
 	}
@@ -56,12 +57,12 @@ public class CardController {
 		
 		String kno = cardService.registerCard(card);
 		
-		redirectAttr.addFlashAttribute("kno", kno);
+		redirectAttr.addFlashAttribute("result", kno);
 		
 		return "redirect:/card/list";
 	}
 	
-	@GetMapping("/detail") //카드조회
+	@GetMapping("/detail") //카드조회, 수정후 조회
 	public String showCardDetail(String kno, Model m,
 								 @ModelAttribute("cardPaging") CardPagingDTO cardPaging) {
 		
@@ -81,9 +82,9 @@ public class CardController {
 		
 		CardVO card = cardService.getCard2(kno);
 		
-		model.addAttribute("card: " + card);
+		model.addAttribute("card======= " + card);
 		
-		return "/pages/cardmodify";
+		return "pages/cardmodify";
 	}
 	
 	@PostMapping("/modify") //수정
@@ -103,11 +104,14 @@ public class CardController {
 		redirectAttr.addAttribute("scope", cardPaging.getScope()) ;
 		redirectAttr.addAttribute("keyword", cardPaging.getKeyword()) ;
 		
-		return "redirect:/carddetail";
+		return "redirect:/card/detail";
 	}
 	
 	@PostMapping("/remove") //특정 카드 삭제
 	public String removeCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
+		
+		System.out.println("jsp에서 받은 값:" + card);
+		System.out.println("jsp에서 받은 값:" + cardPaging);
 		
 		if (cardService.removeCard(card.getKno())) {
 			redirectAttr.addFlashAttribute("result","successRemove") ;
@@ -116,17 +120,19 @@ public class CardController {
 			redirectAttr.addFlashAttribute("result","failRemove") ;
 		}	
 		
-		redirectAttr.addAttribute("kno", card.getKno()) ;
 		redirectAttr.addAttribute("pageNum", cardPaging.getPageNum());
 		redirectAttr.addAttribute("rowAmountPerPage", cardPaging.getRowAmountPerPage()) ;
 		redirectAttr.addAttribute("scope", cardPaging.getScope()) ;
 		redirectAttr.addAttribute("keyword", cardPaging.getKeyword()) ;
 		
-		return "redirect:/pages/cardlist";
+		return "redirect:/card/list";
 	}
 	
+	//특정 게시물의 첨부파일 정보를 JSON으로 전달(특정 게시물의 수정페이지에서 사용)
 	@GetMapping(value = "/getFiles" , produces = {"application/json; charset=utf-8"})
 	public @ResponseBody ResponseEntity<List<CardAttachFileVO>> showAttachFiles(String kno){
+		
+		System.out.println("kno" + kno);
 		return new ResponseEntity<List<CardAttachFileVO>>(cardService.getAttachFileList(kno), HttpStatus.OK);
 	}
 	

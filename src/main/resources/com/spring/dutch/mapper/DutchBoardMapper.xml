@@ -29,6 +29,8 @@
 		</foreach>
 	</update>
 	
+	
+	
 
 <!-- 더치페이 목록조회(READ) -->
 	<select id="selectDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
@@ -76,27 +78,76 @@
 			        #{ppersonal},
 			        #{ptotalPayment},
 			        DEFAULT)
-
 </insert>
 
 <!-- 특정 게시물 조회: (detail.jsp)-->
 <select id="selectDutchBoard" resultType="com.spring.dutch.domain.DutchBoardVO">
-
 	SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
 		   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
 	FROM dutch.tbl_dutch WHERE pno = #{pno}
-
 </select>	
 
+<!-- Participants테이블에서 정보 꺼내오기-->
 <select id="selectForParticipants" parameterType="com.spring.dutch.domain.DutchBoardVO"
 		resultType="com.spring.dutch.domain.DutchBoardVO">
-		
 	select pno, ptitle, pregDate, ppersonal, pcalculated
 	from dutch.tbl_dutch
 	where nickname = #{nickname} and ptitle = #{ptitle}
-
 </select>
 
+<select id="selectForParticipantsByPno" parameterType="com.spring.dutch.domain.DutchBoardVO"
+		resultType="com.spring.dutch.domain.DutchBoardVO">
+	select pno, ptitle, pregDate, ppersonal, pcalculated
+	from dutch.tbl_dutch
+	where pno = #{pno}
+</select>
+
+<!-- 위에꺼랑 헷갈리지마셈 이건 디테일페이지로 불러올 때 쓰는 sql -->
+<select id="selectParticipants" parameterType="long" 
+      resultType="com.spring.dutch.domain.ParticipantsVO">
+   select pno, ptitle, pregDate, ppersonal, pcalculated, nickname
+   from dutch.tbl_participants
+   where pno = #{pno}
+   
+</select>
+
+
+<!-- 페이방 수정할 때 Participants테이블에 다시 업데이트 하기위해서 일단 삭제먼저 -->
+<delete id="deleteParticipants" parameterType="long">
+	DELETE FROM dutch.tbl_participants
+	WHERE pno = #{pno} 
+</delete>
+
+<!-- 게시물 수정(UPDATE)-->
+	<update id="updateDutchBoard" parameterType="com.spring.dutch.domain.DutchBoardVO">
+		UPDATE dutch.tbl_dutch
+		SET category = #{category} ,
+		    ptitle = #{ptitle} ,
+		    pcontent = #{pcontent} ,
+		    pmoddate =  sysdate,
+		    ppersonal = #{ppersonal} ,
+		    ptotalpayment = #{ptotalPayment}
+		WHERE pno = #{pno}
+	</update>
+
+<!-- 게시물 삭제(DELETE)-->
+	<delete id="deleteDutchBoard" parameterType="long">
+		DELETE FROM dutch.tbl_dutch
+		WHERE pno = #{pno}
+	</delete>
+
+<!-- 정산 완료 UPDATE)-->
+	<update id="updatePcalDutch" parameterType="long">
+		UPDATE dutch.tbl_dutch
+		SET pcalculated = '1' 
+		WHERE pno = #{pno}
+	</update>
+	
+	<update id="updatePcalParti" parameterType="long">
+		UPDATE dutch.tbl_participants
+		SET pcalculated = '1' 
+		WHERE pno = #{pno}
+	</update>
 
 
 

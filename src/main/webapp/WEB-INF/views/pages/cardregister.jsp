@@ -202,7 +202,7 @@ function showUploadResult(uploadResult) {
 		+ "    data-uuid='" + attachFile.uuid + "'" 
 		+ "    data-filename='" + attachFile.fileName + "'" 
 		+ "    data-filetype='I'>"
-		+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
+		+ "        <img src='${contextPath}/cardDisplayThumbnail?fileName=" + thumbnail + "'>"
 		+ "        &nbsp;&nbsp;" + attachFile.fileName 
 		+ "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
 		+ "</li>" ;

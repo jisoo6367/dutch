@@ -30,27 +30,7 @@ public class NoticeController {
 		System.out.println("MyBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
 	
-////  (Setter를 이용한 주입) 
-//	public NoticeController() {
-//		System.out.println("MyBoardController의 기본 생성자 입니다.");
-//	}
-//	
-//	@Autowired
-//	public void setMyBoardService(NoticeService noticeService) {
-//		this.noticeService = noticeService ;
-//	}
-	
-	
-	//목록 조회
-//	@GetMapping("/noticelist")
-//	public String showNoticeList(NoticePagingDTO noticePaging ,Model model) {
-//		
-//		List<NoticeVO> noticeCreator = noticeService.getNoticeList(noticePaging);
-//		
-//		model.addAttribute("noticeCreator", noticeCreator);
-//		
-//		return "pages/noticelist";
-//	}
+
 	
 	@GetMapping("/list")
 	public String showNoticeList(NoticePagingDTO noticePaging ,Model model) {
@@ -87,15 +67,6 @@ public class NoticeController {
 		return "redirect:/pages/noticelist";
 	}
 
-//	//특정 게시물 조회
-//	@GetMapping("/noticedetail")
-//	public String showNoticeDetail(Long cno) {
-//		
-//		NoticeVO notice = noticeService.getNotice(cno);
-//		System.out.println("컨트롤러에 전달된 notice: " + notice);
-//		
-//		return "pages/noticedetail" ;
-//	}
 	
 	//특정 게시물 조회, 수정 후 조회
 	@GetMapping(value = "/detail")

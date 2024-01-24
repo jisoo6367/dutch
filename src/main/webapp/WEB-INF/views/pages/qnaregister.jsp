@@ -43,10 +43,9 @@
 						<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
 						<button type="button" class="btn btn-warning" 
 						        onclick="location.href='${contextPath}/qna/list';">취소</button>
-						<%-- 
-						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> 
+						
+						 
 						<sec:csrfInput/>
-						--%>
 					</form>                  
                 </div><!-- /.panel-body -->
             </div><!-- /.panel -->

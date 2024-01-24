@@ -35,9 +35,7 @@
 	                	<table class="table table-striped table-bordered table-hover">
 	                        <tbody>
 	                            <tr>
-	                                <td>이미지</td>
-	                                <td>닉네임</td>
-	                                <td><button type="button" class="btn btn-warning pull-right" >로그아웃</button></td>
+
 	                            </tr>
 	                        </tbody>
 	                    </table>

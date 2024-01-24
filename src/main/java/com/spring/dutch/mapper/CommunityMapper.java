@@ -42,7 +42,9 @@ public interface CommunityMapper {
 	public void updateTreplyCntCommunity(@Param("tno") Long tno, @Param("amount") int amount) ;
 	
 
-	//신고수 누적 블라인드( 삭제랑 비슷할듯)
+	
+	//댓글 5개
+	public List<CommunityVO> selectRecentCommunityList(@Param("count") int count);
 	
 	
 	

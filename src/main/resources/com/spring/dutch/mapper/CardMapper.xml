@@ -103,10 +103,17 @@
 	</update>
 	
 	<!-- 카드 삭제 -->
-	<delete id="deleteCard" parameterType="String">
+	<delete id="deleteCard" parameterType="com.spring.dutch.domain.CardVO">
 		DELETE FROM dutch.tbl_card
 		WHERE kno = #{kno} 
 	</delete>
+	
+	<!-- 특정 게시물의 모든 첨부파일 조회 -->
+	<select id="selectAttachFiles" resultType="com.spring.dutch.domain.CardAttachFileVO">
+		SELECT uuid, uploadPath, fileName, kno
+		FROM dutch.tbl_cardAttachFiles
+		WHERE kno = #{kno}
+	</select>
 	
 	<!-- 카드 이미지 등록 -->
 	<insert id="insertAttachFile" parameterType="com.spring.dutch.domain.CardAttachFileVO">

@@ -163,6 +163,15 @@
 	</update> 	
 	
 
+<!-- 최근게시물 5개 -->
+<select id="selectRecentCommunityList" resultType="com.spring.dutch.domain.CommunityVO">
+    <![CDATA[
+        SELECT * FROM (
+            SELECT * FROM dutch.tbl_Community ORDER BY tno DESC
+        ) WHERE ROWNUM <= #{count}
+    ]]>
+</select>
+
 
 
 </mapper>

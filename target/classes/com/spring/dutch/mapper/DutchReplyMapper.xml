@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dutch.mapper.DutchReplyMapper">
+
+<!-- 특정 게시물에 대한 댓글 목록 조회: 페이징 고려 -->
+	<select id="selectDutchReplyList" 
+			resultType="com.spring.dutch.domain.DutchReplyVO"
+			parameterType="com.spring.dutch.dto.DutchReplyPagingDTO">
+	<![CDATA[
+		SELECT lvl, rno, nickname, pno, rcontent, rdelFlag, rregDate, rmodDate, rcno
+		FROM ( 	SELECT /*+ INDEX(a IDX_FK_PNO_DUTCH_REPLY)  */ ROWNUM rn, LEVEL lvl, a.*
+				FROM dutch.tbl_dutch_reply a
+				WHERE pno = #{pno}
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+				START WITH rcno IS NULL
+				CONNECT BY PRIOR rno = rcno
+			  )
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
+
+	]]>	
+	</select>
+
+<!-- 특정 게시물에 대한 댓글 총 개수 -->
+	<select id="selectRowTotal" resultType="Long" parameterType="long">
+		SELECT COUNT(*) FROM dutch.tbl_dutch_reply
+		WHERE pno = #{pno}
+	</select>
+	
+<!-- 특정 게시물에 대한 댓글 등록 -->
+	<insert id="insertDutchReplyForBoard" parameterType="com.spring.dutch.domain.DutchReplyVO">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_dutch_reply.NEXTVAL FROM dual 
+		</selectKey>
+	
+	INSERT INTO dutch.tbl_dutch_reply
+	VALUES (#{rno},#{nickname},#{pno},#{rcontent},DEFAULT,DEFAULT,DEFAULT, NULL)
+	
+	</insert>
+
+<!-- 댓글에 대한 답글 등록(prno: 부모글의 rno 값) -->
+	<insert id="insertDutchReplyForReply" parameterType="com.spring.dutch.domain.DutchReplyVO">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="long">
+			SELECT dutch.seq_dutch_reply.NEXTVAL FROM dual 
+		</selectKey>
+	
+	INSERT INTO dutch.tbl_dutch_reply
+	VALUES (#{rno},#{nickname},#{pno},#{rcontent},#{rdelFlag},DEFAULT,DEFAULT, #{rcno}) 
+	
+	</insert>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 조회 -->
+	<select id="selectDutchReply" resultType="com.spring.dutch.domain.DutchReplyVO">
+		SELECT rno, nickname, pno, rcontent, rdelFlag, rregDate, rmodDate, rcno
+		FROM dutch.tbl_dutch_reply
+		WHERE pno = #{pno} AND rno = #{rno}
+	
+	</select>
+	
+<!-- 특정 게시물에 대한 특정 댓글/답글 수정 -->
+	<update id="updateDutchReply" parameterType="com.spring.dutch.domain.DutchReplyVO">
+		UPDATE dutch.tbl_dutch_reply
+		SET rcontent = #{rcontent} , 
+			rmodDate = DEFAULT
+		WHERE pno = #{pno} AND rno = #{rno}
+	</update>
+
+<!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
+	<update id="updateRdelFlag">
+		UPDATE dutch.tbl_dutch_reply
+		SET rdelFlag = 1,
+			rmodDate = DEFAULT
+		WHERE pno = #{pno} AND rno = #{rno}
+	</update>
+
+
+<!-- 특정 게시물에 대한 모든 댓글 삭제 -->
+	<delete id="deleteAllReply">
+		DELETE FROM dutch.tbl_dutch_reply
+		WHERE pno = #{pno}
+	</delete>
+
+</mapper>

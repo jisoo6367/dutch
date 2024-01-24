@@ -236,7 +236,10 @@ function getAttachFileInfo(){
 		type:"get" ,
 		url: "${contextPath}/qna/getFiles" ,
 		data: {qno: qno} ,
-		dataType: "json" ,
+		dataType: "json" ,/* 
+ 		beforeSend: function(xhr){
+			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+		} , */
 		success: function(uploadResult){
 			showUploadResult(uploadResult) ;
 		}

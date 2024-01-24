@@ -15,7 +15,7 @@
 <div id="page-wrapper">
     <div class="row"> 
         <div class="col-lg-12">
-            <h3 class="page-header">community - List</h3>
+            <h3 class="page-header">.</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     
@@ -25,7 +25,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">게시글 목록</div>
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">커뮤니티</div>
 						<div class="col-md-6" style="padding-top:8px;">
 							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
 						</div>
@@ -77,7 +77,7 @@
 		
 	</div>
 
-	<div class="form-group pull-right">
+	<%-- <div class="form-group pull-right">
 		<input class="form-control" id="beginDate" name="beginDate" type="date"
 			   value="${pagingCreator.communityPaging.beginDate}" 
 			   />
@@ -87,7 +87,7 @@
 
 		<button type="button" class="btn btn-primary mybtns" 
 				id="btnIntervalSearch" >기간검색</button>
-	</div> 
+	</div>  --%>
 	
 	
 	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.communityPaging.pageNum }" >
@@ -101,12 +101,12 @@
 		          style="width:100%;text-align: center;">
 		       <thead>
 		           <tr>
-		               <th>글번호</th>
+		             <!--   <th>글번호</th> -->
 		               <th>카테고리</th>
 		               <th>방제목</th>
 		               <th>작성자</th>
 		               <th>게시글 작성일</th>
-		               <th>게시글 수정일</th>
+		             <!--   <th>게시글 수정일</th> -->
 		               <th>조회수</th>
 		           </tr>
 		       </thead>
@@ -119,14 +119,13 @@
 		<c:choose>
 			<c:when test="${community.tdelFlag == 1 }">
 				<tr style="background-color: Moccasin; text-align: center">
-				    <td>${community.tno }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				<%--     <td>${community.tno }</td> --%>
+				    <td colspan="6"><em>삭제된 게시글입니다.</em></td>
 				</tr>
 			</c:when>
 			<c:otherwise>
 				<tr class="moveDetail" data-tno="${community.tno }">
-					<td><c:out value="${community.tno }"/></td><%-- 
-					<td style="text-align: left"><a href="${contextPath }/community/detail?tno=${community.tno}" ><c:out value="${community.ttitle }"/></a></td> --%>
+					<%-- <td><c:out value="${community.tno }"/></td>		 --%>		
 					<td><c:out value="${community.tcategory }"/>
 						</td>
 					<td style="text-align: left">					
@@ -134,8 +133,8 @@
 					  <small>[<strong><c:out value="${community.treplyCnt}"/></strong>]</small> 
 					</td>					
 					<td>${community.nickname }</td>
-					<td class="center"><fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-					<td class="center"><fmt:formatDate value="${community.tmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm"/></td>
+					<%-- <td class="center"><fmt:formatDate value="${community.tmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
 					<td class="center"><c:out value="${community.tviewCnt }"/></td>
 					
 				 </tr>
@@ -207,7 +206,7 @@
 
 
 <%-- Modal --%>
-<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
+<%-- <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -219,9 +218,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
-        </div><%-- /.modal-content --%>
-    </div><%-- /.modal-dialog --%>
-</div><%-- /.modal --%>
+        </div>/.modal-content
+    </div>/.modal-dialog
+</div>/.modal --%>
 
 
 

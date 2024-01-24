@@ -12,8 +12,8 @@
 </style>
 
 <!-- login container -->
-<div class="container">
-
+<div class="container row">
+	<div class="col-md-3">
       <form role="form" class="form-signin" method="post" action="${contextPath }/loginProcess">
       	<fieldset>
             <h4 class="text-muted h4-color"><c:out value="${error }"/></h4>
@@ -59,6 +59,7 @@
 	<div class="text-center">
 		<a href="${google_url }"><img src="/resources/img/googleLoginBotton.png" alt="구글로 로그인"/></a>
 	</div>
+  </div>
 </div> <!-- /container -->
     
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8">

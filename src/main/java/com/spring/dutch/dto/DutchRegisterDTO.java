@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.spring.dutch.domain.DutchAttachFileVO;
 import com.spring.dutch.domain.DutchBoardVO;
 import com.spring.dutch.domain.ParticipantsVO;
 
@@ -26,4 +27,8 @@ public class DutchRegisterDTO {
 	private long ppersonal;        //개인부담금액
 	private int ptotalPayment ;
 	private List<ParticipantsVO> participants;
+	
+	
+	private List<DutchAttachFileVO> 
+			attachFileList ;
 }

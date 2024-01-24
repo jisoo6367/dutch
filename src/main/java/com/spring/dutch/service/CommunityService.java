@@ -33,8 +33,8 @@ import com.spring.dutch.dto.CommunityPagingDTO;
   //특정 게시물의 첨부파일 목록 조회
   public List<CommunityAttachFileVO> getAttachFileList(Long tno) ;//String nickname
   
-//신고수 누적 블라인드( 삭제랑 비슷할듯)
-  
+  //최근 게시물 5개 보여주기 메서드
+  List<CommunityVO> getRecentCommunityList(int count);
   
   }
  

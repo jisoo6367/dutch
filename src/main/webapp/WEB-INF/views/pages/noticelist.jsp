@@ -22,33 +22,9 @@
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-                <div class="panel-heading">
-					<div class="row">
-						<!-- <div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">공지사항</div> -->
-						
-			        <%--<div class="panel-body">
-                 		  <div class="input-group"><!-- 검색어 입력 -->
-						<input class="form-control" id="keyword" name="keyword" type="text" 
-						       placeholder="검색어를 입력하세요"
-							   value='<c:out value="${noticeCreator.noticePaging.keyword}" />' />
-						<span class="input-group-btn"><!-- 전송버튼 -->
-							<button class="btn btn-warning" type="button" id="btnSearchGo"
-									><i class="fa fa-search">검색</i>
-							</button> --%>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
-						</div>
-						<!-- </span> -->
-					</div>
-<!-- 					<div class="input-group">
-						<button id="btnReset" class="btn btn-info" type="button">
-							<span class="glyphicon glyphicon-remove"></span>
-						</button>
-						</div>
-					</div> -->
-						
-
-					</div>
+                <div class="panel-heading"><h4>문의 등록<button type="button" id="btnToRegister" class="btn btn-primary btn-sm" style="float:right;">새글 등록</button></h4>
+                	
+					
 				</div><%-- /.panel-heading --%>
                 
 

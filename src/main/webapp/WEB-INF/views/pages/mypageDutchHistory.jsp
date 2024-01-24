@@ -52,7 +52,7 @@
 						    <c:when test="${not empty pagingCreator_0.dutchlist}">
 								<c:forEach var="personal" items="${pagingCreator_0.dutchlist}">
 									<c:if test="${personal.pcalculated == 0 }">
-										<tr class="history" style="text-align: center" >
+										<tr class="history" style="text-align: center" data-pno="${personal.pno }">
 											<td><c:out value="${personal.pno }"/></td>
 											<td><c:out value="${personal.ptitle }"/></td>
 											<td><fmt:formatDate value="${personal.pregDate }" pattern="yyyy-MM-dd"/></td>
@@ -151,7 +151,7 @@
 						    <c:when test="${not empty pagingCreator_1.dutchlist}">
 								<c:forEach var="personal" items="${pagingCreator_1.dutchlist}">
 									<c:if test="${personal.pcalculated == 1 }">
-										<tr class="history" style="text-align: center" >
+										<tr class="history" style="text-align: center" data-pno="${personal.pno }">
 											<td><c:out value="${personal.pno }"/></td>
 											<td><c:out value="${personal.ptitle }"/></td>
 											<td><fmt:formatDate value="${personal.pregDate }" pattern="yyyy-MM-dd"/></td>
@@ -269,7 +269,16 @@ $("#ul_1 li.pagination-button a").on("click", function(e) {
 });
 	
 	
-
+<%-- dutchdetail.jsp 페이지로 이동--%>
+$(".history").on("click", function(){
+	var pno = $(this).data("pno");
+	
+	frmSendValue_0.append("<input type='hidden' name='pno' value=' " + pno + " '/>");
+	frmSendValue_0.attr("action", "${contextPath}/pay/detail").attr("method", "get");
+	frmSendValue_0.submit();
+	frmSendValue_0.find('input[name="pno"]').remove(); 
+	
+});
 
 
 

@@ -17,7 +17,7 @@ public class QnaAttachFileVO {
 	private String uploadPath;
 	private String fileName;
 	private String fileType;
-	private Long qno;//개인용
+	private Long qno;
 	
 	private String repoPath = "C:/myupload";
 }

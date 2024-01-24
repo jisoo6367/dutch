@@ -234,6 +234,16 @@ public class CommunityServiceImpl implements CommunityService {
 		
 	}
 
+
+	//최근 게시물 5개 보여주기 메서드
+	@Override
+    public List<CommunityVO> getRecentCommunityList(int count) {
+		 return communityMapper.selectRecentCommunityList(count);
+    }
+	
+	
+	
+	
 	
 	
 }

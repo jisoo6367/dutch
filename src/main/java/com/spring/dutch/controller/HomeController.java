@@ -35,7 +35,7 @@ public class HomeController {
 		
 		
 		
-		return "pages/frame";
+		return "pages/homePage";
 	}
 	
 }

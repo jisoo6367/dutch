@@ -21,7 +21,7 @@
 		UPDATE dutch.tbl_member
 		SET password = #{password} ,
 			cellphone = #{cellphone} ,
-			mod_date = sysdate,
+			mod_date = default
 		WHERE nickname = #{nickname}	
 	</update>
 
@@ -155,7 +155,6 @@
 		FROM dutch.tbl_participants
 		WHERE pcalculated = 1 and nickname = #{nickname}
 	</select>
-
 
 
 

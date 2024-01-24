@@ -41,4 +41,5 @@ public interface MypageMapper {
 	public long selectRowTotal_0(MypagePagingNicknameDTOongoing mypagePaging);
 	public long selectRowTotal_1(MypagePagingNicknameDTOhistory mypagePaging);
 	
+	
 }

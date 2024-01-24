@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %><%-- 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> --%>
 
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
@@ -20,9 +20,9 @@
         <div class="col-lg-12">
             <h3 class="page-header"
 				style="white-space: nowrap;" >추천카드
-				 <small>
+				<%--  <small>
 				 	&nbsp;&nbsp;&nbsp;<c:out value="${card.kno}"/>
-				 </small>
+				 </small> --%>
 			</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
@@ -52,12 +52,13 @@
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
 
-
+<form role="form" method="post" name="frmModify" id="frmModify">
 <%-- <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="username"/>
 		<c:if test="${username eq card.kno }"> --%>
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정</span></button>
+							
 							<button type="button" class="btn btn-primary mybtns" 
 									id="btnRemove" data-oper="remove">삭제</button>
 <%-- 		</c:if>
@@ -65,6 +66,8 @@
 									
 							<button type="button" id="btnToList" data-oper="list"
 									class="btn btn-warning"><span>목록</span></button>
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+		</form>
 							</div>
 						</div>
 					</div>
@@ -127,6 +130,7 @@
 	<input type="hidden" name="rowAmountPerPage" value="${cardPaging.rowAmountPerPage }" >
 	<input type="hidden" name="scope" value="${cardPaging.scope }" >
 	<input type="hidden" name="keyword" value="${cardPaging.keyword }" >
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 </form>
                 </div><%-- /.panel-body --%>
                 
@@ -152,37 +156,21 @@
 <c:when test="${empty card.attachFileList }">
 	<li style="font-size: 12pt;">이미지가 없습니다</li>
 </c:when>
-<c:otherwise>
+<c:otherwise> 
 	<c:forEach var="attachFile" items="${card.attachFileList }">
-		<c:choose>
-		<c:when test="${attachFile.fileType == 'F' }">
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "F" >
-			        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
-		</c:when>
-		<c:otherwise>
-			<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "I" >
-			        <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
-			<c:remove var="thumbnail"/>
-		</c:otherwise>
-		</c:choose>
-	</c:forEach>
+		<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
+		<li class="attachLi" 
+			data-repopath = "${attachFile.repoPath }"
+		    data-uploadpath = "${attachFile.uploadPath }" 
+		    data-uuid = "${attachFile.uuid }" 
+		    data-filename = "${attachFile.fileName }">
+		        <img src='${contextPath}/cardDisplayThumbnail?fileName=${thumbnail}' style='width:25px;'/>
+		        &nbsp;&nbsp;<span>${attachFile.fileName}</span>
+		</li>
+		<c:remove var="thumbnail"/>
+	</c:forEach> 
 </c:otherwise>
-</c:choose>
+</c:choose> 
 	                    </ul>
 	                </div>
                 </div><!-- /.panel-body -->
@@ -207,36 +195,46 @@
 <script>
 
 var frmSendValue = $("#frmSendValue") ;
+var frmModify = $("#frmModify") ;
+var kno = '<c:out value="${card.kno}"/>';
+
 var cardPaging = '<c:out value="${cardPaging}"/>';
 console.log(cardPaging);
+
 <%-- 게시물 목록 페이지 이동 --%>
 $("#btnToList").on("click", function(){
-<%--
-	window.location.href="${contextPath}/myboard/list" ;
---%>
+
 	frmSendValue.attr("action", "${contextPath}/card/list").attr("method", "get") ;
+	frmSendValue.submit() ;
+});
+
+<%-- 게시물 수정페이지 이동 --%>
+$("#btnToModify").on("click", function(){
+
+	var kno = '<c:out value="${card.kno}"/>' ;
+	
+	frmSendValue.append("<input type='hidden' name='kno' value='" + kno + "'/>") ;
+	frmSendValue.attr("action", "${contextPath}/card/modify").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
 
 <%-- 카드 삭제 --%>
 $("#btnRemove").on("click", function(){
-	frmSendValue.attr("action", "${contextPath}/card/remove").attr("method", "get") ;
-	frmSendValue.submit() ;
-});
-
-<%-- 게시물 수정-삭제 페이지 이동 --%>
-$("#btnToModify").on("click", function(){
-<%--
-	window.location.href='${contextPath}/myboard/modify?bno=<c:out value="${myboard.bno}"/>' ;
---%>
-
-	var kno = '<c:out value="${card.kno}"/>' ;
 	
-	frmSendValue.append("<input type='hidden' name='kno' value='" + kno + "'/>") ;
-	frmSendValue.attr("action", "${contextPath}/cardmodify").attr("method", "get") ;
-	frmSendValue.submit() ;
+	var rowAmountPerPage = $("input[name='rowAmountPerPage']").val();
+	var pageNum = $("input[name='pageNum']").val();
+	var scope = $("input[name='scope']").val();
+	var keyword = $("input[name='keyword']").val();
+	
+	frmModify.append("<input type='hidden' name='rowAmountPerPage' value='" + rowAmountPerPage + "'/>") ;
+	frmModify.append("<input type='hidden' name='pageNum' value='" + pageNum + "'/>") ;
+	frmModify.append("<input type='hidden' name='scope' value='" + scope + "'/>") ;
+	frmModify.append("<input type='hidden' name='keyword' value='" + keyword + "'/>") ;
+	frmModify.append("<input type='hidden' name='kno' value='" + kno + "'/>") ;
+	frmModify.attr("action", "${contextPath}/card/remove") ;
+	frmModify.attr("method", "POST");
+	frmModify.submit() ;
 });
-
 
 var result = '<c:out value="${result}" />' ;
 
@@ -267,17 +265,17 @@ $(".attachLi").on("click", function(){
 	var myFileName = objLi.data("repopath") + "/" + objLi.data("uploadpath") + "/" 
 				   + objLi.data("uuid") + "_" + objLi.data("filename") ;
 	
-	var myFileType = objLi.data("filetype") ;
+	/* var myFileType = objLi.data("filetype") ; */
 	
-	if(myFileType == "I") {
-		$("#attachModal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" 
+/* 	if(myFileType == "I") { */
+		$("#attachModal-body").html("<img src='${contextPath}/cardFileDownloadAjax?fileName=" 
 										      + encodeURI(myFileName) 
 										      + "' style='width:100%;'>") ;
 		$("#attachModal").modal("show") ;
 	
-	} else {
+/* 	} else {
 		self.location.href ="${contextPath}/fileDownloadAjax?fileName="  + encodeURI(myFileName) ;
-	}
+	} */
 	
 });
 

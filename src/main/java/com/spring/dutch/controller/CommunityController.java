@@ -2,6 +2,7 @@ package com.spring.dutch.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,7 @@ public class CommunityController {
 	
 	    //목록 조회
 		@GetMapping(value="/list")
-		public String showCommunityList(Model model, CommunityPagingDTO communityPaging ){
-			System.out.println("페이지 넘버 확인 111: " + communityPaging.getPageNum());					
+		public String showCommunityList(Model model, CommunityPagingDTO communityPaging ){					
 			CommunityPagingCreatorDTO pagingCreator =  communityService.showCommunityList(communityPaging);
 			
 			model.addAttribute("pagingCreator", pagingCreator) ;
@@ -168,14 +168,6 @@ public class CommunityController {
 			return new ResponseEntity<List<CommunityAttachFileVO>>(communityService.getAttachFileList(tno), HttpStatus.OK);
 		}
 	
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		

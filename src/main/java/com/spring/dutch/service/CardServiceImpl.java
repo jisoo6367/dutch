@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.dutch.domain.CardAttachFileVO;
 import com.spring.dutch.domain.CardVO;
@@ -57,7 +58,9 @@ public class CardServiceImpl implements CardService{
 	public CardVO getCard(String kno) {
 		
 		CardVO card = cardMapper.selectCard(kno);
-		System.out.println("card: " + card);
+		card.setAttachFileList(cardMapper.selectAttachFiles(kno));
+		
+		System.out.println("card====: " + card);
 		
 		return card;
 	}
@@ -70,6 +73,7 @@ public class CardServiceImpl implements CardService{
 	}
 	
 	@Override //수정
+	@Transactional
 	public boolean modifyCard(CardVO card) {
 
 		String kno = card.getKno();
@@ -92,6 +96,7 @@ public class CardServiceImpl implements CardService{
 	}
 	
 	@Override //실 삭제
+	@Transactional
 	public boolean removeCard(String kno) {
 
 		List<CardAttachFileVO> attachFileList = getAttachFileList(kno);
@@ -111,11 +116,13 @@ public class CardServiceImpl implements CardService{
 		return cardMapper.selectAttachFiles(kno);
 	}
 	
-private void removeAttachFiles(List<CardAttachFileVO> attachFileList) {
+	private void removeAttachFiles(List<CardAttachFileVO> attachFileList) {
 		
 		if(attachFileList == null || attachFileList.size() == 0) {
 			return ;
 		}
+		
+		System.out.println("삭제파일====" + attachFileList.toString());
 		
 		for(CardAttachFileVO attachFile : attachFileList) {
 			Path filePath = Paths.get(attachFile.getRepoPath() ,
@@ -126,6 +133,12 @@ private void removeAttachFiles(List<CardAttachFileVO> attachFileList) {
 			
 			try {
 				deleteFileResult = Files.deleteIfExists(filePath);
+				
+				Path thumnail = Paths.get(attachFile.getRepoPath() ,
+										  attachFile.getUploadPath() ,
+										  "s_" + attachFile.getUuid() + "_" + attachFile.getFileName() );
+
+				deleteFileResult = Files.deleteIfExists(thumnail);	
 				
 			} catch (IOException e) {
 				

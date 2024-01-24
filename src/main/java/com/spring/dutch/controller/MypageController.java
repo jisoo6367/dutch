@@ -3,12 +3,15 @@ package com.spring.dutch.controller;
 
 import java.security.Principal;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.MemberVO;
@@ -84,12 +87,8 @@ public class MypageController {
 	@GetMapping(value = "/modify")
 	public String showModify(String nickname, Model model) {
 
-		System.out.println("마이페이지 > 수정");
-		System.out.println("nickname 잘 넘어왔나? : " + nickname);
-
 		MemberVO memberData = mypageService.getMemberData(nickname);
 		model.addAttribute("memberData", memberData);
-		//System.out.println("memberData : " + memberData);
 
 
 		return "/pages/mypageModify";
@@ -168,9 +167,6 @@ public class MypageController {
 	    
 		return "/pages/mypageDutchHistory";
 	}
-
-
-
 	
 	
 	
