@@ -65,7 +65,7 @@
 	</a>
 </div>
 </div>
-<div class="container container-margin">
+<div class="container container-margin" style="margin-top: 30px;">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-default">
@@ -83,7 +83,7 @@
 		          		</thead>
 						<tbody>
 							<c:forEach var="notice" items="${data.notiList }">
-								<tr>
+								<tr id="moveNotiDetail" data-cno="${notice.cno }">
 									<td class="col-md-8 text-left">${notice.ctitle}</td>
 									<td class="col-md-4"><fmt:formatDate value="${notice.cregDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
@@ -111,7 +111,7 @@
 		          		</thead>
 						<tbody>
 							<c:forEach var="community" items="${data.commuList }">
-								<tr>
+								<tr id="moveCommuDetail" data-tno="${community.tno }">
 									<td class="col-md-3 text-left">${community.tcategory}</td>
 									<td class="col-md-4 text-left">${community.ttitle}</td>
 									<td class="col-md-2">${community.nickname}</td>
@@ -139,7 +139,7 @@
 		          		</thead>
 						<tbody>
 							<c:forEach var="card" items="${data.cardList }">
-								<tr>
+								<tr id="moveCardDetail" data-kno="${card.kno }">
 									<td class="col-md-10 text-left">${card.kname}</td>
 									<td class="col-md-2">${card.kcomment}</td>
 								</tr>
@@ -167,7 +167,7 @@
 		          		</thead>
 						<tbody>
 							<c:forEach var="dutch" items="${data.dutchList }">
-								<tr>
+								<tr id="moveDutchDetail" data-pno="${dutch.pno }">
 									<td class="col-md-3 text-left">${dutch.category}</td>
 									<td class="col-md-4 text-left">${dutch.ptitle}</td>
 									<td class="col-md-2">${dutch.nickname}</td>
@@ -184,16 +184,62 @@
 
 </div>
 
+<form role="form" id="frmSendValue" method="get" name="frmSendValue">
+
+</form>
+
 
 <script>
+	var frmSendValue = $("#frmSendValue");
+
+	<%-- dutchdetail 페이지로 이동--%>
+	$("#moveDutchDetail").on("click", function(){
+		
+		var pno = $(this).data("pno");
+		
+		frmSendValue.append("<input type='hidden' name='pno' value=' " + pno + " '/>");
+		frmSendValue.attr("action", "${contextPath}/pay/detail").attr("method", "get");
+		frmSendValue.submit();
+		frmSendValue.find('input[name="pno"]').remove();
+		
+	});
 	
+	<%-- noticeDetail 페이지로 이동--%>
+	$("#moveNotiDetail").on("click", function(){
+		
+		var cno = $(this).data("cno");
+		
+		frmSendValue.append("<input type='hidden' name='cno' value=' " + cno + " '/>");
+		frmSendValue.attr("action", "${contextPath}/notice/detail").attr("method", "get");
+		frmSendValue.submit();
+		frmSendValue.find('input[name="cno"]').remove();
+		
+	});
+	
+	<%-- communityDetail 페이지로 이동--%>
+	$("#moveCommuDetail").on("click", function(){
+		
+		var tno = $(this).data("tno");
+		
+		frmSendValue.append("<input type='hidden' name='tno' value=' " + tno + " '/>");
+		frmSendValue.attr("action", "${contextPath}/community/detail").attr("method", "get");
+		frmSendValue.submit();
+		frmSendValue.find('input[name="tno"]').remove();
+		
+	});
+	
+	<%-- cardDetail 페이지로 이동--%>
+	$("#moveCardDetail").on("click", function(){
+		
+		var kno = $(this).data("kno");
+		
+		frmSendValue.append("<input type='hidden' name='kno' value=' " + kno + " '/>");
+		frmSendValue.attr("action", "${contextPath}/card/detail").attr("method", "get");
+		frmSendValue.submit();
+		frmSendValue.find('input[name="kno"]').remove();
+		
+	});
 </script>
-
-
-
-
-
-
 
 
 <%@include file="../pageinclude/footer.jsp"%>

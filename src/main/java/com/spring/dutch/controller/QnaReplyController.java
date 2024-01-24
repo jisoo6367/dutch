@@ -61,7 +61,7 @@ public class QnaReplyController {
 	@PostMapping(value = "/{qno}/new" ,
 				 consumes = {"application/json;charset=utf-8"} ,
 				 produces = {"text/plain; charset=utf-8"})
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerReplyForQna(@PathVariable("qno") long qno,
 													  @RequestBody QnaReplyVO qnareply){
 		
@@ -86,7 +86,7 @@ public class QnaReplyController {
 	@PostMapping(value = "/{qno}/{qrcno}/new" ,
 				 consumes = {"application/json;charset=utf-8"} ,
 				 produces = {"text/plain;charset=utf-8"})
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
 	public ResponseEntity<String> registerReplyForReply(@PathVariable("qno") long qno,
 														@PathVariable("qrcno") long qrcno,
 														@RequestBody QnaReplyVO qnareply){
@@ -114,7 +114,7 @@ public class QnaReplyController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8")
-//	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.mno")
+	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
 	public String modifyReply(@PathVariable("qno") Long qno,
 							  @PathVariable("qrno") Long qrno,
 							  @RequestBody QnaReplyVO qnareply) {
@@ -132,7 +132,7 @@ public class QnaReplyController {
 	@DeleteMapping(value = "/{qno}/{qrno}",
 				   consumes = "application/json; charset=utf-8" ,
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize("isAuthenticated() && principal.username == #yourReply.rwriter")
+	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
 	public ResponseEntity<String> removeReply(@PathVariable("qno") Long qno,
 											  @PathVariable("qrno") Long qrno,
 											  @RequestBody QnaReplyVO qnareply){

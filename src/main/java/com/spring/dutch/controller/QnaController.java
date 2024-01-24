@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,7 @@ public class QnaController {
 	
 	//등록페이지 호출
 	@GetMapping("/register")
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public String showQnaRegisterPage() {
 		
 		return "pages/qnaregister";
@@ -53,7 +54,7 @@ public class QnaController {
 	
 	//게시물등록 처리
 	@PostMapping("/register")
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public String registerQna(QnaVO qna, 
 							  RedirectAttributes redirectAttr) {
 		
@@ -78,6 +79,8 @@ public class QnaController {
 	
 	//특정 게시물 조회 + 수정 후 조회
 	@GetMapping("/detail")
+	@PreAuthorize("isAuthenticated() "
+				 + "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
 	public String showQnaDetail(Long qno, Model model, String result,
 								@ModelAttribute("qnaPaging") QnaPagingDTO qnaPaging) {
 		
@@ -93,7 +96,8 @@ public class QnaController {
 	
 	//특정 게시물 수정삭제 페이지 호출
 	@GetMapping("/modify")
-//	@PreAuthorize("isAuthenticated() && principal.username == #nickname")
+	@PreAuthorize("isAuthenticated() "
+				+ "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
 	public String showQnaModify(Long qno, String nickname, Model model,
 								QnaPagingDTO qnaPaging) {
 		
@@ -128,7 +132,8 @@ public class QnaController {
 	
 	//특정 게시물 삭제 
 	@PostMapping("/remove")
-	//@PreAuthorize("isAuthenticated() && principal.username == #qna.nickname")
+	@PreAuthorize("isAuthenticated() "
+				+ "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
 	public String removeQna(QnaVO qna, Long qno,
 							RedirectAttributes redirectAttr,
 							QnaPagingDTO qnaPaging) {

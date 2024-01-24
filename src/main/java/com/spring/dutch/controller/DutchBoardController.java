@@ -54,6 +54,7 @@ public class DutchBoardController {
 
 	//더치페이 게시물 페이지 호출
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String showBoardRegisterPage() {
 		System.out.println("등록페이지 호출..........");
 
@@ -114,6 +115,7 @@ public class DutchBoardController {
 
 	// 수정 페이지 이동
 	@GetMapping(value = "/modify")
+	@PreAuthorize("isAuthenticated()")
 	public String showDutchModify(String nickname, long pno, Model model) {
 
 		System.out.println("nickname 잘 넘어왔나? : " + nickname);
@@ -162,6 +164,7 @@ public class DutchBoardController {
 	
 	//게시글 삭제
 	@GetMapping(value = "/delete")
+	@PreAuthorize("isAuthenticated()")
 	public String dutchBoardDelete (String nickname, long pno, Model model) {
 		System.out.println("삭제컨트롤러 도착");
 		
@@ -179,6 +182,7 @@ public class DutchBoardController {
 	
 	// 정산 완료 처리
 	@GetMapping(value = "/finish")
+	@PreAuthorize("isAuthenticated() && principal.username == #nickname")
 	public String dutchBoardFinish (String nickname, long pno, Model model) {
 		System.out.println("정산완료 컨트롤러 도착");
 		

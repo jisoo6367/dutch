@@ -46,23 +46,21 @@ public class NoticeController {
 	
 	//등록페이지 호출
 	@GetMapping("/register")
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String showNoticeRegisterPage() {
 		
-//		System.out.println("등록페이지 호출");
 		return "pages/noticeregister";
 	}
 	
 	//게시물 등록 처리
 	@PostMapping("/register")
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String registerNotice(NoticeVO notice, 
 								 RedirectAttributes redirectAttr) {
 		
 		Long cno = noticeService.registerNotice(notice);
 		
 		redirectAttr.addFlashAttribute("result", cno);
-//		System.out.println("result: " + redirectAttr.getFlashAttributes());
 		
 		return "redirect:/pages/noticelist";
 	}
@@ -97,7 +95,7 @@ public class NoticeController {
 	
 	//특정 게시물 수정삭제 페이지 호출
 	@GetMapping(value ="/modify")
-//	@PreAuthorize("isAuthenticated() && principal.username == #mno")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String showNoticeModify(Long cno, String nickname, Model model, 
 								   NoticePagingDTO noticePaging) {
 		
@@ -110,6 +108,7 @@ public class NoticeController {
 	
 	//특정 게시물 수정
 	@PostMapping("/modify")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String modifyNotice(NoticeVO notice,
 							   RedirectAttributes redirectAttr,
 							   NoticePagingDTO noticePaging) {
@@ -135,7 +134,7 @@ public class NoticeController {
 	
 	//특정 게시물 삭제
 	@PostMapping("/remove")
-	//@PreAuthorize("isAuthenticated() && principal.username == #notice.mno")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String removeNotice(NoticeVO notice, Long cno,
 							   RedirectAttributes redirectAttr,
 							   NoticePagingDTO noticePaging) {

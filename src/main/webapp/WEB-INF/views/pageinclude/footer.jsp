@@ -9,8 +9,9 @@
 
 </div> <!-- body-container -->
 <!-- footer body -->
+ 
 
-<footer class="footer" style="height: 100px; position: relative; transform: translateY(-100%);">
+<footer class="footer" style="height: 0px; position: relative;">
 	<hr>
 	<div class="container">
 		<div class="row">
@@ -36,8 +37,12 @@
 			</div>
 			<div class="col-sm-2" id="footerNav1">
 				<p style="">커뮤니티</p>
-				<p style="color: #aea8a8; font-size: 10px;">커뮤니티 목록</p>
-				<p style="color: #aea8a8; font-size: 10px;">커뮤니티 생성</p>
+				<a href="${contextPath }/community/list">
+					<p style="color: #aea8a8; font-size: 10px;">커뮤니티 목록</p>
+				</a>
+				<a href="${contextPath }/community/register">
+					<p style="color: #aea8a8; font-size: 10px;">커뮤니티 생성</p>
+				</a>
 			</div>
 			<div class="col-sm-2" id="footerNav2">
 				<p style="">공지사항</p>
@@ -52,6 +57,7 @@
 		</div>   
 	</div>
 </footer>
+
 
 </body>
 

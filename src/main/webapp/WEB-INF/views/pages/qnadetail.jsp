@@ -339,7 +339,7 @@ $("#attachModal").on("click", function(){
 </script>
 
 <%-- 댓글/답글 자바스크립트 시작--%>
-<script type="text/javascript" src="${contextPath }/resources/comment/replycomment.js"></script>
+<script type="text/javascript" src="${contextPath }/resources/js/qnaReplycomment.js" ></script>
 <script type="text/javascript" >
 
 

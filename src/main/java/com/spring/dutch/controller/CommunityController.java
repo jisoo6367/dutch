@@ -46,7 +46,7 @@ public class CommunityController {
 	
 		//등록 페이지 호출
 		@GetMapping("/register")
-//		@PreAuthorize("isAuthenticated()")
+		@PreAuthorize("isAuthenticated()")
 		public String showCommunityRegisterPage() {
 			
 			return "pages/communityregister" ;
@@ -82,6 +82,7 @@ public class CommunityController {
 //		
 //		//특정 게시물 조회-수정 페이지 호출
 		@GetMapping("/detail")
+		@PreAuthorize("isAuthenticated()")
 		public String ShowCommunityDetail(Long tno, Model model, String result,
 										  @ModelAttribute("communityPaging") CommunityPagingDTO communityPaging) {
 						
@@ -101,7 +102,7 @@ public class CommunityController {
 		
 		//특정 게시물 수정삭제 페이지 호출
 		@GetMapping("/modify")
-		
+		@PreAuthorize("isAuthenticated()")
 		public String showCommunityModify(Long tno, Model model, 
 										  CommunityPagingDTO communityPaging ) {
 		
@@ -114,7 +115,8 @@ public class CommunityController {
 		}
 		
 //		특정 게시물 수정
-		@PostMapping("/modify")		
+		@PostMapping("/modify")
+		@PreAuthorize("isAuthenticated()")
 		public String modifyCommunity(CommunityVO community,
 							      RedirectAttributes redirectAttr,
 							      CommunityPagingDTO communityPaging) {
@@ -141,6 +143,7 @@ public class CommunityController {
 		
 //		특정 게시물 삭제 POST 
 		@PostMapping("/remove")
+		@PreAuthorize("isAuthenticated()")
 		public String removeBoard(CommunityVO community,  
 								  RedirectAttributes redirectAttr,
 								  CommunityPagingDTO communityPaging) {

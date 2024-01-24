@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,13 @@ public class CardController {
 	}
 	
 	@GetMapping(value = "/register")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String showCardRegister() {
 		return "/pages/cardregister";
 	}
 	
 	@PostMapping(value = "/sendcard")
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String sendCard(CardVO card, RedirectAttributes redirectAttr) {
 		
 		System.out.println(card);
@@ -65,7 +68,7 @@ public class CardController {
 	@GetMapping("/detail") //카드조회, 수정후 조회
 	public String showCardDetail(String kno, Model m,
 								 @ModelAttribute("cardPaging") CardPagingDTO cardPaging) {
-		
+		System.out.println("카드디테일컨트롤러시작" + kno);
 		CardVO card = cardService.getCard(kno);
 		System.out.println("컨트롤 card: " + card);
 		
@@ -77,6 +80,7 @@ public class CardController {
 	}
 	
 	@GetMapping("/modify")//수정페이지 호출
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String showCardModify(String kno, Model model,
 								 CardPagingDTO cardPaging) {
 		
@@ -88,6 +92,7 @@ public class CardController {
 	}
 	
 	@PostMapping("/modify") //수정
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String modifyCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
 		
 		boolean modifyResult = cardService.modifyCard(card);
@@ -108,6 +113,7 @@ public class CardController {
 	}
 	
 	@PostMapping("/remove") //특정 카드 삭제
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
 	public String removeCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
 		
 		System.out.println("jsp에서 받은 값:" + card);

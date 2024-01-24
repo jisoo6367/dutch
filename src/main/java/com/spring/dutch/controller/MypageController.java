@@ -85,6 +85,7 @@ public class MypageController {
 
 	// 수정 페이지 이동
 	@GetMapping(value = "/modify")
+	@PreAuthorize("isAuthenticated()")
 	public String showModify(String nickname, Model model) {
 
 		MemberVO memberData = mypageService.getMemberData(nickname);
@@ -96,8 +97,9 @@ public class MypageController {
 
 	// 수정된 정보 받아서 DB작업
 	@PostMapping(value = "/modify")
+	@PreAuthorize("isAuthenticated()")
 	public String memberModify(MemberVO member, RedirectAttributes redirectAttr) {
-//	public String memberModify (MemberVO member, Model model) {
+
 
 		System.out.println("화면에서 수정된 member 잘 넘어왔나? : " + member);
 		
@@ -120,6 +122,7 @@ public class MypageController {
 
 	//회원 탈퇴 버튼 눌렀을 때
 	@GetMapping(value = "/withdraw")
+	@PreAuthorize("isAuthenticated()")
 	public String memberWithdraw (String nickname, RedirectAttributes redirectAttr) {
 		System.out.println("삭제컨트롤러 도착");
 		

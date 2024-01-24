@@ -122,7 +122,7 @@ public class DutchReplyController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize("isAuthenticated() && principal.username == #myreply.rwriter")
+	@PreAuthorize("isAuthenticated() && principal.username == #dutchReply.nickname")
 	public String modifyReply(@PathVariable("pno") Long pno ,
 							  @PathVariable("rno") Long rno ,
 							  @RequestBody DutchReplyVO dutchReply){
