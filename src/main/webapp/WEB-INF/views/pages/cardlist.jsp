@@ -39,7 +39,7 @@
 
 <div class="row row-offcanvas row-offcanvas-right">
 
-	<div class="col-xs-12 col-sm-9">
+	<div class="col-xs-12">
 
 		<form class="form-inline" id="frmSendValue" name="frmSendValue"
 			action="${contextPath }/card/list" method="get">

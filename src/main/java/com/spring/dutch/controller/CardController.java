@@ -39,13 +39,13 @@ public class CardController {
 	}
 	
 	@GetMapping(value = "/register")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String showCardRegister() {
 		return "/pages/cardregister";
 	}
 	
 	@PostMapping(value = "/sendcard")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String sendCard(CardVO card, RedirectAttributes redirectAttr) {
 		
 		System.out.println(card);
@@ -80,7 +80,7 @@ public class CardController {
 	}
 	
 	@GetMapping("/modify")//수정페이지 호출
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String showCardModify(String kno, Model model,
 								 CardPagingDTO cardPaging) {
 		
@@ -92,7 +92,7 @@ public class CardController {
 	}
 	
 	@PostMapping("/modify") //수정
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String modifyCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
 		
 		boolean modifyResult = cardService.modifyCard(card);
@@ -113,7 +113,7 @@ public class CardController {
 	}
 	
 	@PostMapping("/remove") //특정 카드 삭제
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String removeCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
 		
 		System.out.println("jsp에서 받은 값:" + card);

@@ -86,7 +86,7 @@ public class QnaReplyController {
 	@PostMapping(value = "/{qno}/{qrcno}/new/qna" ,
 				 consumes = {"application/json;charset=utf-8"} ,
 				 produces = {"text/plain;charset=utf-8"})
-	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerReplyForReply(@PathVariable("qno") long qno,
 														@PathVariable("qrcno") long qrcno,
 														@RequestBody QnaReplyVO qnareply){

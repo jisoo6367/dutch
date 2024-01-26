@@ -169,14 +169,12 @@ public class QnaFileUploadAjaxController {
 			System.out.println("fileName: " + fileName);
 			
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		File delFile = new File(fileName) ;
 		
-		boolean delResult = delFile.delete() ; //일반파일과 썸네일 파일 삭제
-		//정상삭제: true 반환, 삭제실패: false 반환
+		boolean delResult = delFile.delete() ;
 		if (!delResult) {
 			return new ResponseEntity<String>("F", HttpStatus.OK) ;
 		}

@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -88,10 +89,11 @@ function checkBoardValues(){
 	}
 }
 
+<%-- 게시글&파일 디비에 업로드 --%>
 $("#btnRegister").on("click", function(){
 	
 	if (!checkBoardValues()){
-		alert("글제목/글내용/작성자를 모두 입력해야 합니다.");
+		alert("글제목/글내용을 모두 입력해야 합니다.");
 		return ;
 	}
 
@@ -118,23 +120,17 @@ $("#btnRegister").on("click", function(){
 	if (attachFileInputHTML != ""){
 		frmBoard.append(attachFileInputHTML) ;	
 	}
-<%--//form에 설정되어 있으므로 실행할 필요가 없습니다.	
-	frmBoard.method="post";
-	frmBoard.action="${contextPath}/myboard/register";
---%>
+	
 	frmBoard.submit();
 
 });
 
 </script>
+
+
+
 <%-- <<<<<< 첨부파일 관련 코드 >>>>>> --%>
 <script>
-
-<%--input 초기화: div 요소의 "비어있는 input 요소를 복사"해서 저장함.--%>
-<%--
-	var cloneFileInput = $(".uploadDiv").clone(); //clone(): 선택된 요소의 자식요소가 복사됨 
---%>
-<%--복사된 것을 사용하는 경우, 첨부파일 삭제 및 추가 시에는, 동작하지 않음--%>
 
 <%-- 업로드 파일에 대한 확장자 및 크기 제한 --%>
 function checkUploadFile(fileName, fileSize) {
@@ -213,6 +209,9 @@ function showUploadResult(uploadResult) {
 	
 }
 	
+var myCsrfHeaderName = "${_csrf.headerName}" ;
+var myCsrfToken = "${_csrf.token}" ;
+	
 <%-- 업로드 처리 --%>
 <%--파일 업로드 처리: 파일 input 요소의 "내용이 바뀌면" 업로드가 수행되도록 수정 --%>
 $("#inputFile").on("change", function(){
@@ -253,9 +252,9 @@ $("#inputFile").on("change", function(){
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
 		dataType: "json" ,
-/* 		beforeSend: function(xhr){
+ 		beforeSend: function(xhr){
 			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken)
-		} , */
+		} ,
 		success: function(uploadResult, status){
 			
 <%--		//복사된 file-input을 삽입하는 경우, 첨부파일 삭제/추가 시에는, 초기화 되지 않음.
@@ -283,9 +282,9 @@ $(".fileUploadResult ul").on("click","li span", function(e){
 		url: "${contextPath}/qnadeleteFile" ,
 		data: {fileName: fileName, fileType: fileType} ,
 		dataType: "text" , 
-/* 		beforeSend: function(xhr){
+ 		beforeSend: function(xhr){
 			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
-		} , */
+		} ,
 		success: function(result){
 			if(result == "S") {
 				alert("파일이 삭제되었습니다.") ;

@@ -198,7 +198,7 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + attachFile.uuid + "'" 
 			+ "    data-filename='" + attachFile.fileName + "'" 
 			+ "    data-filetype='F'>"
-			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
+			+ "    <a href='${contextPath}/communityFileDownloadAjax?fileName=" + fullFileName +"'>"
 			+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
 			+ "    </a>"
@@ -220,7 +220,7 @@ function showUploadResult(uploadResult) {
 			+ "    data-filetype='I'>"
 			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
 			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
-			+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
+			+ "        <img src='${contextPath}/communityDisplayThumbnail?fileName=" + thumbnail + "'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
 			+ "    </a>"
 			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
@@ -272,7 +272,7 @@ $("#inputFile").on("change", function(){
 	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/fileUploadAjaxAction" ,
+		url: "${contextPath}/communityFileUploadAjaxAction" ,
 		data: formData ,
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
@@ -304,7 +304,7 @@ $(".fileUploadResult ul").on("click","li span", function(e){
 	
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/deleteFile" ,
+		url: "${contextPath}/communityDeleteFile" ,
 		data: {fileName: fileName, fileType: fileType} ,
 		dataType: "text" , 
 		beforeSend: function(xhr){

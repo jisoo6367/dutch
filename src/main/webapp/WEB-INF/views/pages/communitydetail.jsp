@@ -175,7 +175,7 @@
 					    data-uuid = "${attachFile.uuid }" 
 					    data-filename = "${attachFile.fileName }" 
 					    data-filetype = "I" >
-					        <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
+					        <img src='${contextPath}/communityDisplayThumbnail?fileName=${thumbnail}' style='width:25px;'>
 					        &nbsp;&nbsp;${attachFile.fileName}
 					</li>
 					<c:remove var="thumbnail"/>
@@ -342,13 +342,13 @@
 		var myFileType = objLi.data("filetype") ;
 		
 		if(myFileType == "I") {
-			$("#attachModal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" 
+			$("#attachModal-body").html("<img src='${contextPath}/communityFileDownloadAjax?fileName=" 
 											      + encodeURI(myFileName) 
 											      + "' style='width:100%;'>") ;
 			$("#attachModal").modal("show") ;
 		
 		} else {
-			self.location.href ="${contextPath}/fileDownloadAjax?fileName="  + encodeURI(myFileName) ;
+			self.location.href ="${contextPath}/communityFileDownloadAjax?fileName="  + encodeURI(myFileName) ;
 		}
 
 	});	

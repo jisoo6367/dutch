@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %><%-- 
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
@@ -20,9 +20,6 @@
         <div class="col-lg-12">
             <h3 class="page-header"
 				style="white-space: nowrap;" >추천카드
-				<%--  <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${card.kno}"/>
-				 </small> --%>
 			</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
@@ -85,7 +82,6 @@
 	</div>
 	<div class="form-group">
 	    <label class="col-sm-2 control-label" style="white-space: nowrap;">카드설명</label>
-	    <%-- <textarea>와 </textarea>는 표시 내용과 붙어있어야 필요없는 공백이 포함되지 않음 --%>
 	    <div class="col-sm-10">
 	    	<textarea class="form-control" rows="3" name="kcontent" id="kcontent"
 	    			  style="resize: none;"
@@ -210,12 +206,13 @@ $("#btnToList").on("click", function(){
 
 <%-- 게시물 수정페이지 이동 --%>
 $("#btnToModify").on("click", function(){
-
 	var kno = '<c:out value="${card.kno}"/>' ;
+
+	window.location.href="${contextPath}/card/modify?kno=" + kno;
 	
-	frmSendValue.append("<input type='hidden' name='kno' value='" + kno + "'/>") ;
+	/* frmSendValue.append("<input type='hidden' name='kno' value='" + kno + "'/>") ;
 	frmSendValue.attr("action", "${contextPath}/card/modify").attr("method", "get") ;
-	frmSendValue.submit() ;
+	frmSendValue.submit() ; */
 });
 
 <%-- 카드 삭제 --%>

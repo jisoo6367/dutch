@@ -126,9 +126,9 @@ p {
 				<form id="frmSendValue">
 					<input type="hidden" name="pageNum" value="${qnaPaging.pageNum }">
 					<input type="hidden" name="rowAmountPerPage"
-						value="${qnaPaging.rowAmountPerPage }">
+						value="${qnaPaging.rowAmountPerPage }"><%-- 
 					<input type="hidden" name="${_csrf.parameterName }"
-							value="${_csrf.token }" />
+							value="${_csrf.token }" /> --%>
 				</form>
 			</div>
 			<%-- /.panel-body --%>
@@ -277,13 +277,7 @@ p {
 
 <%-- 게시물 상세 자바스크립트 시작 --%>
 <script>
-var myCsrfHeaderName = "${_csrf.headerName}" ;
-var myCsrfToken = "${_csrf.token}" ;
 
-$(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
-		
-});
 
 var frmSendValue = $("#frmSendValue") ;
 
@@ -368,7 +362,13 @@ $("#attachModal").on("click", function(){
 <script type="text/javascript"
 	src="${contextPath }/resources/js/qnaReplycomment.js"></script>
 <script type="text/javascript">
+var myCsrfHeaderName = "${_csrf.headerName}" ;
+var myCsrfToken = "${_csrf.token}" ;
 
+$(document).ajaxSend(function(e, xhr){
+	xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+		
+});
 
 var qnoValue = '<c:out value="${qna.qno}"/>' ;
 
@@ -376,6 +376,11 @@ var commentUL = $("#chat") ;
 
 var frmCmtPagingValue = $("#frmCmtPagingValue") ;
 
+var loginUser = "" ;
+
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>' ;
+</sec:authorize>
 
 <%-- 댓글 페이징 번호 표시 --%>
 function showCmtPagingNums(replyTotCnt, pageNum, rowAmountPerPage) {
@@ -572,10 +577,7 @@ $("#btnChgCmtReg").on("click", function(){
 /* 	$("#spanLoginUser").attr("style", "display:in-block") ; */
 	
 });
-var loginUser = "" ;
-<sec:authorize access="isAuthenticated()">
-	loginUser = '<sec:authentication property="principal.username"/>' ;
-</sec:authorize>
+
 
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){

@@ -277,7 +277,7 @@ function showUploadResult(uploadResult) {
 				+ "    data-filetype='I'>"
 	//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
 	//			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
-				+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
+				+ "        <img src='${contextPath}/communityDisplayThumbnail?fileName=" + thumbnail + "'>"
 				+ "        &nbsp;&nbsp;" + attachFile.fileName 
 	//			+ "    </a>"
 				+  "  <button type='button' class='btn btn-danger btn-xs' data-filename='" + thumbnail + "' data-filetype='I'>X</button>"
@@ -345,7 +345,7 @@ $("#inputFile").on("change", function(){
 			return ;
 		}
 		
-		formData.append("yourUploadFiles", yourFiles[i])
+		formData.append("yourUploadFiles", yourFiles[i]);
 		
 	}
 	
@@ -353,16 +353,14 @@ $("#inputFile").on("change", function(){
 	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/fileUploadAjaxAction" ,
+		url: "${contextPath}/communityFileUploadAjaxAction" ,
 		data: formData ,
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
 		dataType: "json" ,
 		success: function(uploadResult, status){
+			console.log(uploadResult);
 			
-<%--		//복사된 file-input을 삽입하는 경우, 첨부파일 삭제/추가 시에는, 초기화 되지 않음.
-			$(".uploadDiv").html(cloneFileInput.html()) ;
---%>			
 			$(".inputFile").val("") ;
 			
 			showUploadResult(uploadResult);
