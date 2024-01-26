@@ -57,7 +57,7 @@
 	</div>
 
 		<button type="button" class="btn btn-primary mybtns" id="btnModify" data-oper="modify">수정</button>
-		<button type="button" class="btn btn-primary mybtns" id="btnRemove" data-oper="Noticeremove">삭제</button>
+		<button type="button" class="btn btn-primary mybtns" id="btnRemove" data-oper="remove">삭제</button>
 	
 	
 	<button type="button" class="btn btn-warning mybtns" id="btnList" data-oper="list">취소</button>
@@ -68,7 +68,7 @@
 	<input type="hidden" id="keyword" name="keyword" value="${noticePagingDTO.keyword }" ><%-- 
 	<input type="hidden" id="beginDate" name="beginDate" value="${noticePagingDTO.beginDate }" >
 	<input type="hidden" id="endDate" name="endDate" value="${noticePagingDTO.endDate }" > --%>
-<%-- 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> --%>
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 </form>
 
                 </div><%-- /.panel-body --%>
@@ -112,7 +112,7 @@ $(".mybtns").on("click", function(){
 	if (operation == "modify") {
 		frmModify.attr("action", "${contextPath}/notice/modify") ;
 	
-	} else if (operation == "Noticeremove"){
+	} else if (operation == "remove"){
 		frmModify.attr("action", "${contextPath}/notice/remove") ;
 	
 	} else {  //else if (operation == "list"){

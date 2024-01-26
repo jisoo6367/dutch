@@ -73,20 +73,17 @@ public class QnaController {
 		redirectAttr.addFlashAttribute("result", qno);
 		System.out.println("result: " + redirectAttr.getFlashAttributes());
 		
-		return "redirect:/pages/qnalist";
+		return "redirect:/qna/list";
 		
 	}
 	
 	//특정 게시물 조회 + 수정 후 조회
 	@GetMapping("/detail")
-	@PreAuthorize("isAuthenticated() "
-				 + "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
+	@PreAuthorize("isAuthenticated()")
 	public String showQnaDetail(Long qno, Model model, String result,
 								@ModelAttribute("qnaPaging") QnaPagingDTO qnaPaging) {
 		
-		QnaVO qna = null;
-		
-		qna = qnaService.getQna(qno);
+		QnaVO qna = qnaService.getQna(qno);
 		
 		model.addAttribute("qna", qna);
 		model.addAttribute("result", result);
@@ -96,8 +93,7 @@ public class QnaController {
 	
 	//특정 게시물 수정삭제 페이지 호출
 	@GetMapping("/modify")
-	@PreAuthorize("isAuthenticated() "
-				+ "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
+	@PreAuthorize("isAuthenticated()")
 	public String showQnaModify(Long qno, String nickname, Model model,
 								QnaPagingDTO qnaPaging) {
 		
@@ -127,13 +123,12 @@ public class QnaController {
 		redirectAttr.addAttribute("pageNum", qnaPaging.getPageNum());
 		redirectAttr.addAttribute("rowAmountPerPage", qnaPaging.getRowAmountPerPage());
 		
-		return "redirect:/pages/qnadetail";
+		return "redirect:/qna/detail";
 	}
 	
 	//특정 게시물 삭제 
 	@PostMapping("/remove")
-	@PreAuthorize("isAuthenticated() "
-				+ "&& (principal.username == #qna.nickname || hasAuthority('ADMIN'))")
+	@PreAuthorize("isAuthenticated()")
 	public String removeQna(QnaVO qna, Long qno,
 							RedirectAttributes redirectAttr,
 							QnaPagingDTO qnaPaging) {
@@ -150,7 +145,7 @@ public class QnaController {
 		redirectAttr.addAttribute("pageNum", qnaPaging.getPageNum()) ;
 		redirectAttr.addAttribute("rowAmountPerPage", qnaPaging.getRowAmountPerPage()) ;
 		
-		return "redirect:/pages/qnalist";
+		return "redirect:/qna/list";
 		
 	}		
 	

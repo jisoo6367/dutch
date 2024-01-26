@@ -70,7 +70,9 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">공지사항<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
+					<h3 class="panel-title">공지사항
+						<button type="button" class="btn btn-xs btn-link" style="float:right;">
+							<a href="${contextPath }/notice/list">더보기</a></button></h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped table-bordered table-hover" 
@@ -96,7 +98,9 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">인기 커뮤니티<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
+					<h3 class="panel-title">인기 커뮤니티
+						<button type="button" class="btn btn-xs btn-link" style="float:right;">
+							<a href="${contextPath }/community/list">더보기</a></button></h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped table-bordered table-hover" 
@@ -126,7 +130,9 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">인기 카드<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
+					<h3 class="panel-title">인기 카드
+						<button type="button" class="btn btn-xs btn-link" style="float:right;">
+							<a href="${contextPath }/card/list">더보기</a></button></h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped table-bordered table-hover" 
@@ -152,7 +158,9 @@
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">최근 더치페이<button type="button" class="btn btn-xs btn-link" style="float:right;">더보기</button></h3>
+					<h3 class="panel-title">최근 더치페이
+						<button type="button" class="btn btn-xs btn-link" style="float:right;">
+							<a href="${contextPath }/dutch/list">더보기</a></button></h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped table-bordered table-hover" 

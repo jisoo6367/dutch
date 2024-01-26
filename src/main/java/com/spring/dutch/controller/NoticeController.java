@@ -95,7 +95,7 @@ public class NoticeController {
 	
 	//특정 게시물 수정삭제 페이지 호출
 	@GetMapping(value ="/modify")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String showNoticeModify(Long cno, String nickname, Model model, 
 								   NoticePagingDTO noticePaging) {
 		
@@ -134,25 +134,18 @@ public class NoticeController {
 	
 	//특정 게시물 삭제
 	@PostMapping("/remove")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String removeNotice(NoticeVO notice, Long cno,
 							   RedirectAttributes redirectAttr,
 							   NoticePagingDTO noticePaging) {
+		noticeService.removeNotice(cno);
 		
-//		if(noticeService.modifyCdelFlag(notice.getCno())) { //블라인드처리
-		if(noticeService.removeNotice(cno)) {
-		
-			redirectAttr.addFlashAttribute("result", "successRemove");
-		}else {
-			
-			redirectAttr.addFlashAttribute("result","failRemove") ;
-		}
 		
 		redirectAttr.addAttribute("pageNum", noticePaging.getPageNum()) ;
 		redirectAttr.addAttribute("rowAmountPerPage", noticePaging.getRowAmountPerPage()) ;
 		redirectAttr.addAttribute("keyword", noticePaging.getKeyword()) ;
 		
-		return "redirect:/pages/noticelist";
+		return "redirect:/notice/list";
 	}
 	
 	

@@ -33,7 +33,7 @@ public class DutchReplyController {
 	//브라우저 ajax 코드에서 url을 아래처럼 작성
 	//http://localhost:8080/mypro00/replies/229402/page/1
 	
-	@GetMapping( value="/{pno}/page/{pageNum}" ,
+	@GetMapping( value="/{pno}/page/{pageNum}/dutch" ,
 			     produces = {"application/json;charset=utf-8" , 
 			    			 "application/xml;charset=utf-8"  }
 				) //produces: 브라우저로 보내는 데이터 형식을 설정합니다.
@@ -54,7 +54,7 @@ public class DutchReplyController {
 	
 	
 //게시물에 대한 댓글 등록(rno 반환) POST 		/replies/{pno}/new
-	@PostMapping(value = "/{pno}/new" , 
+	@PostMapping(value = "/{pno}/new/dutch" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 	@PreAuthorize("isAuthenticated()")
@@ -77,7 +77,7 @@ public class DutchReplyController {
 	}
 	
 //댓글의 답글 등록(rno 반환) POST 	/replies/{pno}/new
-	@PostMapping(value = "/{pno}/{rcno}/new" , 
+	@PostMapping(value = "/{pno}/{rcno}/new/dutch" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 	@PreAuthorize("isAuthenticated()")
@@ -107,7 +107,7 @@ public class DutchReplyController {
 //		return new ResponseEntity<MyReplyVO>(dutchReplyService.getMyReply(pno, rno), HttpStatus.OK) ;
 //	}
 	
-	@GetMapping(value="/{pno}/{rno}" , 
+	@GetMapping(value="/{pno}/{rno}/dutch" , 
 				produces = "application/json;charset=utf-8")
 	public DutchReplyVO showReply(@PathVariable("pno") Long pno,
 							   @PathVariable("rno") Long rno){
@@ -118,7 +118,7 @@ public class DutchReplyController {
 
 //게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/replies/{pno}/{rno}
 	//Ajax에서의 요청 URI: /mypro00/replies/229402/102, PUT:PATCH
-	@RequestMapping(value="/{pno}/{rno}" , 
+	@RequestMapping(value="/{pno}/{rno}/dutch" , 
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
@@ -137,7 +137,7 @@ public class DutchReplyController {
 	
 	
 	//특정 게시물에 대한 특정 댓글/답글 삭제(rdelFlag를 1로 업데이트)	/replies/{pno}/{rno}
-	@DeleteMapping(value = "/{pno}/{rno}" ,
+	@DeleteMapping(value = "/{pno}/{rno}/dutch" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
 	@PreAuthorize("isAuthenticated() && principal.username == #yourReply.nickname")
@@ -154,7 +154,7 @@ public class DutchReplyController {
 
 
 //특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
-	@DeleteMapping(value = "/{pno}" , produces = "text/plain;charset=utf-8")
+	@DeleteMapping(value = "/{pno}/dutch" , produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> removeAllReply(@PathVariable("pno") Long pno){
 		
 		int deleteRows = dutchReplyService.removeAllReply(pno) ;

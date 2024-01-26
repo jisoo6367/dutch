@@ -1,133 +1,129 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
-<%@include file="../pageinclude/header.jsp" %>
+<%@include file="../pageinclude/header.jsp"%>
 
 <style>
- th {text-align: center;}
-</style>  
+th {
+	text-align: center;
+}
+</style>
 
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Qna - Modify</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
-        
-            <div class="panel panel-default">
-                <div class="panel-heading"><h4>문의 수정-삭제</h4></div><%-- /.panel-heading --%>
-                
-                <div class="panel-body">
-
-<form role="form" method="post" name="frmModify" id="frmModify">
-	
-	<div class="form-group">
-	    <label>문의번호</label>
-	    <input class="form-control" name="qno" id="qno" 
-	           value='<c:out value="${qna.qno }"/>' readonly="readonly">
+	<div class="row">
+		<div class="col-lg-12">
+			<h3 class="page-header">Qna - Modify</h3>
+		</div>
+		<%-- /.col-lg-12 --%>
 	</div>
-	
-	<div class="form-group">
-	    <label>문의제목</label>
-	    <input class="form-control" name="qtitle" id="qtitle" 
-	    	   value="${qna.qtitle }" >
+	<%-- /.row --%>
+	<div class="row">
+		<div class="col-lg-12">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4>문의 수정-삭제</h4>
+				</div>
+				<%-- /.panel-heading --%>
+
+				<div class="panel-body">
+
+					<form role="form" method="post" name="frmModify" id="frmModify">
+
+						<div class="form-group">
+							<label>문의번호</label> <input class="form-control" name="qno"
+								id="qno" value='<c:out value="${qna.qno }"/>'
+								readonly="readonly">
+						</div>
+
+						<div class="form-group">
+							<label>문의제목</label> <input class="form-control" name="qtitle"
+								id="qtitle" value="${qna.qtitle }">
+						</div>
+						<div class="form-group">
+							<label>문의내용</label>
+							<textarea class="form-control" rows="3" name="qcontent"
+								id="qcontent">${qna.qcontent}</textarea>
+						</div>
+						<div class="form-group">
+							<label>닉네임</label> <input class="form-control" name="nickname"
+								id="nickname" value="${qna.nickname}" readonly="readonly">
+						</div>
+						<div class="form-group">
+							<label>최종수정일</label>
+							<%--  [등록일시: <fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd HH:mm:ss" />] --%>
+							<input class="form-control" name="qmodDate" id="qmodDate"
+								value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${qna.qmodDate }"/>'
+								disabled="disabled">
+						</div>
+
+
+						<button type="button" class="btn btn-primary qnabtns"
+							id="btnModify" data-oper="Qnamodify">수정</button>
+						<button type="button" class="btn btn-primary qnabtns"
+							id="btnRemove" data-oper="Qnaremove">삭제</button>
+
+
+						<button type="button" class="btn btn-warning qnabtns" id="btnList"
+							data-oper="list">취소</button>
+
+						<input type="hidden" id="pageNum" name="pageNum"
+							value="${qnaPagingDTO.pageNum }"> <input type="hidden"
+							id="rowAmountPerPage" name="rowAmountPerPage"
+							value="${qnaPagingDTO.rowAmountPerPage }"> <input
+							type="hidden" name="${_csrf.parameterName }"
+							value="${_csrf.token }" />
+					</form>
+
+				</div>
+				<%-- /.panel-body --%>
+
+			</div>
+			<%-- /.panel --%>
+		</div>
+		<%-- /.col-lg-12 --%>
 	</div>
-	<div class="form-group">
-	    <label>문의내용</label>
-	    <textarea class="form-control" rows="3" name="qcontent" id="qcontent"
-	    		  >${qna.qcontent}</textarea>
+	<%-- /.row --%>
+
+
+</div>
+<%-- /#page-wrapper --%>
+
+<%-- 첨부파일 결과 표시 --%>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">파일첨부</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div class="form-group uploadDiv">
+					<input id="inputFile" class="btn btn-primary inputFile" type="file"
+						name="uploadFiles" multiple="multiple" /><br>
+				</div>
+				<div class="form-group fileUploadResult">
+					<ul>
+						<%-- 업로드 후 처리결과가 표시될 영역 --%>
+					</ul>
+				</div>
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
 	</div>
-	<div class="form-group">
-	    <label>닉네임</label>
-	    <input class="form-control" name="nickname" id="nickname" 
-	      	  value="${qna.nickname}" readonly="readonly">
-	</div>
-	<div class="form-group">
-	    <label>최종수정일</label><%--  [등록일시: <fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd HH:mm:ss" />] --%>
-	    <input class="form-control" name="qmodDate" id="qmodDate" 
-	      	   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${qna.qmodDate }"/>' 
-	      	   disabled="disabled">
-	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
 
-	
-	<button type="button" class="btn btn-primary qnabtns" id="btnModify" data-oper="Qnamodify">수정</button>
-	<button type="button" class="btn btn-primary qnabtns" id="btnRemove" data-oper="Qnaremove">삭제</button>
 
-	
-	<button type="button" class="btn btn-warning qnabtns" id="btnList" data-oper="list">취소</button>
- 	
- 	<input type="hidden" id="pageNum" name="pageNum" value="${qnaPagingDTO.pageNum }" >
-	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${qnaPagingDTO.rowAmountPerPage }" ><%-- 
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> --%>
-</form>
-
-                </div><%-- /.panel-body --%>
-                
-            </div><%-- /.panel --%>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-  
-
-</div><%-- /#page-wrapper --%>
-
-<%-- 첨부파일 결과 표시 --%>   
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">파일첨부</div><!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
-                    </div>
-	                <div class="form-group fileUploadResult">
-	                    <ul>
-	                        <%-- 업로드 후 처리결과가 표시될 영역 --%>
-	                    </ul>
-	                </div>
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel -->
-        </div><!-- /.col-lg-12 -->
-    </div><!-- /.row --> 
-    
-    
 <%-- 스크립트 시작 --%>
 <script>
 
 var frmModify = $("#frmModify") ;
-
-/* $(".qnabtns").on("click", function(){
-	
-	var operation = $(this).data("oper") ;
-	//alert("operation: " + operation) ;
-	
-	if (operation == "Qnamodify") {
-		frmModify.attr("action", "${contextPath}/pages/qnamodify") ;
-	
-	} else if (operation == "Qnaremove"){
-		frmModify.attr("action", "${contextPath}/pages/qnaremove") ;
-	
-	} else {  //else if (operation == "list"){
-		
-		var pageNumInput = $("#pageNum").clone() ;
-		var rowAmountPerPageInput = $("input[name='rowAmountPerPage']").clone() ;
-		
-		frmModify.empty() ;
-		
-		frmModify.append(pageNumInput) ;
-		frmModify.append(rowAmountPerPageInput) ;
-		
-		frmModify.attr("action", "${contextPath}/pages/qnalist").attr("method", "get") ; 
-	}
-	
-	frmModify.submit() ;
-}); */
 
 <%--수정된 게시물 입력값 유무 확인 함수--%>
 function checkBoardValues(){
@@ -420,5 +416,5 @@ $(document).ready(function(){
 
 
 </script>
-    
-<%@include file="../pageinclude/footer.jsp" %> 
+
+<%@include file="../pageinclude/footer.jsp"%>

@@ -17,7 +17,7 @@ var qnaReplyClsr = (function(){
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리
         $.ajax({
             type: "get" ,
-            url: "/dutch/replies/" + qno + "/page/" + pageNum ,
+            url: "/dutch/qnaReplies/" + qno + "/page/" + pageNum + "/qna" ,
             dataType: "json" , //나는 json으로 받고 싶어
             success: function(qnareplyPagingCreator, status){
                 if(callback) {
@@ -42,7 +42,7 @@ var qnaReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/replies/" + qno + "/new" ,
+            url: "/dutch/qnaReplies/" + qno + "/new" + "/qna" ,
             data: JSON.stringify(cmt) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -68,7 +68,7 @@ var qnaReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/replies/" + qno + "/" + qrcno + "/new" ,
+            url: "/dutch/qnaReplies/" + qno + "/" + qrcno + "/new" + "/qna" ,
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -96,7 +96,7 @@ var qnaReplyClsr = (function(){
 
         $.ajax({
             type: "get" ,
-            url: "/dutch/replies/" + qno + "/" + qrno ,
+            url: "/dutch/qnaReplies/" + qno + "/" + qrno + "/qna" ,
             dataType: "json" ,
             success: function(reply, status, xhr) {
                 if(callback) {
@@ -119,7 +119,7 @@ var qnaReplyClsr = (function(){
 
         $.ajax({
             type: "put" ,
-            url: "/dutch/replies/" + qno + "/" + qrno ,
+            url: "/dutch/qnaReplies/" + qno + "/" + qrno + "/qna" ,
             data: JSON.stringify(cmtReply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -144,7 +144,7 @@ var qnaReplyClsr = (function(){
 
         $.ajax({
             type: "delete" ,
-            url: "/dutch/replies/" + qno + "/" + qrno ,
+            url: "/dutch/qnaReplies/" + qno + "/" + qrno + "/qna" ,
             data: JSON.stringify(qnaReplyCmt) ,
             contentType: "application/json;charset=utf-8",
             dataType: "text" ,
@@ -168,7 +168,7 @@ var qnaReplyClsr = (function(){
         
         $.ajax({
             type: "delete" ,
-            url: "/dutch/replies/" + qno ,
+            url: "/dutch/qnaReplies/" + qno + "/qna" ,
             dataType: "text" ,
             success: function(result, status, xhr) {
                 if(callback) {

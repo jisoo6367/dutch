@@ -28,7 +28,7 @@ public class CommunityReplyController {
 		this.communityReplyService =communityReplyService;
 	}
 	
-	@GetMapping( value="/{tno}/page/{pageNum}" ,
+	@GetMapping( value="/{tno}/page/{pageNum}/community" ,
 		     produces = {"application/json;charset=utf-8" , 
 		    			 "application/xml;charset=utf-8"  })			 
 	public ResponseEntity<CommunityReplyPagingCreatorDTO>
@@ -48,7 +48,7 @@ public class CommunityReplyController {
 	
 	
 	//게시물에 대한 댓글 등록(rno 반환) POST 		/replies/{tno}/new
-		@PostMapping(value = "/{tno}/new" , 
+		@PostMapping(value = "/{tno}/new/community" , 
 					 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 					 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 		@PreAuthorize("isAuthenticated()")
@@ -72,7 +72,7 @@ public class CommunityReplyController {
 	
 	
 		//댓글의 답글 등록(trcno 반환) POST 	/replies/{tno}/new
-		@PostMapping(value = "/{tno}/{trcno}/new" , 
+		@PostMapping(value = "/{tno}/{trcno}/new/community" , 
 					 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 					 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 		@PreAuthorize("isAuthenticated()")
@@ -96,7 +96,7 @@ public class CommunityReplyController {
 	
 	
 		//게시물에 대한 특정 댓글 조회 GET 
-		@GetMapping(value="/{tno}/{trno}" , 
+		@GetMapping(value="/{tno}/{trno}/community" , 
 					produces = "application/json;charset=utf-8")
 		public CommunityReplyVO showCommunityReply(@PathVariable("tno") Long tno,
 								   @PathVariable("trno") Long trno){
@@ -107,7 +107,7 @@ public class CommunityReplyController {
 	
 		//게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/replies/{tno}/{trno}
 		//Ajax에서의 요청 URI: /mypro00/replies/229402/102, PUT:PATCH
-		@RequestMapping(value="/{tno}/{trno}" , 
+		@RequestMapping(value="/{tno}/{trno}/community" , 
 						method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 						consumes = "application/json;charset=utf-8" ,
 						produces = "text/plain;charset=utf-8") 
@@ -125,7 +125,7 @@ public class CommunityReplyController {
 		}
 	
 		//특정 게시물에 대한 특정 댓글/답글 삭제(rdelFlag를 1로 업데이트)	/replies/{tno}/{trno}
-		@DeleteMapping(value = "/{tno}/{trno}" ,
+		@DeleteMapping(value = "/{tno}/{trno}/community" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
 		@PreAuthorize("isAuthenticated() && principal.username == #communityReply.nickname")
@@ -139,7 +139,7 @@ public class CommunityReplyController {
 		}
 		
 		//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
-		@DeleteMapping(value = "/{tno}" , produces = "text/plain;charset=utf-8")
+		@DeleteMapping(value = "/{tno}/community" , produces = "text/plain;charset=utf-8")
 		public ResponseEntity<String> removeAllCommunityReply(@PathVariable("tno") Long tno){
 			
 			int deleteRows = communityReplyService.removeAllCommunityReply(tno);

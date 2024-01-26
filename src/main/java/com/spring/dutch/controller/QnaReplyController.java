@@ -19,7 +19,7 @@ import com.spring.dutch.dto.QnaReplyPagingDTO;
 import com.spring.dutch.service.QnaReplyService;
 
 @RestController
-@RequestMapping(value= {"/replies", "/qnareplies"})
+@RequestMapping(value= {"/qnaReplies", "/qnaReplies"})
 public class QnaReplyController {
 	
 	private QnaReplyService qnareplyService;
@@ -30,7 +30,7 @@ public class QnaReplyController {
 	
 	//게시물에 대한 댓글 목록 조회 	GET/replies/pages/{qno}/{pageNum}
 	//http://localhost:8080/dutch/replies/24/page/1
-	@GetMapping(value="/{qno}/page/{pageNum}",
+	@GetMapping(value="/{qno}/page/{pageNum}/qna",
 				produces= {"application/json;charset=utf-8" ,
 						   "application/xml;charset=utf-8"})
 	public ResponseEntity<QnaReplyPagingCreatorDTO>
@@ -48,7 +48,7 @@ public class QnaReplyController {
 	}
 	
 	//게시물에 대한 특정 댓글 조회	/replies/{qno}/{qrno}
-	@GetMapping(value = "/{qno}/{qrno}" ,
+	@GetMapping(value = "/{qno}/{qrno}/qna" ,
 				produces = "application/json;charset=utf-8")
 	public QnaReplyVO showReply(@PathVariable("qno") Long qno,
 								@PathVariable("qrno") Long qrno) {
@@ -58,7 +58,7 @@ public class QnaReplyController {
 	
 	
 	//게시물에 대한 댓글 등록(qrno 반환)
-	@PostMapping(value = "/{qno}/new" ,
+	@PostMapping(value = "/{qno}/new/qna" ,
 				 consumes = {"application/json;charset=utf-8"} ,
 				 produces = {"text/plain; charset=utf-8"})
 	@PreAuthorize("isAuthenticated()")
@@ -83,7 +83,7 @@ public class QnaReplyController {
 	}
 	
 	//댓글의 답글 등록(qrno 반환)	POST /replies/{qno}/new
-	@PostMapping(value = "/{qno}/{qrcno}/new" ,
+	@PostMapping(value = "/{qno}/{qrcno}/new/qna" ,
 				 consumes = {"application/json;charset=utf-8"} ,
 				 produces = {"text/plain;charset=utf-8"})
 	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
@@ -110,7 +110,7 @@ public class QnaReplyController {
 	}
 	
 	//게시물에 대한 특정 댓글 수정	/replies/{qno}/{qrno}
-	@RequestMapping(value = "/{qno}/{qrno}" ,
+	@RequestMapping(value = "/{qno}/{qrno}/qna" ,
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8")
@@ -129,7 +129,7 @@ public class QnaReplyController {
 	}
 	
 	//특정 게시물에 대한 특정 댓글/답글 삭제(qrdelFalg를 1로 업뎃)	/replies/{qno}/{qrno}
-	@DeleteMapping(value = "/{qno}/{qrno}",
+	@DeleteMapping(value = "/{qno}/{qrno}/qna",
 				   consumes = "application/json; charset=utf-8" ,
 				   produces = "text/plain;charset=utf-8")
 	@PreAuthorize("isAuthenticated() && principal.username == #qnareply.nickname")
@@ -143,7 +143,7 @@ public class QnaReplyController {
 	}	
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
-	@DeleteMapping(value = "/{qno}", produces = "text/plain;charset=utf-8")
+	@DeleteMapping(value = "/{qno}/qna", produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> removeAllReply(@PathVariable("qno") Long qno){
 		
 		int deleteRows = qnareplyService.removeAllReply(qno);

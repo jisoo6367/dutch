@@ -18,7 +18,7 @@ var communityReplyClsr = (function(){
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리
         $.ajax({
             type: "get" ,
-            url: "/dutch/communityreplies/" + tno + "/page/" + pageNum ,
+            url: "/dutch/communityreplies/" + tno + "/page/" + pageNum + "/community" ,
             dataType: "json" , 
             success: function(communityReplyPagingCreator, status, xhr){
                 if(callback) {
@@ -43,7 +43,7 @@ var communityReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/communityreplies/" + tno + "/new" ,
+            url: "/dutch/communityreplies/" + tno + "/new" + "/community" ,
             data: JSON.stringify(cmt) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -68,7 +68,7 @@ var communityReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/communityreplies/" + tno + "/" + trcno + "/new" ,
+            url: "/dutch/communityreplies/" + tno + "/" + trcno + "/new" + "/community" ,
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -96,7 +96,7 @@ var communityReplyClsr = (function(){
 
         $.ajax({
             type: "get" ,
-            url: "/dutch/communityreplies/" + tno + "/" + trno ,
+            url: "/dutch/communityreplies/" + tno + "/" + trno + "/community" ,
             dataType: "json" ,
             success: function(reply, status, xhr) {
                 if(callback) {
@@ -119,7 +119,7 @@ var communityReplyClsr = (function(){
 
         $.ajax({
             type: "put" ,
-            url: "/dutch/communityreplies/" + tno + "/" + trno ,
+            url: "/dutch/communityreplies/" + tno + "/" + trno + "/community" ,
             data: JSON.stringify(cmtReply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -144,7 +144,7 @@ var communityReplyClsr = (function(){
 
         $.ajax({
             type: "DELETE" ,
-            url: "/dutch/communityreplies/" + tno + "/" + trno ,
+            url: "/dutch/communityreplies/" + tno + "/" + trno + "/community" ,
             data: JSON.stringify(myReplyCmt) ,
             contentType: "application/json;charset=utf-8" ,
             dataType: "text" ,            
@@ -168,7 +168,7 @@ var communityReplyClsr = (function(){
         
         $.ajax({
             type: "delete" ,
-            url: "/dutch/communityreplies/" + tno ,
+            url: "/dutch/communityreplies/" + tno + "/community" ,
             dataType: "text" ,
             success: function(result, status, xhr) {
                 if(callback) {

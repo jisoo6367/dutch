@@ -17,7 +17,7 @@ var dutchReplyClsr = (function(){
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리
         $.ajax({
             type: "get" ,
-            url: "/dutch/dutchReplies/" + pno + "/page/" + pageNum ,
+            url: "/dutch/dutchReplies/" + pno + "/page/" + pageNum + "/dutch" ,
             dataType: "json" , //나는 json으로 받고 싶어
             success: function(dutchReplayPagingCreator, status){
                 if(callback) {
@@ -42,7 +42,7 @@ var dutchReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/dutchReplies/" + pno + "/new" ,
+            url: "/dutch/dutchReplies/" + pno + "/new" + "/dutch" ,
             data: JSON.stringify(cmt) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -67,7 +67,7 @@ var dutchReplyClsr = (function(){
 
         $.ajax({
             type: "post" ,
-            url: "/dutch/dutchReplies/" + pno + "/" + rcno + "/new" ,
+            url: "/dutch/dutchReplies/" + pno + "/" + rcno + "/new" + "/dutch" ,
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -95,7 +95,7 @@ var dutchReplyClsr = (function(){
 
         $.ajax({
             type: "get" ,
-            url: "/dutch/dutchReplies/" + pno + "/" + rno ,
+            url: "/dutch/dutchReplies/" + pno + "/" + rno + "/dutch" ,
             dataType: "json" ,
             success: function(reply, status, xhr) {
                 if(callback) {
@@ -118,7 +118,7 @@ var dutchReplyClsr = (function(){
 
         $.ajax({
             type: "put" ,
-            url: "/dutch/dutchReplies/" + pno + "/" + rno ,
+            url: "/dutch/dutchReplies/" + pno + "/" + rno + "/dutch" ,
             data: JSON.stringify(cmtReply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -145,7 +145,7 @@ var dutchReplyClsr = (function(){
 
         $.ajax({
             type: "DELETE" ,
-            url: "/dutch/dutchReplies/" + pno + "/" + rno ,
+            url: "/dutch/dutchReplies/" + pno + "/" + rno + "/dutch" ,
             data: JSON.stringify(myReplyCmt) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
@@ -171,7 +171,7 @@ var dutchReplyClsr = (function(){
         
         $.ajax({
             type: "DELETE" ,
-            url: "/dutch/dutchReplies/" + pno ,
+            url: "/dutch/dutchReplies/" + pno + "/dutch" ,
             dataType: "text" ,
             success: function(result, status, xhr) {
                 if(callback) {

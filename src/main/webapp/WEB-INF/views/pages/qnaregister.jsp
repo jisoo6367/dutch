@@ -35,9 +35,9 @@
 						</div>
 						<div class="form-group">
 						    <label>닉네임</label>
-						    <input class="form-control" name="nickname" id="nickname" placeholder="작성자의 아이디를 입력하세요..."><%--  --> 
+						    <!-- <input class="form-control" name="nickname" id="nickname" placeholder="작성자의 아이디를 입력하세요..."> --> 
 						    <input class="form-control" name="nickname" id="nickname" readonly="readonly" 
-						    	   value='<sec:authentication property="principal.username"/>'/> --%>
+						    	   value='<sec:authentication property="principal.username"/>'/>
 						    	   
 						</div>
 						<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
