@@ -72,7 +72,7 @@
 		<result property="uuid" column="uuid"/>
 		<result property="uploadPath" column="uploadPath"/>
 		<result property="fileName" column="fileName"/>
-		<result property="kno" column="mykno"/>
+		<result property="kno" column="kno"/>
 	</resultMap>
 	
 	<resultMap type="com.spring.dutch.domain.CardVO" id="CardMap">
@@ -86,9 +86,15 @@
 	</resultMap>
 	<select id="selectCard" resultMap="CardMap">
 		SELECT a.kno, a.category, a.kname, a.kcontent, a.kcompany, a.kcomment,
-			   b.uuid, b.uploadPath, b.fileName, b.kno AS mykno
+			   b.uuid, b.uploadPath, b.fileName, b.kno
 		FROM dutch.tbl_card a LEFT OUTER JOIN dutch.tbl_cardAttachFiles b ON (a.kno = b.kno) 
 		WHERE a.kno = #{kno}
+	</select>
+	
+	<select id="selectCardAndImg" resultMap="CardMap">
+		SELECT a.kno, a.category, a.kname, a.kcontent, a.kcompany, a.kcomment,
+			   b.uuid, b.uploadPath, b.fileName, b.kno
+		FROM dutch.tbl_card a LEFT OUTER JOIN dutch.tbl_cardAttachFiles b ON (a.kno = b.kno)
 	</select>
 	
 	<!-- 게시물 수정(UPDATE) -->

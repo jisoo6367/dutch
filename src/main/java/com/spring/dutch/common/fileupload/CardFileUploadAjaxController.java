@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dutch.dto.AttachFileDTO;
+import com.spring.dutch.dto.CardAttachFileDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -31,18 +32,6 @@ public class CardFileUploadAjaxController {
 	
 	private String uploadFileRepoDir = "C:/myupload" ;
 	
-	//form을 통한 다중 파일 업로드  //uploadFiles
-	
-	//1. 파일 업로드 요청 JSP 페이지 호출
-	
-//	@GetMapping(value= {"/fileUploadAjax"})
-//	public String callFileUploadAjaxPage() {
-//		System.out.println("'Ajax를 통한 업로드 테스트' JSP 페이지 호출======== ");
-//		return "sample/fileUploadAjax";
-//		
-//	}
-	//이미지파일에 대한 썸네일이미지 저장
-	//Step1: 업로드파일에 대한 이미지 파일여부 검사 메소드
 	private boolean isImageFile(File yourFile) {
 		
 		String yourFileContentType = null;
@@ -69,14 +58,14 @@ public class CardFileUploadAjaxController {
 	}
 	
 	//2. 파일 업로드 처리
-	@PostMapping(value = "/CardfileUploadAjaxAction", 
+	@PostMapping(value = "/cardFileUploadAjaxAction", 
 				 produces = "application/json; charset=utf-8") 
 	@ResponseBody
-	public List<AttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
+	public List<CardAttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
 		
-		List<AttachFileDTO> attachFileList = new ArrayList<AttachFileDTO>();
+		List<CardAttachFileDTO> attachFileList = new ArrayList<CardAttachFileDTO>();
 		
-		AttachFileDTO attachFile = null ;
+		CardAttachFileDTO attachFile = null ;
 		
 		//파일이름이 저장되는 변수
 		String fileName = null ;
@@ -100,7 +89,7 @@ public class CardFileUploadAjaxController {
 			System.out.println("Upload File Name: " + uploadFile.getOriginalFilename());
 			System.out.println("Upload File Size: " + uploadFile.getSize());
 			
-			attachFile = new AttachFileDTO() ;
+			attachFile = new CardAttachFileDTO() ;
 			
 			attachFile.setUploadPath(dateFmtStr) ;
 			attachFile.setRepoPath(uploadFileRepoDir) ;
@@ -128,8 +117,6 @@ public class CardFileUploadAjaxController {
 				//이미지파일이면 썸네일 생성
 				if(isImageFile(saveUploadFile)) {
 					
-					attachFile.setFileType("I") ;
-					
 					File thumbnameFile = new File(fileUploadPath, "s_" + fileName);
 					
 					FileOutputStream myFos = 
@@ -156,38 +143,37 @@ public class CardFileUploadAjaxController {
 		return attachFileList ;
 	}
 	
-//	@PostMapping("/deleteCardFile")
-//	public ResponseEntity<String> deleteFile(String fileName, String fileType){
-////		System.out.println("fileName: " + fileName);
-////		System.out.println("fileType: " + fileType);
-////		fileName: C:/myupload/2023/12/15/0d62242c-c8cf-4365-8ab6-cebd21e247e1_%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8PPT%ED%8C%8C%EC%9D%BC.pptx
-////		fileType: F
-//		
-//		try {
-//			fileName = URLDecoder.decode(fileName, "utf-8") ;
-//			System.out.println("fileName: " + fileName);
-//			
-//		} catch (UnsupportedEncodingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		File delFile = new File(fileName) ;
-//		
-//		boolean delResult = delFile.delete() ; //일반파일과 썸네일 파일 삭제
-//		//정상삭제: true 반환, 삭제실패: false 반환
-//		if (!delResult) {
-//			return new ResponseEntity<String>("F", HttpStatus.OK) ;
-//		}
-//		
-//		if(fileType.equals("I")) {
-//			delFile = new File(fileName.replaceFirst("s_", ""));
-//			delResult = delFile.delete() ;
-//		}
-//		
-//		return delResult ? new ResponseEntity<String>("S", HttpStatus.OK)
-//						 : new ResponseEntity<String>("F", HttpStatus.OK) ;
-//		
-//		
-//	}
+	@PostMapping("/deleteCardFile")
+	public ResponseEntity<String> deleteFile(String fileName, String fileType){
+//		System.out.println("fileName: " + fileName);
+//		System.out.println("fileType: " + fileType);
+//		fileName: C:/myupload/2023/12/15/0d62242c-c8cf-4365-8ab6-cebd21e247e1_%EC%97%85%EB%A1%9C%EB%93%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8PPT%ED%8C%8C%EC%9D%BC.pptx
+//		fileType: F
+		
+		try {
+			fileName = URLDecoder.decode(fileName, "utf-8") ;
+			System.out.println("fileName: " + fileName);
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		File delFile = new File(fileName) ;
+		
+		boolean delResult = delFile.delete() ; //일반파일과 썸네일 파일 삭제
+		//정상삭제: true 반환, 삭제실패: false 반환
+		if (!delResult) {
+			return new ResponseEntity<String>("F", HttpStatus.OK) ;
+		}
+		
+			delFile = new File(fileName.replaceFirst("s_", ""));
+			delResult = delFile.delete() ;
+		
+		
+		return delResult ? new ResponseEntity<String>("S", HttpStatus.OK)
+						 : new ResponseEntity<String>("F", HttpStatus.OK) ;
+		
+		
+	}
 }

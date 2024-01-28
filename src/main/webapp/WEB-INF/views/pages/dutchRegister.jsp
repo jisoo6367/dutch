@@ -38,18 +38,10 @@
 				<div class="panel-body">
 					
 					<form role="form" action="${contextPath }/pay/register" method="post" name="frmRegister" id="frmRegister">
-					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> <!-- 403 forbidden 에러 안나도록 -->
 						<div class="form-group">
 							<label>방제목</label> <input class="form-control" name="ptitle"
 								id="ptitle" placeholder="제목을 입력하세요.">
 						</div>
-						<!-- <div class="form-group">
-							<label>카테고리</label> <input class="form-control" name="category"
-								id="category" placeholder="카데고리를 검색하세요.">
-							<select >
-								
-							</select>
-						</div> -->
 						<div class="form-group">
 						    <label>카테고리</label>
 						    	<select class="form-control" id="category" name="category">
@@ -74,6 +66,10 @@
 						</div>
 						
 						<br>
+						
+						<div class="form-group partiContainer">
+							<label>참여자 닉네임</label>
+						</div>
 
 						<div class="form-group">
 							<label>전체금액</label> <input class="form-control"
@@ -84,12 +80,12 @@
 							<label>개인부담금액</label> <input class="form-control"
 								name="ppersonal" id="ppersonal" placeholder="개인부담금액을 입력하세요.">
 						</div>
-						<input type="hidden" name="${_csrf.parameterName }"
-							value="${_csrf.token }" />
+						
 						<button type="button" class="btn btn-primary" id="btnRegister">게시물
 							등록</button>
 						<button type="button" class="btn btn-warning"
 							onclick="location.href='${contextPath}/pay/list';">취소</button>
+						<sec:csrfInput/>
 					</form>
 
 				</div>
@@ -160,73 +156,72 @@
 			$(this).parent("div").siblings("input").remove();
 			
 			for (var i = 0; i < userCnt; i++) {
-				$(this).parents("div .btnAdd").append("<input type='text' name='participants[" + i + "].nickname' class='form-control input-margin'>");
+//				$(this).parents("div .btnAdd").append("<input type='text' name='participants[" + i + "].nickname' class='form-control input-margin'>");
+				$(".partiContainer").append("<input type='text' name='participants[" + i + "].nickname' class='form-control col-md-3 input-margin'>");
 			}
 		}
-
-		
 	});
 
 <%-- 더치페이 게시글 내용 버튼 --%>
-/* $("#btnRegister").on("click", function(){
-	
-	 if(!checkBoardValues()){
-	 	alert("모든 항목을 전부 입력해주셔야 합니다.");
-	 	return ; 
-	 }
-	 
-	 frmRegister.submit();
-}); */
+	$("#btnRegister").on("click", function(){
+		
+		 if(!checkBoardValues()){
+		 	alert("모든 항목을 전부 입력해주셔야 합니다.");
+		 	return ; 
+		 }
+		 
+		 frmRegister.submit();
+	});
 
 <%-- 전체금액을 참여자 수 + 1명(총무) 로 나눈 값 개인부담금액에 넣는 식 --%>
-$("#ptotalPayment").on("change", function(){
-   $("#ppersonal").val("");
-   
-    var total = parseInt($(this).val());
-    var partiCnt = parseInt($("#userCnt").val());
-    partiCnt += 1;
-    var result = Math.floor(total / partiCnt) ;
-    var modulo = total % partiCnt ;
-    $(this).val();
-    $("#ppersonal").val(result);
-    $("#modulo").val(modulo);
-   
-    partiCnt = null;
-});
+	$("#ptotalPayment").on("change", function(){
+	   $("#ppersonal").val("");
+	   
+	    var total = parseInt($(this).val());
+	    var partiCnt = parseInt($("#userCnt").val());
+	    partiCnt += 1;
+	    var result = Math.floor(total / partiCnt) ;
+	    var modulo = total % partiCnt ;
+	    $(this).val();
+	    $("#ppersonal").val(result);
+	    $("#modulo").val(modulo);
+	   
+	    partiCnt = null;
+	});
 
 
 <%-- 게시물 등록 시에 업로드 된 첨부파일 데이터들도  DB에 저장되도록 수정 --%> 
-$("#btnRegister").on("click", function(){
-	
-	if (!checkBoardValues()){
-		alert("사항을 모두 입력해야 합니다.");
-		return ;
-	}
-	
-	var frmBoard = $("#frmRegister") ;
-	var attachFileInputHTML = "";
-	
-	$("div.fileUploadResult ul li").each(function(i, obj){
+	$("#btnRegister").on("click", function(){
 		
-		var objLi = $(obj) ;
-
- 		if(objLi == null){
+		if (!checkBoardValues()){
+			alert("사항을 모두 입력해야 합니다.");
 			return ;
-		} 
+		}
 		
-		attachFileInputHTML 
-			+="<input type='hidden' name='attachFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
-			+ "<input type='hidden' name='attachFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
-			+ "<input type='hidden' name='attachFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
-			+ "<input type='hidden' name='attachFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
-	});<%--each-end--%>
+		var frmBoard = $("#frmRegister") ;
+		var attachFileInputHTML = "";
+		
+		$("div.fileUploadResult ul li").each(function(i, obj){
+			
+			var objLi = $(obj) ;
 	
-	if (attachFileInputHTML != ""){
-		frmBoard.append(attachFileInputHTML) ;	
-	}
-	frmBoard.submit();
-	
-});
+	 		if(objLi == null){
+				return ;
+			} 
+			
+			attachFileInputHTML 
+				+="<input type='hidden' name='attachFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
+				+ "<input type='hidden' name='attachFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
+				+ "<input type='hidden' name='attachFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
+				+ "<input type='hidden' name='attachFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
+		});<%--each-end--%>
+		
+		if (attachFileInputHTML != ""){
+			frmBoard.append(attachFileInputHTML) ;	
+		}
+		frmBoard.submit();
+		
+	});
 
 <%-- <<<<<< 첨부파일 관련 코드 >>>>>> --%>
 
@@ -294,7 +289,7 @@ function showUploadResult(uploadResult) {
 			+ "    data-filetype='I'>"
 //			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
 //			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
-			+ "        <img src='${contextPath}/displayThumbnail?fileName=" + thumbnail + "'>"
+			+ "        <img src='${contextPath}/dutchDisplayThumbnail?fileName=" + thumbnail + "'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
 //			+ "    </a>"
 			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"

@@ -346,6 +346,7 @@
 	});//register-end
 	
 	/* 닉네임 중복확인 */
+//	function checkNick(){
 	$("#checkNicknameBtn").on("click", function(){
 		var nickname = $("#nickname").val();
 		
@@ -354,25 +355,34 @@
 			return false;
 		}
 		
+		
+		
 		$.ajax({
-			type: "post",
-			url: "${contextPath}/member/checkNickname",
-			data: {nickname : nickname},
+			type: "POST",
+			url: "${contextPath}/member/checkNickname/" + nickname,
+			data: JSON.stringify({nickname : nickname}),
+			contentType: "application/json; charset=utf-8" ,
 			dataType: "text",
-			sucess: function(result, status){
-				console.log(result);
-				if(result == "exist"){
+			success: function(result, status, xhr){
+				if(result == "empty"){
 					$("#showCheckedId").css("color", "black").text("사용 가능한 닉네임입니다.");
+
 				} else {
 					$("#showCheckedId").css("color", "red").text("사용 불가능한 닉네임입니다.");
 					$("#nickname").val("");
+
 				}
-			}
+			} ,
+            error: function(xhr, status, err) {
+                if(error) {
+                    error(err) ;
+                }
+            }
 		});//ajax-end
 		
 	});//checkNick-end
 	
-	
+//	}
 	
 	
 	

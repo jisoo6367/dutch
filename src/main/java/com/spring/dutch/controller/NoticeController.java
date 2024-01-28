@@ -21,13 +21,10 @@ import lombok.Setter;
 @RequestMapping("/notice")
 public class NoticeController {
 
-//	@Setter(onMethod_ = @Autowired )
 	private NoticeService noticeService;
 	
-	//단일 생성자를 이용한 주입
 	public NoticeController(NoticeService noticeService) {
 		this.noticeService = noticeService;
-		System.out.println("MyBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
 	
 

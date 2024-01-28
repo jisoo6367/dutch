@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.dutch.domain.CheckNickVO;
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.domain.SendMemberVO;
 import com.spring.dutch.service.MemberRegisterService;
@@ -96,18 +97,20 @@ public class MemberRegisterController {
 	return "redirect:/loginPage";
 	}
 	
-	@PostMapping(value = "/checkNickname")
-	public @ResponseBody ResponseEntity<String> checkNick(@RequestBody String nickname){
+	@PostMapping(value = "/checkNickname/{nickname}",
+				consumes = "application/json;charset=utf-8",
+				produces = "text/plain; charset=utf-8")
+	public ResponseEntity<String> checkNick(@PathVariable("nickname") String nickname){
 		System.out.println("send nickname: " + nickname);
 		
-		nickname = nickname.replaceAll("nickname=", "");
-		System.out.println("replaced nickname: " + nickname);
+	//	nickname = nickname.replaceAll("nickname=", "");
+	//	System.out.println("replaced nickname: " + nickname);
 		
 		String result = (memberRegisterService.checkNicknameService(nickname));
 		
 		System.out.println("컨트롤러 result: "+result);
 		
-		return new ResponseEntity<>(result, HttpStatus.OK) ;
+		return new ResponseEntity<String>(result, HttpStatus.OK) ;
 	}
 	
 }

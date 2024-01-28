@@ -16,14 +16,6 @@ import com.spring.dutch.service.MemberRegisterService;
 
 @Controller
 public class LoginLogoutController {
-	/*@Inject
-	private SnsValue naverSns;
-	
-	@Inject
-	private GoogleConnectionFactory connectionFactory;
-	
-	@Inject
-	private OAuth2Parameters googleOAuth2Parameters;*/
 	
 	private MemberRegisterService memberRegisterService;
 	

@@ -65,7 +65,6 @@
 	    <label>추천수</label>
 	    <input type="number" class="form-control" name="kcomment" id="kcomment" readonly="readonly" value="0">
 	</div>
-	<button class="btn btn-primary pull-right">수정</button>
 	<button type="button" class="btn btn-success" id="btnRegister">등록</button>
 	<button type="button" class="btn btn-warning" 
 	        onclick="location.href='${contextPath}/card/list';">취소</button>
@@ -249,7 +248,7 @@ $("#inputFile").on("change", function(){
 	url 키에 명시된 주소의 컨트롤러에게 formData 객체를 POST 방식으로 전송.--%>
 	$.ajax({
 		type: "post" ,
-		url: "${contextPath}/CardfileUploadAjaxAction" ,
+		url: "${contextPath}/cardFileUploadAjaxAction" ,
 		data: formData ,
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>

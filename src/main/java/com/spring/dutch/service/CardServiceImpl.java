@@ -67,13 +67,16 @@ public class CardServiceImpl implements CardService{
 	
 	@Override //수정페이지
 	public CardVO getCard2(String kno) {
-		CardVO card = cardMapper.selectCard2(kno);
+		CardVO card = cardMapper.selectCard(kno);
+		
+		card.setAttachFileList(cardMapper.selectAttachFiles(kno));
+		System.out.println("수정페이지 호출시 cardVO 데이터: " + card);
+		
 		
 		return card;
 	}
 	
 	@Override //수정
-	@Transactional
 	public boolean modifyCard(CardVO card) {
 
 		String kno = card.getKno();

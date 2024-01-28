@@ -16,7 +16,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-2 text-center" id="footerImg">
-				<img src="resources/img/footerImg.png" alt="footer이미지">
+				<img src="/dutch/resources/img/footerImg.png" alt="footer이미지">
 				<p style="margin-top: 5px; font-size: 18px;">dutch_pay</p>
 			</div>
 			<div class="col-sm-2" id="footerTeammate">
@@ -46,10 +46,14 @@
 			</div>
 			<div class="col-sm-2" id="footerNav2">
 				<p style="">공지사항</p>
-				<p style="color: #aea8a8; font-size: 10px;">공지사항 목록</p>
+				<a href="${contextPath }/notice/list">
+					<p style="color: #aea8a8; font-size: 10px;">공지사항 목록</p>
+				</a>
 				<br>
 				<p style="">1:1 문의</p>
-				<p style="color: #aea8a8; font-size: 10px;">1:1문의 목록</p>
+				<a href="${contextPath }/qna/list">
+					<p style="color: #aea8a8; font-size: 10px;">1:1문의 목록</p>
+				</a>
 			</div>
 			<div class="col-sm-2" id="footerRegDate">
 				<p style="">발표일: 2024/02/02</p>

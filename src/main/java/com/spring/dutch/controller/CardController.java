@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,6 +35,8 @@ public class CardController {
 		
 		model.addAttribute("listData", cardService.showCardList(cardPaging)) ;
 		model.addAttribute("result", result);
+		
+		System.out.println("controller model: "+model);
 		
 		return "/pages/cardlist";
 	}
@@ -86,7 +89,7 @@ public class CardController {
 		
 		CardVO card = cardService.getCard2(kno);
 		
-		model.addAttribute("card======= " + card);
+		model.addAttribute("card" + card);
 		
 		return "pages/cardmodify";
 	}
@@ -94,9 +97,10 @@ public class CardController {
 	@PostMapping("/modify") //수정
 	@PreAuthorize("isAuthenticated()")
 	public String modifyCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
-		
+		System.out.println("카드 수정 컨트롤러 시작 card: " + card);
+		System.out.println("카드 수정 컨트롤러 시작 cardpaging: " + cardPaging);
 		boolean modifyResult = cardService.modifyCard(card);
-		
+		System.out.println("서비스 갔다 온 결과: " + modifyResult);
 		if(modifyResult) {
 			redirectAttr.addAttribute("result", "successModify") ;
 		}else {

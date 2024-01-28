@@ -32,7 +32,7 @@
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">추천 카드 목록</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">카드 등록</button>
+							<button type="button" id="moveCardRegisterPageBtn" class="btn btn-primary btn-sm pull-right">카드 등록</button>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
@@ -77,10 +77,7 @@
 						<!-- 전송버튼 -->
 							<button class="btn btn-warning" type="button" id="btnSearchGo">검색</button>
 						</span>
-						<!-- 카드등록버튼 -->
-						<span class="input-group-btn"> 
-							<button class="btn btn-warning" type="button" id="moveCardRegisterPageBtn">카드등록</button>
-						</span>	
+						
 				</div>
 
 				<div class="input-group">
@@ -107,8 +104,11 @@
 			<c:choose>
 				<c:when test="${not empty listData.cardList }">
 					<c:forEach var="card" items="${listData.cardList }">
-						<div class="col-xs-6 col-lg-4 moveDetail"  data-kno="${card.kno }">
-							<!-- 카드이미지공간 -->
+						<div class="col-md-3 moveDetail"  data-kno="${card.kno }">
+							<%-- <c:set var="thumbnail"
+								value="${card.attachFileList[0].repoPath}/${card.attachFileList[0].uploadPath}/s_${card.attachFileList[0].uuid}_${card.attachFileList[0].fileName}" />
+							<img src="${contextPath }/cardDisplayThumbnail?filename=${thumbnail}"
+								style="width: 100px;"> --%>
 							<h3>${card.kname }</h3>
 							<p>${card.kcontent }</p>
 							<p>${card.kcompany }</p>
@@ -205,14 +205,13 @@ var frmSendValue = $("#frmSendValue");
 
 	});
 
-<sec:authorize access="isAuthenticated()">
+
 	
 <%-- 카드 등록 페이지로 이동 --%>
 	$("#moveCardRegisterPageBtn").on("click", function(){
 		window.location.href="${contextPath}/card/register";
 	});
 	
-</sec:authorize>
 
 <%-- 상세페이지 이동 --%>
 $(".moveDetail").on("click", function(){

@@ -33,33 +33,22 @@
 							<strong style="font-size:16px;">${card.kname}님 카드</strong>
 						</div>
 						<div class="col-md-3" style="white-space: nowrap; height: 45px; padding-top:16px;">
-							<%-- <span class="text-primary" style="font-size: smaller; height: 45px; padding-top: 19px;">
-								<span>
-									<span>등록일:&nbsp;</span>
-									<strong><fmt:formatDate 
-												pattern="yyyy-MM-dd HH:mm:ss"
-												value="${myboard.bregDate}"
-											 /></strong>
-									<span>&nbsp;&nbsp;</span>
-								</span>
-								<span>조회수:&nbsp;<strong><c:out value="${myboard.bviewCnt}"/></strong>
-								</span>
-							</span> --%>
+							
 						</div>
-						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
+						<div class="col-md-7" style="height: 45px; padding-top:6px;">
 							<div class="button-group pull-right">
 
 <form role="form" method="post" name="frmModify" id="frmModify">
-<%-- <sec:authorize access="isAuthenticated()">
+<sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="username"/>
-		<c:if test="${username eq card.kno }"> --%>
+		<c:if test="${username eq card.kno }">
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정</span></button>
 							
 							<button type="button" class="btn btn-primary mybtns" 
 									id="btnRemove" data-oper="remove">삭제</button>
-<%-- 		</c:if>
-</sec:authorize> --%>
+		</c:if>
+</sec:authorize>
 									
 							<button type="button" id="btnToList" data-oper="list"
 									class="btn btn-warning"><span>목록</span></button>
@@ -141,10 +130,7 @@
                 <div class="panel-heading">
                 	<strong style="font-size:16px;">카드이미지</strong>
                 </div><!-- /.panel-heading -->
-                <div class="panel-body"><!-- 
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
-                    </div> -->
+                <div class="panel-body">
 	                <div class="form-group fileUploadResult">
 	                    <ul>
 <%-- 업로드 후 처리결과가 표시될 영역 --%>
