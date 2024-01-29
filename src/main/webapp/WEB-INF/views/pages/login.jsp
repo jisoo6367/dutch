@@ -16,6 +16,9 @@
 	<div class="col-md-3">
       <form role="form" class="form-signin" method="post" action="${contextPath }/loginProcess">
       	<fieldset>
+      		<c:if test="${not empty naverResult }">
+            	<h4 class="text-muted h4-color"><c:out value="${naverResult }"/></h4>
+            </c:if>
             <h4 class="text-muted h4-color"><c:out value="${error }"/></h4>
             <h4 class="text-muted h4-color"><c:out value="${logout }"/></h4>
             <c:if test="${not empty result }">
@@ -34,7 +37,7 @@
 	        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	        <div class="checkbox">
 	          <label>
-	            <input type="checkbox" value="remember-me">자동 로그인
+	            <input type="checkbox" name="remember-me">자동로그인
 	          </label>
 	        </div>
 	        
@@ -42,24 +45,19 @@
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button>
 	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveFinder">아이디/비밀번호 찾기</button>
         </fieldset>
-        <fieldset>
-            <hr>
-               <h6 class="text-muted text-center"><c:out value="${normal }"/></h6>
-                            
-        </fieldset>
       </form>
       <!-- 네이버로그인 버튼 -->
-	<div class="row">
-		<div id="naver_id_login">
+	<div class="row" style="margin-top: 6px;">
+		<div class="col" id="naver_id_login">
 			<a href="${naver_url }"></a>
 		</div>
 	</div>
 	
 	<!-- 구글로그인 버튼 -->
-	<div class="text-center">
+	<%-- <div class="text-center">
 		<a href="${google_url }"><img src="/resources/img/googleLoginBotton.png" alt="구글로 로그인"/></a>
 	</div>
-  </div>
+  </div> --%>
 </div> <!-- /container -->
     
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8">

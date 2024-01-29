@@ -28,10 +28,10 @@
 					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">닉네임</label>
 					    <div class="col-sm-10 form-inline">
-					    	<input class="form-control" name="nickname" id="nickname" placeholder="닉네임을 입력하세요">
+					    	<input class="form-control" name="nickname" id="nickname" placeholder="닉네임을 입력하세요" value="${naverResult.nickname }">
 					    	<button type="button" class="btn btn-default" id="checkNicknameBtn">중복 확인</button>
 					    	<label id="showCheckedId"></label>
-					    	<p class="p-color-font">4~20자의 영문 소문자, 한글, 숫자만 사용 가능합니다</p>
+					    	<p class="p-color-font" id="nickCmt">4~20자의 영문 소문자, 한글, 숫자만 사용 가능합니다</p>
 					    	
 						</div>
 							
@@ -78,7 +78,7 @@
 					<div class="form-group">
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">이메일</label>
 					    <div class="col-sm-10">
-					    	<input type="email" class="form-control" name="email" id="email" placeholder="이메일을 입력하세요">
+					    	<input type="email" class="form-control" name="email" id="email" placeholder="이메일을 입력하세요" value="${naverResult.email }">
 						</div>
 					</div>
 					<div class="form-group">
@@ -114,8 +114,10 @@
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">성별</label>
 					    <div class="col-sm-10">
 					    	<select class="form-control" name="gender" id="gender">
-					    		<option value="남성">남성(Male)</option>
-					    		<option value="여성">여성(Female)</option>
+					    		<option value="M"
+					    			${(naverResult.gender == "M") ? "selected" : "" }>남성(Male)</option>
+					    		<option value="F"
+					    			${(naverResult.gender == "F") ? "selected" : "" }>여성(Female)</option>
 					    	</select>
 						</div>
 					</div>
@@ -257,7 +259,7 @@
 		var gender = $("#gender").val();
 		var age = $("#age").val();
 
-		var regExpNick = /^[A-Za-z0-9]{4,20}$/;
+		var regExpNick = /^[가-힣A-Za-z0-9]{4,20}$/;
 		var regExpPw = /^[A-Za-z0-9!@#]{4,16}$/;
 		var regExpBa = /^[0-9]{11,14}$/;
 		var regExpName = /^[가-힣A-Za-z]{2,10}$/;
@@ -309,35 +311,6 @@
 			alert("휴대폰번호를 올바르게 입력하세요");
 			return ;
 		} else {
-			/* var frmData = {
-							nickname: nickname,
-							password: password,
-							bank: bank,
-							bankAccount: bankAccount,
-							username: username,
-							email: email,
-							cellphone1: cellphone1,
-							cellphone2: cellphone2,
-							cellphone3: cellphone3,
-							gender: gender,
-							age: age
-						  };
-			
-			$.ajax({
-				type: "post",
-				url: "/dutch/member/register",
-				data: JSON.stringify(frmData),
-				contentType: "application/json;charset=utf-8",
-				dataType: "text",
-				success: function(result, status){
-					alert("성공했슴다");
-					window.location.href="${contextPath}/dutch/";
-				},
-				error: function(xhr, status, err){
-					alert("실패했슴다");
-					window.location.href="${contextpath}/dutch/memberregister";
-				}
-			}) */
 			
 			frmSendMember.submit();
 		
@@ -366,7 +339,8 @@
 			success: function(result, status, xhr){
 				if(result == "empty"){
 					$("#showCheckedId").css("color", "black").text("사용 가능한 닉네임입니다.");
-
+					
+					$("#nickCmt").attr("style", "display: none;");
 				} else {
 					$("#showCheckedId").css("color", "red").text("사용 불가능한 닉네임입니다.");
 					$("#nickname").val("");

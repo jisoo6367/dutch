@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.spring.dutch.domain.DutchAttachFileVO;
 import com.spring.dutch.domain.DutchBoardVO;
 import com.spring.dutch.domain.ParticipantsVO;
-import com.spring.dutch.dto.AttachFileDTO;
 import com.spring.dutch.dto.DutchAndPartiListDTO;
 import com.spring.dutch.dto.DutchBoardPagingCreatorDTO;
 import com.spring.dutch.dto.DutchBoardPagingDTO;

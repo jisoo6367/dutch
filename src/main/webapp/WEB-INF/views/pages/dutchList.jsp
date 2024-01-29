@@ -32,14 +32,73 @@ th {text-align: center;}
 					</div>
 				</div><%-- /.panel-heading --%>
    
-<form class="form-inline" id="frmSendValue" action="${contextPath }/pay/list" method="get" name="frmSendValue">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> <!-- 403 forbidden 에러 안나도록 -->
-		
-	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.dutchPaging.pageNum }" >
-	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.dutchPaging.rowAmountPerPage }" >
-	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
-	
-</form>     
+					<form class="form-inline" id="frmSendValue" name="frmSendValue"
+						action="${contextPath }/pay/list" method="get">
+						<div class="form-group">
+							<label class="sr-only">frmSendValues</label> <select
+								class="form-control" id="selectAmount" name="rowAmountPerPage">
+								<option value="5"
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 10) ? "selected" : "" }>5개</option>
+								<option value="10"
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 20) ? "selected" : "" }>10개</option>
+								<option value="15"
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 50) ? "selected" : "" }>15개</option>
+								<option value="20"
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 100) ? "selected" : "" }>20개</option>
+							</select> <select class="form-control" id="selectScope" name="scope">
+								<option value=""
+									${(pagingCreator.dutchPaging.scope == null ) ? "selected" : "" }>범위선택</option>
+								<option value="T"
+									${(pagingCreator.dutchPaging.scope == "T" ) ? "selected" : "" }>제목</option>
+								<option value="C"
+									${(pagingCreator.dutchPaging.scope == "C" ) ? "selected" : "" }>내용</option>
+								<option value="W"
+									${(pagingCreator.dutchPaging.scope == "W" ) ? "selected" : "" }>개설자</option>
+								<option value="TC"
+									${(pagingCreator.dutchPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+								<option value="TCW"
+									${(pagingCreator.dutchPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+개설자</option>
+							</select>
+
+
+							<div class="input-group">
+								<!-- 검색어 입력 -->
+								<input class="form-control" id="keyword" name="keyword"
+									type="text" placeholder="검색어를 입력하세요"
+									value='<c:out value="${pagingCreator.dutchPaging.keyword}" />' />
+								<span class="input-group-btn"> <!-- 전송버튼 -->
+									<button class="btn btn-warning" type="button" id="btnSearchGo">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
+
+							<div class="input-group">
+								<!-- 검색 초기화 버튼 -->
+								<button id="btnReset" class="btn btn-info" type="button">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</div>
+						</div>
+
+						<div class="form-group pull-right">
+							<input class="form-control" id="beginDate" name="beginDate"
+								type="date" value="${pagingCreator.dutchPaging.beginDate}" />
+							<input class="form-control" id="endDate" name="endDate"
+								type="date" value="${pagingCreator.dutchPaging.endDate}" />
+
+							<button type="button" class="btn btn-primary mybtns"
+								id="btnIntervalSearch">기간검색</button>
+						</div>
+
+						<input type="hidden" id="pageNum" name="pageNum"
+							value="${pagingCreator.dutchPaging.pageNum }">
+						
+						<input type="hidden" id="lastPageNum" name="lastPageNum"
+							value="${pagingCreator.lastPageNum }">
+
+				</form>
+					<hr>  
                 <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover" style="width:100%;text-align: center;">
                     <thead>
@@ -49,7 +108,7 @@ th {text-align: center;}
                             <th>전체 금액</th>
                             <th>개인부담금액</th>
                             <th>방 생성일</th>
-                            <th>방 수정일</th>
+                            <th>개설자</th>
 				            <th>정산 여부</th>
                         </tr>
                     </thead>
@@ -76,7 +135,8 @@ th {text-align: center;}
 										<td>${dutchlist.ptotalPayment }</td>
 										<td>${dutchlist.ppersonal }</td>
 										<td class="center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-										<td class="center"><fmt:formatDate value="${dutchlist.pmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+										<%-- <td class="center"><fmt:formatDate value="${dutchlist.pmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
+										<td>${dutchlist.nickname }</td>
 										<td class="center">
 											<c:if test="${dutchlist.pcalculated == 1}">정산 완료</c:if>
 											<c:if test="${dutchlist.pcalculated == 0}">정산중</c:if>
@@ -198,7 +258,71 @@ $("li.pagination-button a").on("click", function(e){
 	
 });
 
+<%--표시행수 변경 이벤트 처리--%>
+$("#selectAmount").on("change", function() {
+	frmSendValue.find("input[name='pageNum']").val(1);
+	frmSendValue.submit();
+});
+<%--키워드 검색버튼 클릭 이벤트 처리 --%>
+$("#btnSearchGo").on("click", function() {
 
+	var scope = $("#selectScope").find("option:selected").val();
+
+	if (!scope || scope == '') {
+		alert("검색범위를 선택해주세요.");
+		return false;
+	}
+
+	var keyword = $("#keyword").val();
+
+	if (!keyword || keyword.length == 0) {
+		alert("검색어를 입력해주세요.");
+		return;
+	}
+
+	frmSendValue.find("input[name='pageNum']").val(1);
+	frmSendValue.submit();
+});
+
+$("#selectScope").on("change", function() {
+
+	var keyword = $("#keyword").val();
+
+	if (keyword || keyword.length != 0) {
+		$("#pageNum").val(1);
+		frmSendValue.submit();
+	}
+
+});
+<%--기간 검색버튼 클릭 이벤트 처리 --%>
+$("#btnIntervalSearch").on("click", function() {
+
+	var beginDate = $("#beginDate").val();
+	var endDate = $("#endDate").val();
+
+	//	alert("변환전 endDate: " + endDate);
+
+	if (!beginDate || beginDate == "" || !endDate || endDate == "") {
+		alert("시작날짜와 끝날짜를 모두 선택하세요");
+		return;
+	}
+	
+	frmSendValue.find("input[name='pageNum']").val(1);
+	frmSendValue.submit();
+
+});
+<%--검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시 --%>
+$("#btnReset").on("click", function() {
+	$("#selectAmount").val(10);
+	$("#selectScope").val("");
+	$("#keyword").val("");
+	$("#beginDate").val("");
+	$("#endDate").val("");
+	$("#pageNum").val(1);
+
+	frmSendValue.submit();
+
+});
 
 
 

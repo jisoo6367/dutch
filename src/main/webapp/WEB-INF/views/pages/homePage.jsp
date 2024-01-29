@@ -34,6 +34,8 @@
 		</c:otherwise>
 	</c:choose>
 </h3>
+
+<h2><a href="${contextPath }/admin/page">로그인페이지로이동</a></h2>
 <div class="container">
 <div id="carousel-example-generic" class="carousel slide"
 	data-ride="carousel">

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.dutch.dto.AttachFileDTO;
 import com.spring.dutch.dto.CardAttachFileDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;

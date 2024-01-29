@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.MemberVO;
+import com.spring.dutch.domain.NaverVO;
 import com.spring.dutch.service.MemberRegisterService;
 
 @Controller
@@ -23,34 +25,9 @@ public class LoginLogoutController {
 		this.memberRegisterService = memberRegisterService;
 	}
 	
-	/*@RequestMapping(value = "/auth/naver/callback",
-					method= {RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(Model m, @RequestParam String code) throws Exception {
-		
-		SNSLogin snsLogin = new SNSLogin(naverSns);
-		String profile = snsLogin.getUserProfile(code);
-		System.out.println("Profile>>>>" + profile);
-		
-		m.addAttribute("result", profile);
-		
-		return "pages/loginResult";
-	}
-	
-	@RequestMapping(value = "/naverLogin", method = RequestMethod.GET)
-	public void naverLoginSns(Model m) throws Exception {
-		
-		SNSLogin snsLogin = new SNSLogin(naverSns);
-		m.addAttribute("naver_url", snsLogin.getNaverAuthURL());
-		
-		OAuth2Operations authOperations = connectionFactory.getOAuthOperations();
-		String url = authOperations.buildAuthenticateUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		
-		m.addAttribute("google_url", url);
-	}*/
-	
 	
 	@GetMapping(value="/loginPage")
-	public String showLoginPage(String result, Model model, String error, String logout) {
+	public String showLoginPage(String result, Model model, String error, String logout, String naverResult) {
 		
 		if (error != null) {
 			System.out.println("=========:error.length(): " + error.length());
@@ -65,6 +42,10 @@ public class LoginLogoutController {
 			model.addAttribute("result", result);
 		} else {
 			model.addAttribute("normal", "로그인 페이지를 직접 호출 하였습니다.") ;
+		}
+		
+		if(naverResult != null) {
+			model.addAttribute("naverResult", naverResult);
 		}
 		
 		model.addAttribute("result", result);
@@ -99,6 +80,21 @@ public class LoginLogoutController {
 		return "pages/naverCallback";
 	}
 	
+	@GetMapping("/naverAfter")
+	public String naverAfter(NaverVO naver, RedirectAttributes redirectAttr, Model m) {
+		System.out.println(naver);
+		String result = memberRegisterService.checkNicknameService(naver.getNickname());
+		if(result == "exist") {
+			redirectAttr.addFlashAttribute("naverResult", "네이버 연동 계정이 존재합니다. 회원 로그인으로 로그인해주세요.");
+		} else {
+			//redirectAttr.addAttribute("naverResult", naver);
+			m.addAttribute("naverResult", naver);
+			System.out.println(m);
+		}
+		
+		return result == "exist" 
+				? "redirect:/loginPage" : "pages/memberRegister";
+	}
 	
 	
 }

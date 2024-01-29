@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dutch.domain.DutchAttachFileVO;
-import com.spring.dutch.dto.AttachFileDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 

@@ -19,7 +19,7 @@
 
 <security:http>
 
-	<security:intercept-url pattern="/**" access="permitAll"/>
+	<!-- <security:intercept-url pattern="/**" access="permitAll"/> -->
 	
 	<security:form-login login-page="/loginPage"
 						 login-processing-url="/loginProcess"
@@ -29,7 +29,7 @@
 	
 	<security:logout logout-url="/logoutProcess" logout-success-url="/"/>
 	
-	<security:remember-me data-source-ref="dataSource" token-validity-seconds="86400" />
+	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 	
 	<security:access-denied-handler ref="accessDeniedhandler"/>
 </security:http>

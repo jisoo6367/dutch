@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.CheckNickVO;
 import com.spring.dutch.domain.MemberVO;
+import com.spring.dutch.domain.NaverVO;
 import com.spring.dutch.domain.SendMemberVO;
 import com.spring.dutch.service.MemberRegisterService;
 
@@ -37,36 +38,7 @@ public class MemberRegisterController {
 	public String showRegister() {
 		return "/pages/memberRegister";
 	}
-//	@RequestMapping(value="/sendmember",
-//				 	method = {RequestMethod.POST},
-//				 	consumes = {"application/json;charset=utf-8"},
-//				 	produces = {"text/plain;charset=utf-8"})
-//	public ResponseEntity<String> sendMember(@RequestBody SendMemberVO sendmember) {
-//		MemberVO member = new MemberVO();
-//		
-//		member.setNickname(sendmember.getNickname());
-//		member.setBank(sendmember.getBank());
-//		member.setBankAccount(sendmember.getBankAccount());
-//		member.setUsername(sendmember.getUsername());
-//		member.setEmail(sendmember.getEmail());
-//		member.setPassword(sendmember.getPassword());
-//		
-//		String cellphone = sendmember.getCellphone1() 
-//						   + sendmember.getCellphone2()
-//						   + sendmember.getCellphone3();
-//		
-//		member.setCellphone(Integer.parseInt(cellphone));
-//		member.setGender(sendmember.getGender());
-//		member.setAge(sendmember.getAge());
-//		member.setAuthorityList(sendmember.getAuthorityList());
-//		member.setAccountNonExpired(sendmember.isAccountNonExpired());
-//		System.out.println(member);
-//		
-//		String result = memberRegisterService.registerMember(member);
-//		
-//		return result != null ? new ResponseEntity<String>(result, HttpStatus.OK)
-//							  : new ResponseEntity<String>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
+
 	
 	@PostMapping(value="/sendmember")
 	public String sendMember(SendMemberVO sendmember, RedirectAttributes redirectAttr) {

@@ -42,7 +42,23 @@
                FROM dutch.tbl_dutch a
                WHERE
 	]]>
-
+	<choose>
+		<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	pregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+		</when>
+	</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ptitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">pcontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>
 	<![CDATA[      			       
 			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 			      )
@@ -55,7 +71,25 @@
 	<select id="selectDutchRowTotal" resultType="long"
 			parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
 		SELECT count(*) rowtotal FROM dutch.tbl_dutch
-
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="OR">
+				<foreach item='scope' collection="myScopeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="scope == 'T'.toString()">ptitle LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'C'.toString()">pcontent LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+						</choose>
+					</trim> 
+				</foreach>
+			</trim>
+			<choose>
+				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+					AND pregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				</when>
+			</choose>	 
+		</where>
 	</select>
 
 <!-- 게시물 등록(CREATE) -->
