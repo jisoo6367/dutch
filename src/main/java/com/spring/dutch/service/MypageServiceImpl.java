@@ -157,6 +157,20 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	
+	//1:1 문의 갯수 가져오기
+	public long getQnaCnt (String nickname) {
+		long qnaCnt = mypageMapper.selectQnaCnt(nickname);
+		System.out.println("=========1:1문의 갯수 가져오기 서비스임플의 qnaCnt : "+ qnaCnt);
+		return qnaCnt;
+	}
+	
+	//1:1문의 안 읽은 답변 갯수 가져오기
+	public long getQsignalCnt (String nickname) {
+		long qsignalCnt = mypageMapper.selectQsignalCnt(nickname);
+		System.out.println("==========시그널1인 행 갯수 서비스임플의 qsignalCnt : " + qsignalCnt);
+		return qsignalCnt;
+	}
+	
 	
 	
 }

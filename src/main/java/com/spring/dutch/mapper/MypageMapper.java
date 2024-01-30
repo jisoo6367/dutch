@@ -5,8 +5,6 @@ import java.util.List;
 import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.domain.ParticipantsVO;
 import com.spring.dutch.dto.MypageDTO;
-import com.spring.dutch.dto.MypagePagingDTOhistory;
-import com.spring.dutch.dto.MypagePagingDTOongoing;
 import com.spring.dutch.dto.MypagePagingNicknameDTOhistory;
 import com.spring.dutch.dto.MypagePagingNicknameDTOongoing;
 
@@ -41,5 +39,9 @@ public interface MypageMapper {
 	public long selectRowTotal_0(MypagePagingNicknameDTOongoing mypagePaging);
 	public long selectRowTotal_1(MypagePagingNicknameDTOhistory mypagePaging);
 	
+	//1:1 문의 갯수 가져오기
+	public long selectQnaCnt (String nickname);
 	
+	//1:1문의 안 읽은 답변 갯수 가져오기
+	public long selectQsignalCnt (String nickname);
 }

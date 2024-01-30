@@ -69,18 +69,28 @@
 	        <div class="panel panel-default" style="height: 180px;">
 	            <div class="panel-heading">
 	                1:1 문의내역
-	                <button class="btn btn-primary btnfix" style="float:right" onclick="location.href='${contextPath}/qna/qnalist'">상세보기</button>
+	                <button class="btn btn-primary btnfix" style="float:right" onclick="location.href='${contextPath}/qna/list'">상세보기</button>
 	            </div><!-- /.panel-heading -->
 	            <div class="panel-body">
 	                <div class="table-responsive">
-	                    <div class="col-md-6" style="text-align: center;">문의 갯수</div>
-	                    <div class="col-md-6" style="text-align: center;">답변여부</div>
+	                 	<div class="col-md-6">	
+		                	<div class="panel-heading" style="font-size:xx-large; text-align: center;">
+		                	<c:out value="${qnaCnt }"/></div>
+		                	<div class="panel-heading">문의 갯수</div>
+		                </div>
+	                    <div class="col-md-6">
+	                    	<div class="panel-heading" style="font-size:xx-large; text-align: center;">
+							<c:out value="${qsignalCnt }"/></div>
+	                    	<div class="panel-heading">안읽은답변</div>
+	                    </div>
 	                </div><!-- /.table-responsive -->
 	            </div><!-- /.panel-body -->
 	        </div><!-- /.panel -->
 	    </div><!-- /.col-lg-4 -->
 	</div><!-- /.row -->
 </div><!-- /.page-wrapper -->
+
+
 
 
 <%@include file="../pageinclude/footer.jsp" %> 

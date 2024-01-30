@@ -93,19 +93,6 @@
 	    ]]>
 	</select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 
 	<select id="selectPersonal_0" resultType="com.spring.dutch.domain.ParticipantsVO"
 			parameterType="com.spring.dutch.dto.MypagePagingNicknameDTO">
@@ -158,6 +145,19 @@
 
 
 
+<!-- 1:1문의 갯수 가져오기  -->
+	<select id="selectQnaCnt" resultType="long" parameterType="String">
+		SELECT count (*) as qnaCnt
+		FROM dutch.tbl_qna
+		WHERE nickname = #{nickname}
+	</select>
+	
+<!-- 1:1문의 안 읽은 답변 갯수 가져오기  -->
+	<select id="selectQsignalCnt" resultType="long" parameterType="String">
+		SELECT count(*) as qsignalCnt
+		FROM dutch.tbl_qna
+		WHERE nickname = #{nickname} and qsignal = 1
+	</select>
 
 
 

@@ -33,5 +33,10 @@ public interface MypageService {
 	//더치페이 내역 방 갯수 가져오기
 	public MypageDTO getDutchCount (String nickname);
 
+	//1:1 문의 갯수 가져오기
+	public long getQnaCnt (String nickname);
+	
+	//1:1문의 안 읽은 답변 갯수 가져오기
+	public long getQsignalCnt (String nickname);
 	
 }
