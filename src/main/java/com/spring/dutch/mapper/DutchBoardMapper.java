@@ -47,5 +47,8 @@ public interface DutchBoardMapper {
 	public int updatePcalDutch (long pno);
 	public int updatePcalParti (long pno);
 	
+	//게시물 신고 (UPDATE)
+	public Integer updatePreport(long pno);
+	
 
 }

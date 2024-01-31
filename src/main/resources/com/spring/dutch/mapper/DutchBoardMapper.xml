@@ -37,7 +37,7 @@
 	        parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
 	<![CDATA[
 		SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
-			   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
+			   pmodDate, pdelFlag, preport, ppersonal, ptotalPayment, pcalculated
 		FROM ( SELECT /*+ INDEX_DESC (a pk_pno_dutch) */ ROWNUM rn, a.* 
                FROM dutch.tbl_dutch a
                WHERE
@@ -45,7 +45,7 @@
 	<choose>
 		<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
 			 	pregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
-			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 AND
 		</when>
 	</choose>
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
@@ -117,7 +117,7 @@
 <!-- 특정 게시물 조회: (detail.jsp)-->
 <select id="selectDutchBoard" resultType="com.spring.dutch.domain.DutchBoardVO">
 	SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
-		   pmodDate, pdelFlag, pdelFlagAdmin, ppersonal, ptotalPayment, pcalculated
+		   pmodDate, pdelFlag, preport, ppersonal, ptotalPayment, pcalculated
 	FROM dutch.tbl_dutch WHERE pno = #{pno}
 </select>	
 
@@ -183,7 +183,12 @@
 		WHERE pno = #{pno}
 	</update>
 
-
+<!-- 사용자가 신고 (UPDATE)-->
+	<update id="updatePreport" parameterType="long">
+		UPDATE dutch.tbl_dutch
+		SET preport = 1
+		WHERE pno =  #{pno}
+	</update>
 
 
 </mapper>

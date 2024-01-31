@@ -35,5 +35,8 @@ public interface DutchBoardService {
 	
 	//정산 완료
 	public boolean updatePcalculated (long pno);
+	
+	//게시물 신고 (UPDATE)
+	public boolean updatePreport(long pno);
 
 }

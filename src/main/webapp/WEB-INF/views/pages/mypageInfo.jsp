@@ -58,7 +58,7 @@
 					    <label class="col-sm-2 control-label" style="white-space: nowrap;">비밀번호</label>
 					    <div class="col-sm-8">
 					    	<input class="form-control" name="password" id="password" 
-					    		   value="${memberData.password }" readonly="readonly" type="password">
+					    		   value="" readonly="readonly" type="password">
 						</div>
 					</div>
 					<div class="form-group">

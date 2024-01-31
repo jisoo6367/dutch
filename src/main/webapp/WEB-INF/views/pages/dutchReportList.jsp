@@ -12,12 +12,10 @@
 th {text-align: center;}
 </style>
 
-<!-- JSP 폼 입니다 아래 공간 안에서 코딩하시면 됩니다 -->
-
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">DutchPay - List</h3>
+            <h3 class="page-header">[관리자] DutchPay - 신고된 목록</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
@@ -26,15 +24,11 @@ th {text-align: center;}
                 <div class="panel-heading">
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">더치페이 목록</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">더치페이 등록</button>
-						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
    
-				<div class="panel-body">
 					<form class="form-inline" id="frmSendValue" name="frmSendValue"
-						action="${contextPath }/pay/list" method="get">
+						action="${contextPath }/pay/reportedList" method="get">
 						<div class="form-group">
 							<label class="sr-only">frmSendValues</label> <select
 								class="form-control" id="selectAmount" name="rowAmountPerPage">
@@ -67,7 +61,7 @@ th {text-align: center;}
 									value='<c:out value="${pagingCreator.dutchPaging.keyword}" />' />
 								<span class="input-group-btn"> <!-- 전송버튼 -->
 									<button class="btn btn-warning" type="button" id="btnSearchGo">
-										<span class="glyphicon glyphicon-search"></span>
+										<i class="fa fa-search"></i>
 									</button>
 								</span>
 							</div>
@@ -75,7 +69,7 @@ th {text-align: center;}
 							<div class="input-group">
 								<!-- 검색 초기화 버튼 -->
 								<button id="btnReset" class="btn btn-info" type="button">
-									<span class="glyphicon glyphicon-refresh"></span>
+									<span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</div>
 						</div>
@@ -95,8 +89,9 @@ th {text-align: center;}
 						
 						<input type="hidden" id="lastPageNum" name="lastPageNum"
 							value="${pagingCreator.lastPageNum }">
-					</form><br>
-                
+				</form>
+					<hr>  
+                <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover" style="width:100%;text-align: center;">
                     <thead>
                         <tr >
@@ -111,9 +106,10 @@ th {text-align: center;}
                     </thead>
                     
 					<tbody>              
-					<c:choose>
-					<c:when test="${not empty pagingCreator.dutchlist }">
-						<c:forEach var="dutchlist" items="${pagingCreator.dutchlist}">
+
+					<c:forEach var="dutchlist" items="${pagingCreator.dutchlist}">
+						<c:choose>
+						<c:when test="${dutchlist.preport == 1 }">
 							<c:choose>
 								<c:when test="${dutchlist.pdelFlag == 1 }">
 									<tr style="background-color: Moccasin; text-align: center">
@@ -123,33 +119,23 @@ th {text-align: center;}
 								</c:when>
 								<c:otherwise>
 									<tr class="moveDetail" data-pno="${dutchlist.pno }">
-										<td><c:out value="${dutchlist.pno }"/></td><%-- 
-										<td style="text-align: left"><a href="${contextPath }/myboard/detail?bno=${myboard.pno}" ><c:out value="${myboard.ptitle }"/></a></td> --%>
-										<td style="text-align: left">
-											<c:out value="${dutchlist.ptitle }"/>
-											<%-- <small>[댓글수: <strong><c:out value="${myboard.breplyCnt}"/></strong>]</small> --%>	
-										</td>
+										<td><c:out value="${dutchlist.pno }"/></td>
+										<td style="text-align: left"><c:out value="${dutchlist.ptitle }"/></td>
 										<td>${dutchlist.ptotalPayment }</td>
 										<td>${dutchlist.ppersonal }</td>
 										<td class="center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-										<%-- <td class="center"><fmt:formatDate value="${dutchlist.pmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
 										<td>${dutchlist.nickname }</td>
 										<td class="center">
 											<c:if test="${dutchlist.pcalculated == 1}">정산 완료</c:if>
 											<c:if test="${dutchlist.pcalculated == 0}">정산중</c:if>
 										</td>
-										
 							 		</tr>
 								</c:otherwise>		
-							</c:choose>			
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<tr class="odd gradeX">
-							<td colspan="7">등록된 게시물이 없습니다.</td>
-						</tr>
-					</c:otherwise>
-					</c:choose>                                     
+							</c:choose>	
+						</c:when>	
+						</c:choose> 	
+					</c:forEach>
+					                                    
                     </tbody>
                     </table><%-- /.table-responsive --%>
 
@@ -221,12 +207,7 @@ th {text-align: center;}
 
 var frmSendValue = $("#frmSendValue");
 
-<%--dutchRegister.jsp 페이지로 이동 --%>
-$("#btnToRegister").on("click", function(){
-	window.location.href = "${contextPath}/pay/register" ;
-	
-	
-});
+
 
 <%-- dutchdetail.jsp 페이지로 이동--%>
 $(".moveDetail").on("click", function(){
@@ -248,7 +229,7 @@ $("li.pagination-button a").on("click", function(e){
 	
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href"));
 	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/pages/dutchList")
+	frmSendValue.attr("action", "${contextPath}/pages/reportedList")
 	frmSendValue.attr("method", "get");
 	
 	frmSendValue.submit();
@@ -321,41 +302,6 @@ $("#btnReset").on("click", function() {
 
 });
 
-
-
-var result = '<c:out value="${result}" />' ;
-<%-- 모달 호출 함수 (삭제/신고) --%>
-function runModal(result) {
-	console.log(result);
-	if (result.length == 0) {
-		return ;
-	
-	} else if ( result == "successDelete" ) {
-		var myMsg =  "게시글이 삭제 되었습니다. " ;
-
-		
-	} else if ( result == "failDelete" ) {
-		var myMsg =  "게시글 삭제에 실패하였습니다." ;
-		
-	} else if ( result == "successReport" ) {
-		var myMsg =  "게시글이 신고 되었습니다." ;
-
-		
-	} else if ( result == "failReport" ) {
-		var myMsg =  "신고 접수된 게시글입니다." ;
-		
-	} 
-	//$(".modal-body").html(myMsg) ;
-	$("#yourModal-body").html(myMsg) ;
-	
-	$("#yourModal").modal("show") ;
-	
-	myMsg = "" ;
-}
-
-$(document).ready(function(){
-	runModal(result) ;
-});
 
 
 </script>

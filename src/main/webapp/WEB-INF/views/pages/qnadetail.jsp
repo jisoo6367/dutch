@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../pageinclude/header.jsp"%>
 
@@ -23,8 +23,7 @@ p {
 	<div class="row">
 		<div class="col-lg-12">
 			<h3 class="page-header" style="white-space: nowrap;">
-				1:1문의 <small> &nbsp;&nbsp;&nbsp;<c:out value="${qna.qno}" />번
-					게시물
+				1:1문의 <small> &nbsp;&nbsp;&nbsp;<c:out value="${qna.qno}" />번 게시물
 				</small>
 			</h3>
 		</div>
@@ -45,9 +44,13 @@ p {
 							style="white-space: nowrap; height: 45px; padding-top: 16px;">
 							<span class="text-primary"
 								style="font-size: smaller; height: 45px; padding-top: 19px;">
-								<span> <span>등록일:&nbsp;</span> <strong><fmt:formatDate
-											pattern="yyyy-MM-dd HH:mm:ss" value="${qna.qregDate}" /></strong>
-									<span>&nbsp;&nbsp;</span>
+							<span> 
+								<span>등록일:&nbsp;</span> 
+									<strong><fmt:formatDate
+										pattern="yyyy-MM-dd HH:mm" 
+										value="${qna.qregDate}" />
+									</strong>
+								<span>&nbsp;&nbsp;</span>
 							</span>
 
 							</span>
@@ -65,6 +68,24 @@ p {
 									class="btn btn-warning">
 									<span>목록</span>
 								</button>
+								
+								<sec:authorize access="isAuthenticated()">
+									<sec:authentication property="principal.username" var="username"/>
+										<c:if test="${username eq 'ADMIN' }">
+											<button type="button" id="btnToSignal1" data-oper="list"
+												class="btn btn-warning">
+												<span>답변완료</span>
+											</button>
+					          			</c:if>
+					          	</sec:authorize>
+								
+								
+								
+								<button type="button" id="btnToSignal2" data-oper="list"
+									class="btn btn-success">
+									<span>문의종료</span>
+								</button>
+								
 							</div>
 						</div>
 					</div>
@@ -95,7 +116,7 @@ p {
 					<label class="col-sm-2 control-label" style="white-space: nowrap;">최종수정일</label>
 					<div class="col-sm-10">
 						<input class="form-control" name="qmodDate" id="qmodDate"
-							value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${qna.qmodDate }"/>'
+							value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${qna.qmodDate }"/>'
 							readonly="readonly">
 					</div>
 				</div>
@@ -148,54 +169,52 @@ p {
 				<strong style="font-size: 16px;">첨부 파일</strong>
 			</div>
 			<%-- /.panel-heading --%>
-			<div class="panel-body">
-				<!-- 
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
-                    </div> -->
-				<div class="form-group fileUploadResult">
-					<ul>
-						<%-- 업로드 후 처리결과가 표시될 영역 --%>
+		<div class="panel-body">
+	<div class="form-group fileUploadResult">
+		<ul style="list-style-type: none;">
+			<%-- 업로드 후 처리결과가 표시될 영역 --%>
+			<c:choose>
+				<c:when test="${empty qna.qnaAttachFileList }">
+					<li style="font-size: 12pt;">첨부파일이 없습니다</li>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="qnaAttachFile" items="${qna.qnaAttachFileList }">
 						<c:choose>
-							<c:when test="${empty qna.qnaAttachFileList }">
-								<li style="font-size: 12pt;">첨부파일이 없습니다</li>
+							<c:when test="${qnaAttachFile.fileType == 'F' }">
+								<li class="attachLi"
+									data-repopath="${qnaAttachFile.repoPath }"
+									data-uploadpath="${qnaAttachFile.uploadPath }"
+									data-uuid="${qnaAttachFile.uuid }"
+									data-filename="${qnaAttachFile.fileName }" 
+									data-filetype="F"
+									style="margin-top: 6px;">
+									<img src='${contextPath}/resources/img/icon-attach.png'
+									style='width: 30px; height: 30px;'>
+									&nbsp;&nbsp;${qnaAttachFile.fileName}
+								</li>
 							</c:when>
 							<c:otherwise>
-								<c:forEach var="qnaAttachFile" items="${qna.qnaAttachFileList }">
-									<c:choose>
-										<c:when test="${qnaAttachFile.fileType == 'F' }">
-											<li class="attachLi"
-												data-repopath="${qnaAttachFile.repoPath }"
-												data-uploadpath="${qnaAttachFile.uploadPath }"
-												data-uuid="${qnaAttachFile.uuid }"
-												data-filename="${qnaAttachFile.fileName }" data-filetype="F">
-												<img src='${contextPath}/resources/img/icon-attach.png'
-												style='width: 25px;'>
-												&nbsp;&nbsp;${qnaAttachFile.fileName}
-											</li>
-										</c:when>
-										<c:otherwise>
-											<c:set var="thumbnail"
-												value="${qnaAttachFile.repoPath}/${qnaAttachFile.uploadPath}/s_${qnaAttachFile.uuid}_${attachFile.fileName}" />
-											<li class="attachLi"
-												data-repopath="${qnaAttachFile.repoPath }"
-												data-uploadpath="${qnaAttachFile.uploadPath }"
-												data-uuid="${qnaAttachFile.uuid }"
-												data-filename="${qnaAttachFile.fileName }" data-filetype="I">
-												<img
-												src='${contextPath}/displayThumbnail?fileName=${thumbnail}'
-												style='width: 25px;'>
-												&nbsp;&nbsp;${qnaAttachFile.fileName}
-											</li>
-											<c:remove var="thumbnail" />
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
+								<c:set var="thumbnail"
+									value="${qnaAttachFile.repoPath}/${qnaAttachFile.uploadPath}/s_${qnaAttachFile.uuid}_${qnaAttachFile.fileName}" />
+								<li class="attachLi"
+									data-repopath="${qnaAttachFile.repoPath }"
+									data-uploadpath="${qnaAttachFile.uploadPath }"
+									data-uuid="${qnaAttachFile.uuid }"
+									data-filename="${qnaAttachFile.fileName }" 
+									data-filetype="I"
+									style="margin: 6px;">
+										<img src='${contextPath}/qnadisplayThumbnail?fileName=${thumbnail}' style='width: 25px;'>
+										&nbsp;&nbsp;${qnaAttachFile.fileName}
+								</li>
+								<c:remove var="thumbnail" />
 							</c:otherwise>
 						</c:choose>
-					</ul>
-				</div>
-			</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</div>
+</div>
 			<!-- /.panel-body -->
 		</div>
 		<!-- /.panel -->
@@ -251,7 +270,7 @@ p {
 				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<%-- 댓글 입력창 div 끝 --%>
 
-				<ul class="chat" id="chat">
+				<ul class="chat" id="chat" style="list-style-type: none;">
 				</ul>
 				<%-- /.chat --%>
 
@@ -272,29 +291,25 @@ p {
 		type="hidden" name="rowAmountPerPage" value="">
 </form>
 
-<%--</div> /#page-wrapper --%>
+<form id="frmSig">
+
+</form>
 
 
 <%-- 게시물 상세 자바스크립트 시작 --%>
 <script>
 
-
+var frmSig = $("#frmSig");
 var frmSendValue = $("#frmSendValue") ;
 
 <%-- 게시물 목록 페이지 이동 --%>
 $("#btnToList").on("click", function(){
-<%--
-	window.location.href="${contextPath}/myboard/list" ;
---%>
 	frmSendValue.attr("action", "${contextPath}/qna/list").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
 
 <%-- 게시물 수정-삭제 페이지 이동 --%>
 $("#btnToModify").on("click", function(){
-<%--
-	window.location.href='${contextPath}/myboard/modify?bno=<c:out value="${myboard.bno}"/>' ;
---%>
 
 	var qno = '<c:out value="${qna.qno}"/>' ;
 	
@@ -353,14 +368,28 @@ $("#attachModal").on("click", function(){
 
 </script>
 
-<%-- 댓글이 달리면 답변유무 시그널이 올라감 --%>
+<%-- 댓글이 달리면 시그널이 올라감 --%>
 <script>
-
+$("#btnToSignal1").on("click", function(){ //답변완료버튼
+	var qno = '<c:out value="${qna.qno}" />';
+	
+	frmSig.append("<input type='hidden' name='qno' value='" + qno + "'>");
+	frmSig.attr("action", "${contextPath}/qna/changeSignal1").attr("method", "get") ;
+	frmSig.submit() ;
+});
+	
+$("#btnToSignal2").on("click", function(){ //문의종료버튼
+	var qno = '<c:out value="${qna.qno}" />';
+	
+	frmSig.append("<input type='hidden' name='qno' value='" + qno + "'>");
+	frmSig.attr("action", "${contextPath}/qna/changeSignal2").attr("method", "get") ;
+	frmSig.submit() ;
+});
 </script>
 
 <%-- 댓글/답글 자바스크립트 시작--%>
 <script type="text/javascript"
-	src="${contextPath }/resources/js/qnaReplycomment.js"></script>
+		src="${contextPath }/resources/js/qnaReplycomment.js"></script>
 <script type="text/javascript">
 var myCsrfHeaderName = "${_csrf.headerName}" ;
 var myCsrfToken = "${_csrf.token}" ;
@@ -454,8 +483,6 @@ function showCmtPagingNums(replyTotCnt, pageNum, rowAmountPerPage) {
 		$("#showCmtPagingNums").html(pagingStr);
 }
 
-<%-- 선택된 페이징 번호 클릭 시, 게시물목록 가져오는 함수: 이벤트 전파 이용 --%>
-<%-- #showCmtPagingNums > div > ul > li:nth-child(2) > a --%>
 $("#showCmtPagingNums").on("click","div ul li a", function(e){
 	e.preventDefault() ;
 	var targetPageNum = $(this).attr("href") ;
@@ -463,15 +490,13 @@ $("#showCmtPagingNums").on("click","div ul li a", function(e){
 });
 
 
-<%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
+<%--댓글목록 표시 함수--%>
 function showCmtList(pageNum){
 	
 	qnaReplyClsr.getCmtList(
 		{qno: qnoValue, pageNum: pageNum || 1} ,
 		
 		function(qnareplyPagingCreator){
-			
-			/* $("#replyTotal").html("댓글&nbsp;" + qnareplyPagingCreator.replyTotCnt + "개") ; */
 			
 			frmCmtPagingValue.find("input[name='pageNum']").val(pageNum) ;
 			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(qnareplyPagingCreator.qnareplyPaging.rowAmountPerPage) ;
@@ -493,7 +518,7 @@ function showCmtList(pageNum){
 				if(qnareplyPagingCreator.qnareplyList[i].qrdelFlag == 1) {
 				str +='<li class="left clearfix commentLi">'
 					+ ' <div style="background-color: Moccasin; text-align: center">'
-				    + '     <em>작성자에 의해서 삭제글입니다.</em>'
+				    + '     <em>삭제된 글입니다.</em>'
 					+ ' </div>'
 					+ '</li>';
 				
@@ -516,7 +541,7 @@ function showCmtList(pageNum){
 					
 				<%-- 답글에 대한 아이콘 표시  --%>	
 				if(qnareplyPagingCreator.qnareplyList[i].lvl > 1) {
-				str += '    <i class="fa fa-reply fa-fw"></i>&nbsp;';
+				str += '    <span class="glyphicon glyphicon-share-alt"></span>&nbsp;';
 				
 				}	
 
@@ -525,6 +550,8 @@ function showCmtList(pageNum){
 				    + '        <small class="text-muted">' 
 				    +              qnaReplyClsr.myDateTimeFmt(qnareplyPagingCreator.qnareplyList[i].qrmodDate) 
 				    + '        </small>'
+				    + '    <button type="button" style="display:in-block; margin-left: 4px;" ' 
+				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글 달기<span class="glyphicon glyphicon-pencil"></span></button>'
 				    + '    </span>'<%-- 
 				    + '    <p style="white-space:pre-wrap;" data-qno="' + qnareplyPagingCreator.qnareplyList[i].qno + '"' --%> 
 				    + '    <p class="qrcontent-p" style="white-space:pre-wrap;"'
@@ -532,8 +559,7 @@ function showCmtList(pageNum){
 				    + '       data-qrno="' + qnareplyPagingCreator.qnareplyList[i].qrno + '">'
 				    +         qnareplyPagingCreator.qnareplyList[i].qrcontent + '</p>'
 				    + '</div>'
-				    + '    <button type="button" style="display:in-block;" ' 
-				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글작성</button>'
+				  
 					+ '</li>' ;
 				} 
 
@@ -545,9 +571,9 @@ function showCmtList(pageNum){
 							  qnareplyPagingCreator.qnareplyPaging.pageNum,
 							  qnareplyPagingCreator.qnareplyPaging.rowAmountPerPage);
 			
-		}<%--callback-function-end --%>
+		}
 			
-	); <%--myReplyClsr.getCmtList(); 완료--%>
+	); 
 	
 	
 }<%--showCmtList-end --%>
@@ -590,7 +616,7 @@ $("#btnRegCmt").on("click", function(){
 			reply,
 			function(result){
 				if (result != null) {
-					alert(result + "번 댓글이 등록되었습니다.") ;	
+					alert("댓글이 등록되었습니다.") ;	
 				} else {
 					alert("서버 장애로 댓글 등록이 취소되었습니다.") ;
 				}
@@ -605,14 +631,7 @@ $("#btnRegCmt").on("click", function(){
 
 <%-- 댓글 등록 "취소" 버튼 클릭 처리 --%>
 $("#btnCancelRegCmt").on("click", "", function(){
-<%--
-	$("#btnChgCmtReg").attr("style", "display:in-block;") ;
-	$("#btnRegCmt").attr("style", "display:none") ;
-	$("#btnCancelRegCmt").attr("style", "display:none;") ;
-	$(".txtBoxCmt").val("")
-				   .attr("readonly", true)
-				   .attr("placeholder", "댓글작성을 원하시면,\n댓글 작성 버튼을 클릭해주세요.") ; 
---%>
+
 	resetCmtRegElements() ;
 	
 });
@@ -626,13 +645,12 @@ function resetRelyRegElements() {
 	$(".btnChgReplyReg").attr("style", "display: in-block;") ;
 }
 
-<%--답글 작성 버튼 클릭 처리:이벤트 전파
-   #chat > li:nth-child(3) > button.btn.btn-warning.btn-xs.btnRegReply  --%>
+<%--답글 작성 버튼 클릭 처리:이벤트 전파 --%>
 $("#chat").on("click","li .btnChgReplyReg" , function(){
 	
-	resetCmtRegElements(); <%--댓글 등록 작업 초기화 --%>
-	resetRelyRegElements() ; <%--다른 답글 등록 작업 초기화 --%>
-	resetReplyModElements() ; <%--다른 답글 수정 작업 초기화 --%>
+	resetCmtRegElements(); 
+	resetRelyRegElements() ; 
+	resetReplyModElements() ; 
 	
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxReply' name='qrcontent' style='margin-bottom:10px;'"
@@ -648,8 +666,6 @@ $("#chat").on("click","li .btnChgReplyReg" , function(){
 });
 
 <%-- 답글 등록 취소 버튼 클릭 처리: 이벤트 전파 --%>
-<%-- #chat > li:nth-child(1) > button.btn.btn-danger.btn-xs.btnCancelRegReply--%><%--
-$(".btnCancelRegReply").on("click", function(){--%>
 $("#chat").on("click", "li .btnCancelRegReply", function(){
 	$(".btnRegReply").remove() ;
 	$(".btnCancelRegReply").remove() ;
@@ -659,12 +675,11 @@ $("#chat").on("click", "li .btnCancelRegReply", function(){
 });
 
 
-<%-- 답글 등록 버튼 클릭 처리: 이벤트 전파 
-#chat > li:nth-child(1) > button.btn.btn-warning.btn-xs.btnRegReply  --%>
+<%-- 답글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#chat").on("click", "li .btnRegReply", function(){
 	
-	var qrcontent = $(this).prev().val() ;
-	var loginUser = "홍길동" ;
+	var qrcontent = $(this).prev().val() ;/* 
+	var loginUser = "홍길동" ; */
 	var qrcno = $(this).closest("li").data("qrno") ;
 	
 	var reply = {qno: qnoValue, qrcontent: qrcontent, nickname: loginUser, qrcno:qrcno } ;
@@ -672,7 +687,7 @@ $("#chat").on("click", "li .btnRegReply", function(){
 	qnaReplyClsr.registerReply(
 			reply,
 			function(result){
-				alert(result + "번 답글이 등록되었습니다.") ;
+				alert("답글이 등록되었습니다.") ;
 				var pageNum = frmCmtPagingValue.find('input[name="pageNum"]').val() ;
 				showCmtList(pageNum) ;
 			}
@@ -692,12 +707,7 @@ function resetReplyModElements() {
 
 
 <%-- 댓글/답글 수정: 글내용이 표시된 p를 클릭 시 입력창, 수정, 삭제, 취소 버튼 화면 표시,  --%>
-<%-- #chat > li:nth-child(1) > div > p --%><%--
-$(".rcontent-p").on("click", function(){  //동작하지 않음 --%>
 $("#chat").on("click","li div p", function(){ <%-- 이벤트전파 --%>
-<%-- textarea, 수정버튼, 삭제버튼, 취소버튼 표시
-	 textarea에 기존 값이 표시되고, 수정거친 후 ajax로 전송
-	 답글작성 버튼 감추기 --%>
 	resetCmtRegElements() ;
 	resetRelyRegElements() ;
 	resetReplyModElements();
@@ -720,14 +730,8 @@ $("#chat").on("click","li div p", function(){ <%-- 이벤트전파 --%>
 }) ;
 
 <%-- 댓글-답글 수정 취소 --%>
-<%-- #chat > li:nth-child(1) > div > button.btn.btn-info.btn-sm.btnCancelCmt --%>
 $("#chat").on("click","li div button.btnCancelCmt", function(){
 
-	<%--서버로 요청이 전달됨--%><%--
-	var _pageNum = frmCmtPagingValue.find("input[name='pageNum']").val() ;
-	showCmtList(_pageNum) ; --%>
-	
-	<%--브라우저에서 처리(서버 요청 없음)--%>
 	$(this).parents("li").find("button.btnChgReplyReg").attr("style","in-block" );
 	$(this).parents("li").find("p").attr("style", "display:in-block;white-space:pre-wrap;") ;
 	$(this).siblings(".btnModCmt").remove();
@@ -739,14 +743,13 @@ $("#chat").on("click","li div button.btnCancelCmt", function(){
 
 
 <%-- 댓글-답글 수정 --%>
-<%-- #chat > li:nth-child(1) > div > button.btn.btn-warning.btn-sm.btnModCmt --%>
 $("#chat").on("click", "li div button.btnModCmt", function(){
 	
 	var qrcontent = $(this).prev().val() ;
-	var qrno = $(this).siblings("p").data("qrno") ;/* 
-	var nickname = $(this).parents("li").data("nickname") ; */
+	var qrno = $(this).siblings("p").data("qrno") ;
+	var nickname = $(this).parents("li").data("nickname") ;
 	
-	var cmtReply = {qno: qnoValue, qrno: qrno, qrcontent: qrcontent} ;
+	var cmtReply = {qno: qnoValue, qrno: qrno, qrcontent: qrcontent, nickname: nickname} ;
 	
 	qnaReplyClsr.modifyCmtReply(
 			cmtReply,
@@ -761,14 +764,13 @@ $("#chat").on("click", "li div button.btnModCmt", function(){
 
 	
 <%-- 댓글-답글 삭제 --%>
-<%-- #chat > li:nth-child(1) > div > button.btn.btn-danger.btn-sm.btnDelCmt --%>
 $("#chat").on("click","li div button.btnDelCmt", function(){
 	if(!confirm("삭제하시겠습니까?")){
 		return ;
 	}
 	
-	var qrno = $(this).closest("li.commentLi").data("qrno") ;/* 
-	var rwriter = $(this).parents("li.commentLi").data("rwriter") ; */
+	var qrno = $(this).closest("li.commentLi").data("qrno") ;
+	var nickname = $(this).parents("li.commentLi").data("nickname") ;
 	
 	var qnoAndQrno ={qno: qnoValue, qrno: qrno } ;
 	

@@ -56,7 +56,6 @@ th {
 						</div>
 						<div class="form-group">
 							<label>최종수정일</label>
-							<%--  [등록일시: <fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd HH:mm:ss" />] --%>
 							<input class="form-control" name="qmodDate" id="qmodDate"
 								value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${qna.qmodDate }"/>'
 								disabled="disabled">
@@ -147,7 +146,6 @@ $(".qnabtns").on("click", function(){
 	}	
 	
 	var operation = $(this).data("oper") ;
-	//alert("operation: " + operation) ;
 	
 	if (operation == "Qnamodify") {
 		
@@ -157,19 +155,13 @@ $(".qnabtns").on("click", function(){
 		} */
 		
 		var emptyLi = $(".fileUploadResult ul li") ;
-//		console.log(emptyLi)  ;
-//		alert(emptyLi);
 		if(emptyLi.data("filename") == undefined){
-			//$(".fileUploadResult ul li").remove() ;
 			emptyLi.remove() ;
 		}
-		
-		<%-- #wrapper > div.row > div > div > div.panel-body > div.fileUploadResult ul  li:nth-child(1) --%>
 
 		var attachFileInputHTML = "";
 		
 		<%-- li요소의 값들을 읽어와서 hidden input을 생성하는 택스트를 만드는 함수 --%>
-		<%--div.form-group.fileUploadResult > ul > li:nth-child(1)--%>
 		$("div.fileUploadResult ul li").each(function(i, obj){
 			
 			var objLi = $(obj) ;
@@ -372,11 +364,7 @@ $("#inputFile").on("change", function(){
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
 		dataType: "json" ,
-		success: function(uploadResult, status){
-			
-<%--		//복사된 file-input을 삽입하는 경우, 첨부파일 삭제/추가 시에는, 초기화 되지 않음.
-			$(".uploadDiv").html(cloneFileInput.html()) ;
---%>			
+		success: function(uploadResult, status){			
 			$(".inputFile").val("") ;
 			
 			showUploadResult(uploadResult);
@@ -386,7 +374,6 @@ $("#inputFile").on("change", function(){
 }) ;	
 
 <%-- 업로드 파일 삭제: 취소 기능을 고려해서 화면의 삭제를 클릭 시에는 화면의 항목만 삭제되도록 수정 --%>
-<%-- body > div.fileUploadResult > ul > li:nth-child(2) > span --%>
 $(".fileUploadResult ul").on("click","li button", function(){
 	
 	var parentLi = $(this).parent() ;  //UL이 지워짐

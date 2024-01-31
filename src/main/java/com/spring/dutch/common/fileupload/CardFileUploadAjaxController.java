@@ -61,7 +61,7 @@ public class CardFileUploadAjaxController {
 				 produces = "application/json; charset=utf-8") 
 	@ResponseBody
 	public List<CardAttachFileDTO> fileUploadAction(MultipartFile[] yourUploadFiles) {
-		
+		System.out.println(yourUploadFiles);
 		List<CardAttachFileDTO> attachFileList = new ArrayList<CardAttachFileDTO>();
 		
 		CardAttachFileDTO attachFile = null ;
@@ -138,6 +138,7 @@ public class CardFileUploadAjaxController {
 			attachFileList.add(attachFile) ;
 
 		}//for-end
+		
 		
 		return attachFileList ;
 	}

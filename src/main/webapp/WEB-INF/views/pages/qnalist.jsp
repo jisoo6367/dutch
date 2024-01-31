@@ -37,34 +37,46 @@
 		<div class="form-group">
 			<label class="sr-only">frmSendValues</label>
 				<select class="form-control" id="selectAmount" name="rowAmountPerPage">
-						<option value="10" ${(qnaCreator.qnaPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
-						<option value="20" ${(qnaCreator.qnaPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
-						<option value="50" ${(qnaCreator.qnaPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
-						<option value="100" ${(qnaCreator.qnaPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
+					<option value="10" ${(qnaCreator.qnaPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
+					<option value="20" ${(qnaCreator.qnaPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
+					<option value="30" ${(qnaCreator.qnaPaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
+					<option value="50" ${(qnaCreator.qnaPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
 				</select>
 
 	
-	<input type="hidden" id="pageNum" name="pageNum" value="${qnaCreator.qnaPaging.pageNum }" > <%-- 
-	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${qnaCreator.qnaPaging.rowAmountPerPage }" > --%>
+	<input type="hidden" id="pageNum" name="pageNum" value="${qnaCreator.qnaPaging.pageNum }" > 
 	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${qnaCreator.lastPageNum }" >
-               
-<hr>   
-		</div>
+  
+	</div>
+	<div class="form-group pull-right">
+		<input class="form-control" id="beginDate" name="beginDate" type="date"
+			   value="${qnaCreator.qnaPaging.beginDate}" 
+			   />
+		<input class="form-control" id="endDate" name="endDate" type="date"
+			   value="${qnaCreator.qnaPaging.endDate}" 
+			   />
+
+		<button type="button" class="btn btn-primary mybtns" 
+				id="btnIntervalSearch" >작성일 기간검색</button>
+	</div>
+	               
+<hr>  
 	</form>  
                
-                    <table class="table table-striped table-bordered table-hover" 
-                           style="width:100%;text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>글번호</th>
-                                <th>제목</th>
-                                <th>닉네임</th>
-                                <th>작성일</th>
-                                <th>수정일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
+<table class="table table-striped table-bordered table-hover" 
+       style="width:100%;text-align: center;">
+<thead>
+    <tr>
+      <th>글번호</th>
+      <th>제목</th>
+      <th>닉네임</th>
+      <th>작성일</th>
+      <th>수정일</th>
+      <!-- <th>답변</th> -->
+      <th>문의상황</th>
+    </tr>
+</thead>
+<tbody>
 <c:choose>
 <c:when test="${not empty qnaCreator.qnaList }">
 	<c:forEach var="qna" items="${qnaCreator.qnaList}">
@@ -72,33 +84,54 @@
 			<c:when test="${qna.qdelFlagAdmin == 1 }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${qna.qno }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="6"><em>삭제된 게시글입니다.</em></td>
+				</tr>
+			</c:when>
+			<c:when test="${qna.qsignal == 2 }">
+				<tr style="background-color: skyblue; text-align: center">
+				    <td>${qna.qno }</td>
+				    <td colspan="6"><em>문의 완료된 게시글입니다.</em></td>
 				</tr>
 			</c:when>
 			<c:otherwise>
 				<tr class="moveDetail" data-qno="${qna.qno }">
 					<td><c:out value="${qna.qno }"/></td>
-					<td style="text-align: left">
+					<td style="text-align: left;">
 						<c:out value="${qna.qtitle }"/>
-						<small>[답변: <strong><c:out value="${qna.qreplyCnt}"/></strong>]</small>
 					</td>
 					<td>${qna.nickname }</td>
 					<td class="center"><fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
 					<td class="center"><fmt:formatDate value="${qna.qmodDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
+				 	<%-- <td style="text-align: center;">
+						<small><strong><c:out value="${qna.qreplyCnt}"/></strong></small>
+					</td> --%>
+				 	<td style="text-align: center;">
+				 		<c:choose>
+				 			<c:when test="${qna.qsignal == 0}">
+				 				<small><b>문의 중</b></small>
+				 			</c:when>
+				 			<c:when test="${qna.qsignal == 1}">
+				 				<small><b>답변 완료</b></small>
+				 			</c:when>
+				 			<c:otherwise>
+				 				<small><b>문의 완료</b></small>
+				 			</c:otherwise>
+				 		</c:choose>
+					</td>
 				 </tr>
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>
 </c:when>
-<c:otherwise>
+	<c:otherwise>
 		<tr class="odd gradeX">
 			<td colspan="6">등록된 게시물이 없습니다.</td>
 		 </tr>
-</c:otherwise>
+	</c:otherwise>
 </c:choose>                        
 
-                        </tbody>
-                    </table><%-- /.table-responsive --%>
+    </tbody>
+</table><%-- /.table-responsive --%>
 <div style="text-align: center;">
 	<ul class="pagination pagination-sm" >
 		<c:if test="${qnaCreator.prev }">
@@ -142,11 +175,11 @@
 	</ul>
 </div>
 
-                </div><%-- /.panel-body --%>
-                
-            </div><%-- /.panel --%>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+           </div><%-- /.panel-body --%>
+           
+       </div><%-- /.panel --%>
+   </div><%-- /.col-lg-12 --%>
+</div><%-- /.row --%>
   
 
 </div><%-- /#page-wrapper --%>
@@ -183,12 +216,6 @@ $(".moveDetail").on("click", function(){
 	var qno = $(this).data("qno");
 	
 	window.location.href = "${contextPath}/qna/detail?qno=" + qno ;
-	
-/* 	frmSendValue.append("<input type='hidden' name='qno' value='" + qno + "'/>")
-	frmSendValue.attr("action", "${contextPath}/pages/qnadetail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="qno"]').remove() ; */  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
-														//bno값이 계속 url에 추가되는 현상 해결
 });
 
 <%-- 모달 호출 함수 --%>
@@ -204,8 +231,7 @@ function runModal(result) {
 		var qnaMsg =  result + "번 게시글이 등록되었습니다. "
 	
 	} 
-
-	//$(".modal-body").html(qnaMsg) ;
+	
 	$("#qnaModal-body").html(qnaMsg) ;
 	
 	$("#qnaModal").modal("show") ;
@@ -243,6 +269,34 @@ $(document).ready(function(){
 	history.pushState(null, null, location.href) ;
 	
 });
+
+<%--기간 검색버튼 클릭 이벤트 처리 --%>
+$("#btnIntervalSearch").on("click", function(){
+	
+	var beginDate = $("#beginDate").val() ;
+	var endDate = $("#endDate").val() ;
+	
+	if (!beginDate || beginDate == "" || !endDate || endDate == "") {
+		alert("시작날짜와 끝날짜를 모두 선택하세요") ;
+		return ;
+	}
+
+	frmSendValue.find("input[name='pageNum']").val(1) ;
+	frmSendValue.submit() ;
+	
+});
+
+/* $(document).ready(function(){
+	runModal(result) ;
+	
+	window.addEventListener("popstate", function(event){
+		history.pushState(null, null, location.href) ;
+		
+	});
+	
+	history.pushState(null, null, location.href) ;
+	
+}); */
 </script>
 
 <%@include file="../pageinclude/footer.jsp"%>

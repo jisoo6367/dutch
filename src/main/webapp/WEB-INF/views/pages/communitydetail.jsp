@@ -10,13 +10,17 @@
 <%@include file="../pageinclude/header.jsp" %>
 
 
-<style>
+<style type="text/css">
  th {text-align: center;}
  p {white-space:pre-wrap;}
+ 
+}
+ 
+ 
 </style>  
 
 <div id="page-wrapper">
-    <div class="row">
+  <!--   <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header"
 				style="white-space: nowrap;" >Board - Detail
@@ -24,84 +28,131 @@
 					 &nbsp;&nbsp;&nbsp;<c:out value="${community.tno}"/>번 게시물
 						 </small>
 			</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+        </div>
+    </div> -->
+    
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col">
         
             <div class="panel panel-default">
-                <div class="panel-heading">
-                	<div class="row">
-						<div class="col-md-2" style="white-space: nowrap; height: 45px; padding-top:11px;">
-							<strong style="font-size:16px;">${community.nickname}님 작성</strong>
-						</div>
-						<div class="col-md-3" style="white-space: nowrap; height: 45px; padding-top:16px;">
-							<span class="text-primary" style="font-size: smaller; height: 45px; padding-top: 19px;">
-								<span>
-									<span>등록일:&nbsp;</span>
-									<strong><fmt:formatDate 
-												pattern="yyyy-MM-dd HH:mm:ss"
-												value="${community.tregDate}"
-											 /></strong>
-									<span>&nbsp;&nbsp;</span>
-								</span>
-								<span>조회수:&nbsp;<strong><c:out value="${community.tviewCnt}"/></strong>
-								</span>
-							</span>
-						</div>
-						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
-							<div class="button-group pull-right">
+                <div class="panel-heading" style="background-color: transparent">
+                
+<div class="container-sm">
+  <div class="row row-cols-4 row-cols-xm-12">
+  
+  	<div class="col-sm-12">&nbsp;</div>
+  
+    <div class="col-sm-12">	
+	   <input style="background-color:transparent; font-size:18px;"
+	  		   class="form-control" name="tcategory" id="tcategory" 
+	  		   value="${community.tcategory }" readonly="readonly">
+	</div>
+	
+	   <div class="col-sm-12" style="font-size:5px;">&nbsp;</div>
+	   
+    <div class="col-sm-12">
+    	<input style="background-color:transparent; font-size:18px;" 
+    		   class="form-control" name="ttitle" id="ttitle"		
+    		   value="${community.ttitle }" readonly="readonly">	
 
+	</div>
+ 
+	   <div>	
 
-<sec:authorize access="isAuthenticated()">
-	<sec:authentication property="principal.username" var="username"/>
-		<c:if test="${username eq community.nickname }">
-							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary"><span>수정페이지로 이동</span></button>
-		</c:if>
-</sec:authorize>													
-							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-warning"><span>목록페이지로 이동</span></button>
+				<div class="col-sm-12" style="white-space: nowrap; padding-top:11px;">
+					<strong style="font-size:14px;">&nbsp;&nbsp;${community.nickname}</strong>					
+				</div>
+				
+				<div class="col-sm-6" style="white-space: nowrap; opacity:0.5;" >							
+						<strong style="font-size:12px;">&nbsp;&nbsp;
+						<fmt:formatDate pattern="yyyy-MM-dd HH:mm"
+										value="${community.tregDate}"/>									
+						</strong>
+						<span>&nbsp;&nbsp;</span>								
+				<strong style="font-size:12px;"><span>조회수:&nbsp;<c:out value="${community.tviewCnt}"/>
+				</span></strong>
+				</div>
+			</div>
+						
+		<div class="col-sm-6" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
+			<div class="button-group pull-right">
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.username" var="username"/>
+						<c:if test="${username eq community.nickname }">
+											<button type="button" id="btnToModify" data-oper="modify"
+													style="color:black;"
+												    class="btn btn-link"><span>수정</span></button>
+						</c:if>
+				</sec:authorize>													
+											<button type="button" id="btnToList" data-oper="list"
+													style="color:black;"
+													class="btn btn-link"><span>목록</span></button>
 							</div>
 						</div>
-					</div>
-                </div><!-- /.panel-heading --><%-- /.panel-heading --%>
+	
+	
+	
+	
+	
+	
+  </div>
+</div><!-- container -->
+                     
+            
+  </div><!-- /.panel-heading --><%-- /.panel-heading --%>
 
                 
   <div class="panel-body form-horizontal">	
-	  <div class="form-group">
-		    <label class="col-sm-2 control-label" style="white-space: nowrap;">카테고리</label>
-		    <div class="col-sm-10">
-		    	<input class="form-control" name="tcategory" id="tcategory" 
-		    		   value="${community.tcategory }" readonly="readonly">
-			</div>
-		</div>
-  
-	<div class="form-group">
-	    <label class="col-sm-2 control-label" style="white-space: nowrap;">글제목</label>
-	    <div class="col-sm-10">
-	    	<input class="form-control" name="ttitle" id="ttitle" 
-	    		   value="${community.ttitle }" readonly="readonly">
-		</div>
-	</div>
 		
 	<div class="form-group">
-	    <label class="col-sm-2 control-label" style="white-space: nowrap;">글내용</label>
-
-	    <div class="col-sm-10">
-	    	<textarea class="form-control" rows="3" name="tcontent" id="tcontent"
-	    			  style="resize: none;"
-	    			  readonly="readonly"><c:out value="${community.tcontent}"/></textarea>
-		</div>	    			  
-	</div>
-
-	<div class="form-group">
-	    <label class="col-sm-2 control-label" style="white-space: nowrap;">최종수정일</label>
-	    <div class="col-sm-10">
-	    	<input class="form-control" name="tmodDate" id="tmodDate" 
-	      		   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${community.tmodDate }"/>' readonly="readonly">
+		<div>
+		<span style=text-align:center;>
+		   <c:choose>
+			<c:when test="${empty community.attachFileList }">
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="attachFile" items="${community.attachFileList }">
+					<c:choose>
+					
+					<c:when test="${attachFile.fileType == 'F' }">
+					</c:when>				
+					<c:otherwise>
+						<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/${attachFile.uuid}_${attachFile.fileName}"/>
+						<div class="attachLi" 
+							data-repopath = "${attachFile.repoPath }"
+						    data-uploadpath = "${attachFile.uploadPath }" 
+						    data-uuid = "${attachFile.uuid }" 
+						    data-filename = "${attachFile.fileName }" 
+						    data-filetype = "I" >
+						        <img src='${contextPath}/communityDisplayThumbnail?fileName=${thumbnail}' style='width:800px;'>
+						</div>
+						<c:remove var="thumbnail"/>
+						</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			</span>
 		</div>
+
+<!-- 	    <label class="col-sm-2 control-label" style="white-space: nowrap;">글내용</label> -->
+	    <div class="col-sm-12">
+	    	<textarea class="form-control" rows="30" name="tcontent" id="tcontent"
+	    			  style="resize: vertical; background-color:transparent;" 
+	    			  readonly="readonly"><c:out value="${community.tcontent}"/></textarea>
+	    		    		 	    			  
+		</div>	    			  
+	
+		
 	</div>
+
+	<!-- <div class="form-group">
+	    <label class="col-sm-2 control-label" style="white-space: nowrap;">최종수정일</label>
+	    <div class="col-sm-12">
+	    	<input class="form-control" name="tmodDate" id="tmodDate" 
+	      		   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${community.tmodDate }"/>' readonly="readonly">
+		</div>
+	</div> -->
 
 <%-- Modal: 게시물 수정 후, 수정 결과 표시 모달 --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -109,9 +160,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="yourModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="yourModalLabel">수정완료</h4>
             </div>
-            <div class="modal-body" id="yourModal-body">메시지</div>
+          <!--   <div class="modal-body" id="yourModal-body">메시지</div> -->
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -130,14 +181,74 @@
 			<input type="hidden" name="endDate" value="${communityPaging.endDate }" >
 		</form>
   </div><%-- /.panel-body --%>
+                        
+                        
+                        
+                        
+                        
+                        
+    <div class="panel-footer" style="background-color: transparent">         
             
+    <ul class="chat" id="chat" style="list-style-type: none;">
+		<!-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다. -->	
+	</ul><!-- /.chat	 -->        
+            
+			<hr style="margin-top: 10px; margin-bottom: 10px;"><%-- 댓글 입력창 div 끝 --%>            
+            
+            
+         <div style="margin-bottom: 0px; font-size: 16px;">
+				
+					<strong style="padding-top: 2px;">
+				<%-- 		<span>댓글&nbsp;<c:out value="${community.treplyCnt}"/> 개</span> --%>
+						<span id="replyTotal"></span>
+						<span>&nbsp;</span>
+						
+				<sec:authorize access="isAuthenticated()">						
+					<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>								
+					<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm" style="display:none">댓글 등록</button>
+					<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm" style="display:none">취소
+			</button>&nbsp;&nbsp;&nbsp;						
+				</sec:authorize>
+	
+			
+			</strong>
+		</div>   
+
+			<div>
+				<sec:authorize access="isAuthenticated()">
+					<span id="spanLoginUser" style="display:none">
+						<strong><sec:authentication property="principal.username"/> 님 작성</strong>
+					</span>	
+				</sec:authorize>			
+			</div>
+			
+            <div>
+            	<sec:authorize access="isAuthenticated()">
+					<%-- 댓글 입력창 div 시작 --%>
+						<div class="form-group" style="margin-bottom: 5px;">
+							<textarea class="form-control txtBoxCmt" name="trcontent" 
+									 style="resize: vertical"></textarea>
+						</div>
+		</sec:authorize>
+					
+            </div>
+
+            
+			
+
+		<div class="panel-footer text-center" id="showCmtPagingNums" style="background-color: transparent"></div>		
+
+            </div><!-- panel footer -->
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
 
+
+
+
 <%-- 첨부파일 결과 표시 --%>    
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-14">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<strong style="font-size:16px;">첨부 파일</strong>
@@ -204,60 +315,7 @@
 </div><%-- /.modal --%>
 
     
-<%-- 댓글 요소 시작 --%>
-<div class="form-group" class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default" >
-			<div class="panel-heading">
-				<div style="margin-bottom: 0px; font-size: 16px;">
-				
-					<strong style="padding-top: 2px;">
-				<%-- 		<span>댓글&nbsp;<c:out value="${community.treplyCnt}"/> 개</span> --%>
-						<span id="replyTotal"></span>
-						<span>&nbsp;</span>
-						
-				<sec:authorize access="isAuthenticated()">						
-					<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>								
-					<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm" style="display:none">댓글 등록</button>
-					<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm" style="display:none">취소
-			</button>&nbsp;&nbsp;&nbsp;						
-				</sec:authorize>
-	
-				<sec:authorize access="isAuthenticated()">
-					<span id="spanLoginUser" style="display:none">
-						<strong><sec:authentication property="principal.username"/> 님 작성</strong>
-					</span>	
-				</sec:authorize>						
-			</strong>
-		</div>
-	</div> <%-- /.panel-heading --%>
-	
-<div class="panel-body">
-		<sec:authorize access="isAuthenticated()">
-					<%-- 댓글 입력창 div 시작 --%>
-						<div class="form-group" style="margin-bottom: 5px;">
-							<textarea class="form-control txtBoxCmt" name="trcontent"
-									  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
-									  readonly="readonly"></textarea>
-						</div>
-		</sec:authorize>
-						<hr style="margin-top: 10px; margin-bottom: 10px;"><%-- 댓글 입력창 div 끝 --%>
-				</div><%-- /.panel-body --%>
 
-
-
-<ul class="chat" id="chat">
-<!-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다. -->	
-</ul><!-- /.chat	 -->
-
-	
-
-			<div class="panel-footer text-center" id="showCmtPagingNums">
-				<%-- 댓글 목록의 페이징 번호 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
-			</div>							
-		</div><%-- /.panel --%>
-	</div><%-- .col-lg-12 --%>
-</div><%-- .row : 댓글 화면 표시 끝 --%>
 
 
 <form id = "frmCmtPagingValue">
@@ -484,10 +542,10 @@ function showCmtList(pageNum){
 			
 			if(!communityreplyPagingCreator.communityreplyList || communityreplyPagingCreator.communityreplyList.length == 0){
 				str += '<li class="left clearfix commentLi" '
-					+ ' 	style="text-align: center; background-color: lightCyan;'
-					+ ' 	height: 35px;margin-bottom: 0px;padding-bottom:0px;'
-					+ ' 	padding-top:6px;border: 1px dotted;">'
-					+ ' 	<strong>등록된 댓글이 없습니다.</strong></li>';
+					+ ' 	style="text-align: center; background-color: transparent;'
+					+ ' 	height: 40px;margin-bottom: 0px;padding-bottom:0px;'
+					+ ' 	padding-top:4px;">'
+					+ ' 	<strong>.</strong></li>';
 				
 				commentUL.html(str) ;
 				return ;
@@ -527,7 +585,7 @@ function showCmtList(pageNum){
 					}
 				<%-- 답글에 대한 아이콘 표시  --%>	
 				if(communityreplyPagingCreator.communityreplyList[i].lvl > 1) {
-				str += '    <i class="fa fa-reply fa-fw"></i>&nbsp;';
+				str += '    <span class="glyphicon glyphicon-share-alt"></span>&nbsp;';
 				
 				}	
 
@@ -536,19 +594,19 @@ function showCmtList(pageNum){
 				    + '        <small class="text-muted">' 
 				    +              communityReplyClsr.myDateTimeFmt(communityreplyPagingCreator.communityreplyList[i].trmodDate) 
 				    + '        </small>'
-				    + '    </span>'<%-- 
-				    + '    <p style="white-space:pre-wrap;" data-tno="' + communityreplyPagingCreator.communityreplyList[i].tno + '"' --%> 
+
+				    <sec:authorize access="isAuthenticated()">
+
+					 str+='    <button type="button" style="display:in-block;" ' 
+					    + '            class="btn btn-link btn-xs btnChgReplyReg">답글작성</button>' ;
+					</sec:authorize>
+				str +='    </span>'		    
 				    + '    <p class="trcontent-p" style="white-space:pre-wrap;"'
 				    + '       data-tno="' + communityreplyPagingCreator.communityreplyList[i].tno + '"'
 				    + '       data-trno="' + communityreplyPagingCreator.communityreplyList[i].trno + '">'
 				    +         communityreplyPagingCreator.communityreplyList[i].trcontent + '</p>'
 				    + '</div>' ;
 
-<sec:authorize access="isAuthenticated()">
-
-				 str+='    <button type="button" style="display:in-block;" ' 
-				    + '            class="btn btn-primary btn-xs btnChgReplyReg">답글작성</button>' ;
-</sec:authorize>		
 
 				 str+='</li>' ;
 				}
@@ -608,7 +666,7 @@ $("#btnRegCmt").on("click", function(){
 			reply
 			,function(result){
 				if (result != null) {
-					alert(result + "번 댓글이 등록되었습니다.") ;	
+					alert("댓글이 등록되었습니다.") ;	
 				} else {
 					alert("서버 장애로 댓글 등록이 취소되었습니다.") ;
 				}
@@ -711,7 +769,7 @@ $("#chat").on("click", "li .btnRegReply", function(){
 	communityReplyClsr.registerReply(
 			reply,
 			function(result){
-				alert(result + "번 답글이 등록되었습니다.") ;
+				alert("답글이 등록되었습니다.") ;
 				var pageNum = frmCmtPagingValue.find('input[name="pageNum"]').val() ;
 				showCmtList(pageNum) ;
 			}

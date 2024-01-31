@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,6 +23,7 @@ public class CardFileDownloadAjaxController {
 	
 	@GetMapping(value = "/cardDisplayThumbnail")
 	public ResponseEntity<byte[]> sendThumbnail(String fileName) {
+		System.out.println("cardDisplayThumbnail controller에서 fileName: "+fileName);
 		
 		File thumbnailFile = new File(fileName) ;
 		
@@ -35,7 +37,6 @@ public class CardFileDownloadAjaxController {
 											    httpHeaders, 
 											    HttpStatus.OK) ; ;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -130,6 +130,35 @@ public class QnaServiceImpl implements QnaService{
 		
 		return (rows == 1);
 	}
+	
+	//시그널보냄(0/1/2)
+	@Override
+	public long getSignal_0(long qno) {
+		
+		long getSignal_0 = qnaMapper.updateQsignal_0(qno);
+		System.out.println("시그널 0으로 업데이트=====" + getSignal_0);
+		
+		return getSignal_0;
+	}
+
+	@Override
+	public long getSignal_1(long qno) {
+		
+		long getSignal_1 = qnaMapper.updateQsignal_1(qno);
+		System.out.println("시그널 1으로 업데이트=====" + getSignal_1);
+		
+		return getSignal_1;
+	}
+
+	@Override
+	public long getSignal_2(long qno) {
+		
+		long getSignal_2 = qnaMapper.updateQsignal_2(qno);
+		System.out.println("시그널 2으로 업데이트=====" + getSignal_2);
+		
+		return getSignal_2;
+	}
+	
 
 	//특정 게시글로 가져옴
 	@Override
@@ -175,4 +204,5 @@ public class QnaServiceImpl implements QnaService{
 			
 			}//if-end
 		}//for-end
+
 }

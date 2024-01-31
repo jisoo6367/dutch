@@ -19,9 +19,19 @@
 		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
 		FROM ( SELECT /*+ INDEX_DESC (a FK_QNA_NICKNAME) */ ROWNUM rn, a.*
 		       FROM dutch.tbl_qna a
-		       WHERE ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+		       WHERE 
+	]]>
+		<choose>
+			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	qregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			</when>
+		</choose>	       
+	<![CDATA[	       
+		ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 		      )
 		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - #{pageNum}))
+		order by qregDate desc
 	]]>
 	
 	</select>
@@ -67,21 +77,21 @@
 	
 	<resultMap type="com.spring.dutch.domain.QnaVO" id="myboardMap">
 		<result property="qno" column="qno"/>
-		<result property="qtitle" column="qtitle"/>
-		<result property="qcontent" column="qcontent"/>
 		<result property="nickname" column="nickname"/>
-		<result property="bregDate" column="bregDate"/>
-		<result property="bmodDate" column="bmodDate"/>
-		<result property="qsignal" column="qsignal"/>
-		<result property="qreplyCnt" column="qreplyCnt"/>
+		<result property="qtitle" column="qtitle"/>
+		<result property="qregDate" column="qregDate"/>
+		<result property="qmodDate" column="qmodDate"/>
 		<result property="qdelFlag" column="qdelFlag"/>
 		<result property="qdelFlagAdmin" column="qdelFlagAdmin"/>
+		<result property="qsignal" column="qsignal"/>
+		<result property="qcontent" column="qcontent"/>
+		<result property="qreplyCnt" column="qreplyCnt"/>
 		<collection property="qnaAttachFileList"  resultMap="attachFileMap"/>
 	</resultMap>
 	
 	<select id="selectQna" resultMap="myboardMap">
-		SELECT a.qno, a.qtitle, a.qcontent, a.nickname, 
-		       a.qregDate, a.qmodDate, a.qsignal, a.qreplyCnt, a.qdelFlag, a.qdelFlagAdmin,
+		SELECT a.qno, a.nickname, a.qtitle, a.qregDate, a.qmodDate,
+		        a.qdelFlag, a.qdelFlagAdmin, a.qsignal, a.qcontent, a.qreplyCnt,
 		       b.uuid, b.uploadPath, b.fileName, b.fileType, b.qno AS myqno   
 		FROM dutch.tbl_qna a LEFT OUTER JOIN dutch.tbl_QnaAttachFiles b ON (a.qno = b.qno) 
 		WHERE a.qno = #{qno}
@@ -109,12 +119,27 @@
 		WHERE qno = #{qno }
 	</delete>
 	
-<!-- 시그널 --><!-- 
-	<update id="updateQsignal" parameterType="com.spring.dutch.domain.QnaVO">
+<!-- 시그널 -->
+	<!-- 사용자가 답글을 남겼을 시 시그널이 0이됨 -->  
+	<update id="updateQsignal_0" parameterType="long">
 		UPDATE dutch.tbl_qna
-		SET qsignal = qsignal + #{amount}
-		WHERE qno = #{qno }
-	</update> -->
+		SET qsignal = 0
+		WHERE qno = #{qno} 
+	 </update>
+	 
+	 <!-- 관리자가 댓글을 적으면 시그널이 1이됨 -->
+	 <update id="updateQsignal_1" parameterType="long">
+		 UPDATE dutch.tbl_qna
+		 SET qsignal = 1
+		 WHERE qno = #{qno}
+	 </update>
+	 
+	 <!-- 문의종료 -->
+	 <update id="updateQsignal_2" parameterType="long">
+		UPDATE dutch.tbl_qna
+		SET qsignal = 2
+		WHERE qno = #{qno}
+	 </update>
 	
 <!-- 댓글 개수 수정 
 	 댓글추가 시에 #{amount}에 1, 댓글삭제 시 #{amount}에 -1 이 각각 전달됨-->

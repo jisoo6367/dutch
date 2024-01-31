@@ -28,11 +28,16 @@ public interface QnaService {
 	//QNA 삭제 요청
 	public boolean modifyQdelFlagAdmin(long qno);
 	
+	//시그널 
+	public long getSignal_0(long qno);
+	public long getSignal_1(long qno);
+	public long getSignal_2(long qno);
+	
 	//특정 QNA 삭제
 	public boolean removeQna(long qno);
 
 	//첨부파일 목록 조회
-	public List<QnaAttachFileVO> getQnaAttachFileList(Long qno);//String nickname
+	public List<QnaAttachFileVO> getQnaAttachFileList(Long qno);
 
 	
 		

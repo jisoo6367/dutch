@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 
@@ -15,15 +16,23 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">공지사항</h3>
+            <h3 class="page-header"></h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>문의 등록<button type="button" id="btnToRegister" class="btn btn-primary btn-sm" style="float:right;">새글 등록</button></h4>
-                	
+                <div class="panel-heading"><h4>공지사항
+                
+                <sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.username" var="username"/>
+						<c:if test="${username eq 'ADMIN' }">
+          					<button type="button" id="btnToRegister" class="btn btn-primary btn-sm" style="float:right;">공지 등록</button>
+          				</c:if>
+          		</sec:authorize>
+                
+                	</h4>
 					
 				</div><%-- /.panel-heading --%>
                 
@@ -32,20 +41,37 @@
  <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/notice/list" method="get" >
 	<div class="form-group">
 		<label class="sr-only">frmSendValues</label>
- 	<select class="form-control" id="selectAmount" name="rowAmountPerPage">
-			<option value="10" ${(noticeCreator.noticePaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
-			<option value="20" ${(noticeCreator.noticePaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
-			<option value="50" ${(noticeCreator.noticePaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
-			<option value="100" ${(noticeCreator.noticePaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
-	</select>
+	 	<select class="form-control" id="selectAmount" name="rowAmountPerPage">
+				<option value="5" ${(noticeCreator.noticePaging.rowAmountPerPage == 5) ? "selected" : "" }>5개</option>
+				<option value="10" ${(noticeCreator.noticePaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
+				<option value="20" ${(noticeCreator.noticePaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
+				<option value="50" ${(noticeCreator.noticePaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
+		</select>
 		
+		<div class="input-group"><!-- 검색어 입력 -->
+				<input class="form-control" id="keyword" name="keyword" type="text" 
+				       placeholder="검색어를 입력하세요"
+					   value='<c:out value="${noticeCreator.noticePaging.keyword}" />' />
+				<span class="input-group-btn"><!-- 전송버튼 -->
+					<button class="btn btn-warning" type="button" id="btnSearchGo"
+							><span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</div>
+			
+			<div class="input-group"><!-- 검색 초기화 버튼 -->
+				<button id="btnReset" class="btn btn-info" type="button">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</button>
+			</div>
+		</div>
 	
 		<input type="hidden" id="pageNum" name="pageNum" value="${noticeCreator.noticePaging.pageNum }" ><%-- 
 		<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${noticeCreator.noticePaging.rowAmountPerPage }" > --%>
 		<input type="hidden" id="lastPageNum" name="lastPageNum" value="${noticeCreator.lastPageNum }">
 	 </div>
 </form>
- 
+
 		<table class="table table-striped table-bordered table-hover" 
 		       style="width:100%;text-align: center;">
 		<thead>
@@ -62,29 +88,17 @@
 
 <c:choose>
 <c:when test="${not empty noticeCreator.noticeList}">
-	<c:forEach var="notice" items="${noticeCreator.noticeList}">
-		<%-- <c:choose> --%>
-			<%-- <c:when test="${notice.cdelFlag == 1 }">
-				<tr style="background-color: Moccasin; text-align: center">
-				    <td>${notice.cno }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
-				</tr>
-			</c:when> --%>
-			<%-- <c:otherwise>	 --%>	
+	<c:forEach var="notice" items="${noticeCreator.noticeList}">	
 				<tr class="moveDetail" data-cno="${notice.cno }">
-				<%-- <td><c:out value="${notice.ccategory }"/></td> --%>
-					<td><c:out value="${notice.cno }"/></td>
-					<td style="text-align: left">
+					<td class="col-sm-1"><c:out value="${notice.cno }"/></td>
+					<td class="col-sm-6" style="text-align: left">
 						<c:out value="${notice.ctitle }"/>
-						<%-- <small>[첨부파일: <strong><c:out value="${notice.attachFileList}"/></strong>]</small> --%>
 					</td>
-					<td>${notice.nickname }</td>
-					<td class="center"><fmt:formatDate value="${notice.cregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-				 	<td class="center"><c:out value="${notice.cviewCnt }"/></td>
+					<td class="col-sm-2">${notice.nickname }</td>
+					<td class="col-sm-2 center"><fmt:formatDate value="${notice.cregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+				 	<td class="col-sm-1 center"><c:out value="${notice.cviewCnt }"/></td>
 				 
 				 </tr>
-			<%-- </c:otherwise> --%>
-		<%-- </c:choose> --%>
 	</c:forEach>
 </c:when>
 <c:otherwise>
@@ -140,16 +154,12 @@
 </div> 
 
                     
-                    
-                </div><%-- /.panel-body --%>
-                
-            </div><%-- /.panel --%>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+            
+        </div><%-- /.panel-body --%>
+        
+    </div><%-- /.panel --%>
+</div><%-- /.col-lg-12 --%>
   
-
-</div><%-- /#page-wrapper --%>
-
 <%-- Modal --%>
 <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -183,12 +193,6 @@ $(".moveDetail").on("click", function(){
 	var cno = $(this).data("cno");
 	
 	window.location.href = "${contextPath}/notice/detail?cno=" + cno ;
-	
-/* 	frmSendValue.append("<input type='hidden' name='cno' value='" + cno +"'/>");
-	frmSendValue.attr("action", "${contextPath}/pages/noticedetail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="cno"]').remove() ; */  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
-														//bno값이 계속 url에 추가되는 현상 해결
 });
 
 <%-- 모달 호출 함수 --%>
@@ -204,8 +208,7 @@ function runModal(result) {
 		var noticeMsg =  result + "번 게시글이 등록되었습니다. "
 	
 	} 
-
-	//$(".modal-body").html(noticeMsg) ;
+	
 	$("#noticeModal-body").html(noticeMsg) ;
 	
 	$("#noticeModal").modal("show") ;

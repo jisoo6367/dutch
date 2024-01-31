@@ -16,26 +16,8 @@
 ;
 </style>
 
-<h3 class="page-header">
-	<!-- 로그인 하지 않은 경우 -principle: anonymousUser String 객체-->
-	<!-- 로그인 한 경우 -principle: 로그인 사용자의 Authentication 객체 -->
-	<sec:authentication property="principal" var="principal" />
-	<c:choose>
-		<c:when test="${principal eq 'anonymousUser' }">
-			<span>반갑습니다. 수정</span>
-		</c:when>
-		<c:otherwise>
-			<span>${principal.username}님, 반갑습니다.</span>
-			<%--   <hr>
-                 <span>principal: ${principal}</span>
-                  <hr>
-                  <span>authentication: ${authentication}</span>
-                  <hr> --%>
-		</c:otherwise>
-	</c:choose>
-</h3>
 
-<h2><a href="${contextPath }/admin/page">로그인페이지로이동</a></h2>
+
 <div class="container">
 <div id="carousel-example-generic" class="carousel slide"
 	data-ride="carousel">
@@ -47,13 +29,20 @@
 	</ol>
 	<div class="carousel-inner" role="listbox">
 		<div class="item active">
-			<img src="resources/img/1140img1.jpg" alt="First slide">
+			<img src="resources/img/dutch_img.jpg" alt="First slide"
+				 style="width: 640px; height: 500px;">
+			<div class="carousel-caption">
+                  <h3 style="color: dark;">더치플에서 </h3>
+                  <p style="color: dark;">편하게 n빵하세요~</p>
+            </div>
 		</div>
 		<div class="item">
-			<img src="resources/img/1140img1.jpg" alt="Second slide">
+			<img src="resources/img/commu_img.jpg" alt="Second slide"
+			style="width: 600px; height: 500px;">
 		</div>
 		<div class="item">
-			<img src="resources/img/1140img1.jpg" alt="Third slide">
+			<img src="resources/img/card_img.jpg" alt="Third slide"
+			style="width: 640px; height: 500px;">
 		</div>
 	</div>
 	<a class="left carousel-control" href="#carousel-example-generic"

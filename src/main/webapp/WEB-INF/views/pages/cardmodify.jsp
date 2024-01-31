@@ -36,11 +36,13 @@
 
 <form role="form" method="post" name="cardModify" id="cardModify">
 	
-	<div class="form-group">
+	<%-- <div class="form-group">
 	    <label>카드번호</label>
-	    <input class="form-control" name="kno" id="kno" 
-	           value='<c:out value="${card.kno }"/>' readonly="readonly">
-	</div>
+	    
+	</div> --%>
+	
+	<input class="form-control" name="kno" id="kno" type="hidden"
+	           value='<c:out value="${card.kno }"/>'>
 	
 	<div class="form-group">
 	    <label>카드이름</label>

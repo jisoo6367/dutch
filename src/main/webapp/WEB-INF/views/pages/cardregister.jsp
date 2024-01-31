@@ -43,9 +43,9 @@
 	    <input class="form-control" name="kname" id="kname" placeholder="카드이름을 입력하세요">
 	</div>
 	<div class="form-group">
-	    <label>카드설명</label>
+	    <label>카드 설명</label>
 	    <textarea class="form-control" rows="3" name="kcontent" id="kcontent"
-	    		  placeholder="카드설명을 입력하세요"></textarea>
+	    		  placeholder="카드 설명을 20자 이내로 입력하세요"></textarea>
 	</div>
 	<div class="form-group">
 	    <label>카드사</label>
@@ -53,8 +53,10 @@
 	</div>
 	<div class="form-group">
 	    <label>카테고리</label>
-	    <!-- <input class="form-control" name="category" id="category" placeholder="카테고리 브로"> -->
 	    <select class="form-control" name="category" id="category">
+		    <option value="기타">기타</option>
+		    <option value="모임">모임</option>
+		    <option value="교통">교통</option>
 	    	<option value="회식">회식</option>
 	    	<option value="카페">카페</option>
 	    	<option value="식사">식사</option>
@@ -89,7 +91,7 @@
                         <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
                     </div>
 	                <div class="form-group fileUploadResult">
-	                    <ul>
+	                    <ul style="list-style-type: none;">
 	                        <%-- 업로드 후 처리결과가 표시될 영역 --%>
 	                    </ul>
 	                </div>
@@ -115,7 +117,7 @@ function checkBoardValues(){
 	var kcompany = $("#kcompany").val() ;
 	var category = $("#category").val() ;
 	
-	if( kname.length==0 || kcontent.length==0 || kcompany.length==0 || category.length==0){
+	if( kname.length==0 || kcontent.length==0 || kcompany.length==0 || category.length==0 ){
 		return false ;
 
 	} else {
@@ -128,6 +130,12 @@ $("#btnRegister").on("click", function(){
 	
 	if (!checkBoardValues()){
 		alert("카드이름/카드설명/카드사/카테고리를 모두 입력해야 합니다.");
+		return ;
+	}
+	var kcontent = $("#kcontent").val() ;
+	
+	if(kcontent.length >= 20){
+		alert("카드 설명은 20자 이내로 입력해야 합니다.")
 		return ;
 	}
 
@@ -203,7 +211,7 @@ function showUploadResult(uploadResult) {
 		+ "    data-filetype='I'>"
 		+ "        <img src='${contextPath}/cardDisplayThumbnail?fileName=" + thumbnail + "'>"
 		+ "        &nbsp;&nbsp;" + attachFile.fileName 
-		+ "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
+		+ "  <span class='glyphicon glyphicon-remove' data-filename='" + thumbnail + "' data-filetype='I' style='color: red; margin-left: 6px;'></span>"
 		+ "</li>" ;
 		
 			
@@ -264,6 +272,39 @@ $("#inputFile").on("change", function(){
 	});
 	
 }) ;
+
+<%-- 업로드 파일 삭제: 서버에 업로드된 파일이 삭제되고, 이를 화면에 반영해 주어야 함 --%>
+	$(".fileUploadResult ul").on("click","li span", function(e){
+		var fileName = $(this).data("filename") ;
+		var fileType = $(this).data("filetype") ;
+		
+		var parentLi = $(this).parent() ;
+		
+		$.ajax({
+			type: "post" ,
+			url: "${contextPath}/qnadeleteFile" ,
+			data: {fileName: fileName, fileType: fileType} ,
+			dataType: "text" , 
+	 		beforeSend: function(xhr){
+				xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+			} ,
+			success: function(result){
+				if(result == "S") {
+					alert("파일이 삭제되었습니다.") ;
+					parentLi.remove() ;
+					
+				} else {
+					if(confirm("파일이 존재하지 않습니다. 해당 항목을 삭제하시겠습니까 ?") ) {
+						parentLi.remove() ;
+						alert("파일이 삭제되었습니다.") ;	
+					
+					}
+				}
+			} <%--success-end--%>
+			
+		});  <%--ajax-end--%>
+		
+	});
 </script>
 
 

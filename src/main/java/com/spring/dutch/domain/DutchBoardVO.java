@@ -22,7 +22,7 @@ public class DutchBoardVO {
 	private Date pregDate ;        //방생성일자
 	private Date pmodDate ;   //방수정일자
 	private int pdelFlag ;         //방삭제요청
-	private int pdelFlagAdmin;     //방삭제(관리자)
+	private int preport;     //방삭제(관리자)
 	private long ppersonal;        //개인부담금액
 	private int ptotalPayment ;    //전체금액
 	private int pcalculated ;      //방정산완료

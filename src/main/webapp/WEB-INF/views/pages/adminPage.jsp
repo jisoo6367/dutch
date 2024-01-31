@@ -9,17 +9,50 @@
 
 <%@include file="../pageinclude/header.jsp" %>
 
+<h2>관리자 페이지</h2>
 
-	<h2>관리자페이지이빈다</h2>
-	
+
+<head>
+<style>
+    .canvas-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .canvas-item {
+    	margin-top: 100px;
+        margin-bottom: 100px;
+        margin-right: 10px;
+        
+    }
+</style>
+</head>
+<body>
+    <div class="canvas-container">
+        <div class="canvas-item">
+            <canvas id="genderChart" width="450" height="300"></canvas>
+        </div>
+        <div class="canvas-item">
+            <canvas id="ageChart" width="450" height="300"></canvas>
+        </div>
+        <div class="canvas-item">
+            <canvas id="reportChart" width="450" height="300"></canvas>
+        </div>
+        <div class="canvas-item">
+            <canvas id="monthlyRegisterChart" width="450" height="300"></canvas>
+        </div>
+    </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-<canvas id="ageChart"></canvas>
+
+
 <script>
 //Chart.defaults.global.maintainAspectRatio = false;
+const xname = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 var ctx = document.getElementById('ageChart').getContext('2d');
-var chart = new Chart(ctx, {
+var ageChart = new Chart(ctx, {
     //차트설정
     type: 'bar',
 
@@ -45,15 +78,21 @@ var chart = new Chart(ctx, {
             		${fifties}, ${sixties}, ${seventies}, ${eighties}]
         }]
     },
-    options: {}
+    options: {
+    	scales: {
+    		y: {
+    			beginAtZero: true
+    		}
+    	}
+    }
 });
 </script>
 
 
-<canvas id="genderChart"></canvas>
+
 <script>
 var ctx = document.getElementById('genderChart').getContext('2d');
-var chart = new Chart(ctx, {
+var genderChart = new Chart(ctx, {
     //차트설정
     type: 'doughnut',
 
@@ -74,19 +113,28 @@ var chart = new Chart(ctx, {
 </script>
 
 
-<canvas id="monthlyMemberChart"></canvas>
 <script>
+var ctx = document.getElementById('monthlyRegisterChart').getContext('2d');
 
-var ctx = document.getElementById('monthlyMemberChart').getContext('2d');
-
-var sexLineChart = new Chart(ctx, {
+var registerChart = new Chart(ctx, {
 	type: 'line',
 	data:{
-		labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+		labels: xname,
 		datasets:[
 			{
-			 label:'2019',
-			 data:[${jan},5,7,3,14,26,12,16,18,10,10,8] ,
+			 label:'월별 가입자 수',
+			 data:[ ${registerList[0].register_cnt},
+				 	${registerList[1].register_cnt},
+				 	${registerList[2].register_cnt},
+				 	${registerList[3].register_cnt},
+				 	${registerList[4].register_cnt},
+				 	${registerList[5].register_cnt},
+				 	${registerList[6].register_cnt},
+				 	${registerList[7].register_cnt},
+				 	${registerList[8].register_cnt},
+				 	${registerList[9].register_cnt},
+				 	${registerList[10].register_cnt},
+				 	${registerList[11].register_cnt}] ,
 			 pointRadius: 4,
 			 pointHoverRadius: 8,
 			 spanGaps: true,
@@ -96,12 +144,56 @@ var sexLineChart = new Chart(ctx, {
 });
 
 </script>
-<br>
 
 
 
+<%-- 커뮤니티 &더치페이방 신고수 / 클릭시 이동--%>
+<script>
+var ctx = document.getElementById('reportChart').getContext('2d');
 
+var reportChart = new Chart(ctx, {
 	
+	type: 'bar',
+	data: {
+	    labels: ['dutchpay', 'community'],
+	    datasets: [{
+	        label: '신고 수',
+	        backgroundColor: ['rgba(39,79,76,.5)', 'rgba(40,161,130,.5)'],
+	        borderColor: ['rgb(39,79,76)','rgb(40,161,130)'],
+	        borderWidth: 1,
+	        data: [ ${reportDTO.p_cnt}, ${reportDTO.t_cnt} ]
+
+	    }]
+	},
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        onClick: function(event, elements) {
+            if (elements.length > 0) {
+                // 클릭한 막대의 데이터 인덱스
+                var dataIndex = elements[0]._index;
+
+                // 클릭한 데이터에 따라 페이지 이동
+                if (dataIndex === 0) {
+                    window.location.href = '${contextPath}/pay/reportedList';
+                } else if (dataIndex === 1) {
+                    window.location.href = '${contextPath}/community/reportedList';
+                }
+            }
+        }
+    }
+
+    	
+    
+});
+
+
+</script>
 
 
 
@@ -110,6 +202,7 @@ var sexLineChart = new Chart(ctx, {
 
 
 
+</body>
 
 
 <%@include file="../pageinclude/footer.jsp" %> 

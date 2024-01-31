@@ -85,7 +85,7 @@ public class LoginLogoutController {
 		System.out.println(naver);
 		String result = memberRegisterService.checkNicknameService(naver.getNickname());
 		if(result == "exist") {
-			redirectAttr.addFlashAttribute("naverResult", "네이버 연동 계정이 존재합니다. 회원 로그인으로 로그인해주세요.");
+			redirectAttr.addFlashAttribute("naverResult", "네이버 연동 계정이 존재합니다. 네이버 로그인 가입한 계정으로 로그인해주세요.");
 		} else {
 			//redirectAttr.addAttribute("naverResult", naver);
 			m.addAttribute("naverResult", naver);

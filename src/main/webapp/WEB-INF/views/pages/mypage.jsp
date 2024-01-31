@@ -19,7 +19,7 @@
 <div id="page-wrapper">
 	<div class="row">
 	    <div class="col-lg-12">
-	        <h1 class="page-header">My page</h1>
+	        <h1 class="page-header">마이페이지</h1>
 	    </div><!-- /.col-lg-12 -->
 	</div><!-- /.row -->
 	<div class="row">
@@ -81,7 +81,7 @@
 	                    <div class="col-md-6">
 	                    	<div class="panel-heading" style="font-size:xx-large; text-align: center;">
 							<c:out value="${qsignalCnt }"/></div>
-	                    	<div class="panel-heading">안읽은답변</div>
+	                    	<div class="panel-heading">답변 알림</div>
 	                    </div>
 	                </div><!-- /.table-responsive -->
 	            </div><!-- /.panel-body -->

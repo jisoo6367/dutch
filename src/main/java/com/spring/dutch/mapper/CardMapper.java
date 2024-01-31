@@ -35,4 +35,8 @@ public interface CardMapper {
 	//게시물 삭제 시, 해당 게시물의 모든 첨부파일을 삭제해야 게시물이 삭제됨
 	//(on delete cascade 옵션이 없는 F.K인 경우),  
 	public int deleteAttachFiles(String kno) ;
+	
+	public int addKcomment(String kno);
+	
+	public int subKcomment(String kno);
 }

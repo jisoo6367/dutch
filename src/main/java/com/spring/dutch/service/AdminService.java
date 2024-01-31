@@ -1,5 +1,8 @@
 package com.spring.dutch.service;
 
+import java.util.List;
+
+import com.spring.dutch.dto.AdminDTO;
 
 public interface AdminService {
 
@@ -10,5 +13,8 @@ public interface AdminService {
 	public long getAgeCnt (String age);
 	
 	//월별 가입자 카운트
-	public long getMonthlyMemberCnt (String regDate);
+	public List<AdminDTO> getMonthlyRegisterCnt ();
+	
+	//더치페이방 신고수, 커뮤니티 신고수 카운트
+	public AdminDTO getReportCnt() ;
 }

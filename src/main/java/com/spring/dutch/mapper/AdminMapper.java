@@ -1,6 +1,8 @@
 package com.spring.dutch.mapper;
 
+import java.util.List;
 
+import com.spring.dutch.dto.AdminDTO;
 
 public interface AdminMapper {
 
@@ -11,6 +13,8 @@ public interface AdminMapper {
 	public long ageCnt (String age);
 	
 	//월별 가입자 카운트
-	public long monthlyMemberCnt (String regDate);
+	public List<AdminDTO> registerCnt ();
 	
+	//더치페이방 신고수, 커뮤니티 신고수 카운트
+	public AdminDTO reportCnt();
 }

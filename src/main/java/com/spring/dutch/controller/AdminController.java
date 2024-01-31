@@ -1,12 +1,19 @@
 package com.spring.dutch.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.dutch.dto.AdminDTO;
 import com.spring.dutch.service.AdminService;
 
+import lombok.ToString;
+import lombok.extern.log4j.Log4j;
+
+@ToString
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -46,12 +53,17 @@ public class AdminController {
 		model.addAttribute("eighties", eighties );
 		
 		//월별 가입자 수
-		String regDate = "2024/01%";
-		long jan = adminService.getMonthlyMemberCnt(regDate);
-		model.addAttribute("jan", jan );
-		System.out.println("1월 가입자수 4명이여야하는데??" + jan);
+		List<AdminDTO> registerList = adminService.getMonthlyRegisterCnt();
+		model.addAttribute("registerList", registerList );
+		System.out.println("=============registerList : " + registerList);
+		
+		//더치페이방 신고수, 커뮤니티 신고수 카운트
+		AdminDTO reportDTO = adminService.getReportCnt() ;
+		model.addAttribute("reportDTO", reportDTO);
+		System.out.println("========컨트롤러 reportDTO : " + reportDTO);
+		
 		
 		return "pages/adminPage";
 	}
-	
+
 }

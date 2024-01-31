@@ -15,11 +15,11 @@
 </style>  
 
 <div id="page-wrapper">
-	    <div class="row">
+	 <!--    <div class="row">
 	        <div class="col-lg-12">
 	            <h3 class="page-header">Community - Register</h3>
-	        </div><!-- /.col-lg-12 -->	    
-	    </div><!-- /.row -->
+	        </div>  
+	    </div> -->
 	    
 	    <div class="row">
 	        <div class="col-lg-12">
@@ -31,20 +31,30 @@
 	      method="post" name="frmCommunity" id="frmCommunity">
  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 	    <div class="form-group">
-		    <label>카테고리</label>
-		    <input class="form-control" name="tcategory" id="tcategory" placeholder="카테고리를 선택하세요...">
+		  <!--   <label>카테고리</label> -->
+<!-- 		    <input class="form-control" name="tcategory" id="tcategory" placeholder="카테고리를 선택하세요..."> -->
+				<select class="form-control" id="tcategory" name="tcategory">
+		    		<option value="커뮤니티">커뮤니티</option>
+		    		<option value="맛집">맛집</option>
+		    		<option value="운동">운동</option>
+		    		<option value="게임">게임</option>
+		    		<option value="공동구매">공동구매</option>
+		    	</select>
+
 		</div>
 		
 		<div class="form-group">
-		    <label>글제목</label>
+		 <!--    <label>글제목</label> -->
 		    <input class="form-control" name="ttitle" id="ttitle" placeholder="글제목을 입력하세요...">
 		</div>
 		
 		<div class="form-group">
-		    <label>글내용</label>
-		    <textarea class="form-control" rows="3" name="tcontent" id="tcontent"
+		<!--     <label>글내용</label> -->
+		    <textarea class="form-control" rows="10" name="tcontent" id="tcontent"
 		    		  placeholder="글내용을 입력하세요..."></textarea>
 		</div>
+		
+		
 		
 		<%-- <div class="form-group">
 		    <label>작성자</label> 
@@ -329,6 +339,26 @@ $(".fileUploadResult ul").on("click","li span", function(e){
 });
 
 
+</script>
+
+<script>
+
+	var file = document.querySelector('#getfile');
+	
+	file.onchange = function () { 
+	    var fileList = file.files ;
+	    
+	    // 읽기
+	    var reader = new FileReader();
+	    reader.readAsDataURL(fileList [0]);
+	
+	    //로드 한 후
+	    reader.onload = function  () {
+	        document.querySelector('#preview').src = reader.result ;
+	    }; 
+	}; 
+	
+	
 </script>
 
 

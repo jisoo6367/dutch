@@ -15,9 +15,9 @@
 <div id="page-wrapper">
     <div class="row"> 
         <div class="col-lg-12">
-            <h3 class="page-header">.</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+            <h3 class="page-header">더치페이 커뮤니티</h3>
+        </div>
+    </div>
     
     <div class="row">
         <div class="col-lg-12">
@@ -42,18 +42,19 @@
  		<select class="form-control" id="selectAmount" name="rowAmountPerPage">
 			<option value="10" ${(pagingCreator.communityPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
 			<option value="20" ${(pagingCreator.communityPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
+			<option value="30" ${(pagingCreator.communityPaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
+			<option value="40" ${(pagingCreator.communityPaging.rowAmountPerPage == 40) ? "selected" : "" }>40개</option>
 			<option value="50" ${(pagingCreator.communityPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
-			<option value="100" ${(pagingCreator.communityPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
 		</select>
 		
 		
 		<select class="form-control" id="selectScope" name="scope">
 			<option value="" ${(pagingCreator.communityPaging.scope == null ) ? "selected" : "" }>범위선택</option>
 			<option value="T" ${(pagingCreator.communityPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="C" ${(pagingCreator.communityPaging.scope == "C" ) ? "selected" : "" }>내용</option>
 			<option value="W" ${(pagingCreator.communityPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-			<option value="TC" ${(pagingCreator.communityPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.communityPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option>
+<%-- 			<option value="C" ${(pagingCreator.communityPaging.scope == "C" ) ? "selected" : "" }>내용</option> --%>
+	<%-- 		<option value="TC" ${(pagingCreator.communityPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+			<option value="TCW" ${(pagingCreator.communityPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option> --%>
 		</select>
 		
 		

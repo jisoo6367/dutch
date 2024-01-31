@@ -12,6 +12,9 @@ public class QnaPagingDTO {
 	private int pageNum; //페이징번호
 	private int rowAmountPerPage; //표시행수
 	
+	private String beginDate;
+	private String endDate ;
+	
 	//목록에서 표시할 행수 선택하고 페이징 번호 클릭시 전달
 	public QnaPagingDTO(Integer pageNum, Integer rowAmountPerPage) {
 		

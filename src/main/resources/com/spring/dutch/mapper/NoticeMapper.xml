@@ -31,6 +31,7 @@
 			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 			      )
 			WHERE rn > = ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+			order by cregDate desc
 	]]>
 
 	</select>

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dutch.domain.DutchAttachFileVO;
 import com.spring.dutch.domain.DutchBoardVO;
+import com.spring.dutch.domain.MemberVO;
 import com.spring.dutch.domain.ParticipantsVO;
 import com.spring.dutch.dto.DutchAndPartiListDTO;
 import com.spring.dutch.dto.DutchBoardPagingCreatorDTO;
@@ -24,21 +25,24 @@ import com.spring.dutch.dto.DutchBoardPagingDTO;
 import com.spring.dutch.dto.DutchModifyDTO;
 import com.spring.dutch.dto.DutchRegisterDTO;
 import com.spring.dutch.service.DutchBoardService;
+import com.spring.dutch.service.MypageService;
 
 @Controller
 @RequestMapping("/pay")
 public class DutchBoardController {
 
 	  private DutchBoardService dutchBoardService ;
+		/* private MypageService mypageService; */
 
 	  public DutchBoardController(DutchBoardService dutchBoardService) {
-	  this.dutchBoardService = dutchBoardService ;
+		  this.dutchBoardService = dutchBoardService ;
+			/* this.mypageService = mypageService ; */
 	  }
 
 
 	//더치페이 목록 조회
 	@GetMapping("/list") 
-	public String showBoardList(DutchBoardPagingDTO dutchboardPaging, Model model, String deleteResult) {
+	public String showBoardList(DutchBoardPagingDTO dutchboardPaging, Model model, String result) {
 		
 	    System.out.println("dutchboardPagingDTO" + dutchboardPaging); 
 
@@ -47,7 +51,7 @@ public class DutchBoardController {
 
 	    model.addAttribute("pagingCreator", pagingCreator);
 	    
-		model.addAttribute("deleteResult", deleteResult);
+		model.addAttribute("result", result);
 
 	  return "pages/dutchList"; 
 	}
@@ -91,12 +95,20 @@ public class DutchBoardController {
 	//특정 더치페이 게시물 조회 페이지 or 수정 후 조회 페이지
 	@GetMapping("/detail")
 	@PreAuthorize("isAuthenticated()")
-	public String showDutchBoardDetail(Long pno, Model model, String modifyResult, String updateResult,
+	public String showDutchBoardDetail(Long pno, Model model, String modifyResult, String updateResult, Principal principal,
 			                           @ModelAttribute("dutchboardPaging") 
 	                                   DutchBoardPagingDTO dutchboardPaging) {
 		DutchAndPartiListDTO dto = null ;
 
 		dto = dutchBoardService.getDutchBoard(pno);
+		/*
+		 * System.out.println("데이터가져오기전=[=====================");
+		 * 
+		 * MemberVO memberVO =
+		 * mypageService.getMemberData(dto.getDutchboard().getNickname());
+		 * 
+		 * System.out.println("컨트롤러 memberVO: " + memberVO);
+		 */
 
 		System.out.println("===========================어휴,,modifyResult: "+modifyResult);
 		System.out.println("===========================어휴,,updateResult: "+updateResult);
@@ -104,6 +116,10 @@ public class DutchBoardController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("modifyResult", modifyResult);
 		model.addAttribute("updateResult", updateResult);
+		/*
+		 * model.addAttribute("bank", memberVO.getBank());
+		 * model.addAttribute("bankAccount", memberVO.getBankAccount());
+		 */
 
 		
 		List<DutchAttachFileVO> attachFileList =  dutchBoardService.getAttachFileList(pno);
@@ -171,10 +187,10 @@ public class DutchBoardController {
 		boolean deleteResult = dutchBoardService.deleteDutchBoard(pno);
 		System.out.println("======================게시글 삭제 deleteResult : "+ deleteResult);
 		if (deleteResult) {
-			model.addAttribute("deleteResult", "successDelete");
+			model.addAttribute("result", "successDelete");
 
 		} else {
-			model.addAttribute("deleteResult", "failDelete");
+			model.addAttribute("result", "failDelete");
 		}
 		
 		return "redirect:/pay/list";
@@ -199,7 +215,45 @@ public class DutchBoardController {
 		return "redirect:/pay/detail";
 	}
 
+	//게시글 신고
+	@GetMapping(value = "/report")
+	@PreAuthorize("isAuthenticated()")
+	public String dutchBoardDelete (long pno, Model model) {
+		System.out.println("신고컨트롤러 도착");
+			
+		boolean reportResult = dutchBoardService.updatePreport(pno);
+		
+		if (reportResult) {
+			model.addAttribute("result", "successReport");
 
+		} else {
+			model.addAttribute("result", "failReport");
+		}
+		model.addAttribute("pno", pno);
+
+		
+		return "redirect:/pay/list";
+	}
+
+	
+	//신고받은 목록만 조회
+	@GetMapping("/reportedList") 
+	public String showReportList(DutchBoardPagingDTO dutchboardPaging, Model model, String result) {
+		
+	    System.out.println("dutchboardPagingDTO" + dutchboardPaging); 
+
+	    DutchBoardPagingCreatorDTO pagingCreator = dutchBoardService.getDutchList(dutchboardPaging);
+	    //System.out.println("컨트롤러에 저장된 DutchboardPagingCreator \n" + pagingCreator);  
+
+	    model.addAttribute("pagingCreator", pagingCreator);
+	    
+		model.addAttribute("result", result);
+
+	  return "pages/dutchReportList"; 
+	}
+	
+	
+	
 
 	
 	

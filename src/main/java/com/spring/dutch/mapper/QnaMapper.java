@@ -34,7 +34,10 @@ public interface QnaMapper {
 	public int deleteQna(long qno);
 	
 	//시그널(UPDATE)
-	public int updateQsignal(long qno);
+	public int updateQsignal_0(long qno);
+	public int updateQsignal_1(long qno);
+	public int updateQsignal_2(long qno);
+	
 	
 	//게시물의 댓글 개수 수정
 	public void updateQreplyCnt(@Param("qno") Long qno,

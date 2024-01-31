@@ -19,14 +19,20 @@
 </select>
 
 <!-- 월별 가입자 카운트 -->
-<select id="monthlyMemberCnt" parameterType="String" resultType="long">
-   <![CDATA[
-	SELECT count (*) as monthlyCnt
+<select id="registerCnt" resultType="com.spring.dutch.dto.AdminDTO">
+	SELECT TO_CHAR(reg_date, 'YYYYMM') AS reg_date, COUNT(*) AS register_cnt
 	FROM dutch.tbl_member
-	WHERE reg_date LIKE #{regDate}
-	]]>
+	GROUP BY TO_CHAR(reg_date, 'YYYYMM')
+	ORDER BY 1
 </select>
 
+<!-- 신고수 카운트 -->
+<select id="reportCnt" resultType="com.spring.dutch.dto.AdminDTO">
+	SELECT
+	    (SELECT COUNT(*) FROM dutch.tbl_dutch WHERE preport = 1) as p_cnt,
+	    (SELECT COUNT(*) FROM dutch.tbl_community WHERE treport = 1) as t_cnt
+	FROM dual
+</select>
 
 
 

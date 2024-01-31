@@ -129,14 +129,28 @@
 	
 	<!-- 특정 카드 이미지 삭제 -->
 	<delete id="deleteAttachFile">
-		DELETE FROM dutch.tbl_card
+		DELETE FROM dutch.tbl_cardAttachFiles
 		WHERE uuid = #{uuid}
 	</delete>
 
 	<!-- 모든 이미지 삭제 -->
 	<delete id="deleteAttachFiles">
-		DELETE FROM dutch.tbl_card
+		DELETE FROM dutch.tbl_cardAttachFiles
 		WHERE kno = #{kno}
 	</delete>
+	
+	<!-- 추천수 + 1 -->
+	<update id="addKcomment" parameterType="String">
+		update dutch.tbl_card
+		set kcomment = kcomment + 1
+		where kno = #{kno}
+	</update>
+	
+	<!-- 추천수 + 1 -->
+	<update id="subKcomment" parameterType="String">
+		update dutch.tbl_card
+		set kcomment = kcomment - 1
+		where kno = #{kno}
+	</update>
 
 </mapper>

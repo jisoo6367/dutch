@@ -1,5 +1,7 @@
 package com.spring.dutch.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,7 @@ public class NoticeController {
 	
 	//등록페이지 호출
 	@GetMapping("/register")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String showNoticeRegisterPage() {
 		
 		return "pages/noticeregister";
@@ -51,7 +53,7 @@ public class NoticeController {
 	
 	//게시물 등록 처리
 	@PostMapping("/register")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String registerNotice(NoticeVO notice, 
 								 RedirectAttributes redirectAttr) {
 		
@@ -105,7 +107,7 @@ public class NoticeController {
 	
 	//특정 게시물 수정
 	@PostMapping("/modify")
-	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public String modifyNotice(NoticeVO notice,
 							   RedirectAttributes redirectAttr,
 							   NoticePagingDTO noticePaging) {

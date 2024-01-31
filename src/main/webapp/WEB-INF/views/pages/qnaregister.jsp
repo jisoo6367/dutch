@@ -36,7 +36,6 @@
 						</div>
 						<div class="form-group">
 						    <label>닉네임</label>
-						    <!-- <input class="form-control" name="nickname" id="nickname" placeholder="작성자의 아이디를 입력하세요..."> --> 
 						    <input class="form-control" name="nickname" id="nickname" readonly="readonly" 
 						    	   value='<sec:authentication property="principal.username"/>'/>
 						    	   
@@ -100,8 +99,6 @@ $("#btnRegister").on("click", function(){
 	var frmBoard = $("#frmBoard") ;
 	var attachFileInputHTML = "";
 	
-	<%-- li요소의 값들을 읽어와서 hidden input을 생성하는 택스트를 만드는 함수 --%>
-	<%--div.form-group.fileUploadResult > ul > li:nth-child(1)--%>
 	$("div.fileUploadResult ul li").each(function(i, obj){
 		
 		var objLi = $(obj) ;
@@ -174,10 +171,10 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
 			+ "    data-filename='" + qnaAttachFile.fileName + "'" 
 			+ "    data-filetype='F'>"
-//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>"
+			+ "    <a href='${contextPath}/qnafileDownloadAjax?fileName=" + fullFileName +"'>"
 			+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
 			+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
-//			+ "    </a>"
+			+ "    </a>"
 			+  "  <span data-filename='" + fullFileName + "' data-filetype='F'>[삭제]</span>"
 			+ "</li>" ;
 			
@@ -194,11 +191,11 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + qnaAttachFile.uuid + "'" 
 			+ "    data-filename='" + qnaAttachFile.fileName + "'" 
 			+ "    data-filetype='I'>"
-//			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
-//			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
+			+ "    <a href='${contextPath}/qnafileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
+			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
 			+ "        <img src='${contextPath}/qnadisplayThumbnail?fileName=" + thumbnail + "'>"
 			+ "        &nbsp;&nbsp;" + qnaAttachFile.fileName 
-//			+ "    </a>"
+			+ "    </a>"
 			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
 			+ "</li>" ;
 		}
@@ -255,11 +252,7 @@ $("#inputFile").on("change", function(){
  		beforeSend: function(xhr){
 			xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken)
 		} ,
-		success: function(uploadResult, status){
-			
-<%--		//복사된 file-input을 삽입하는 경우, 첨부파일 삭제/추가 시에는, 초기화 되지 않음.
-			$(".uploadDiv").html(cloneFileInput.html()) ;
---%>			
+		success: function(uploadResult, status){		
 			$(".inputFile").val("") ;
 			
 			showUploadResult(uploadResult);
@@ -268,9 +261,7 @@ $("#inputFile").on("change", function(){
 	
 }) ;
 
-
 <%-- 업로드 파일 삭제: 서버에 업로드된 파일이 삭제되고, 이를 화면에 반영해 주어야 함 --%>
-<%-- body > div.fileUploadResult > ul > li:nth-child(2) > span --%>
 $(".fileUploadResult ul").on("click","li span", function(e){
 	var fileName = $(this).data("filename") ;
 	var fileType = $(this).data("filetype") ;

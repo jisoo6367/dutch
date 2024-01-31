@@ -174,7 +174,16 @@ public class CommunityController {
 		
 		
 		
-		
+	    //신고 받은 리스트만 조회
+		@GetMapping(value="/reportedList")
+		public String showCommunityReportList(Model model, CommunityPagingDTO communityPaging ){		
+
+			CommunityPagingCreatorDTO pagingCreator =  communityService.showCommunityList(communityPaging);
+			
+			model.addAttribute("pagingCreator", pagingCreator) ;
+			
+			return "/pages/communityReportList" ;
+		}
 		
 		
 		

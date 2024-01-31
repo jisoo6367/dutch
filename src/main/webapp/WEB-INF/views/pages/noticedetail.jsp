@@ -19,7 +19,7 @@
             <h3 class="page-header"
 				style="white-space: nowrap;">공지사항
 				 <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${notice.cno}"/>번 게시물
+				 	&nbsp;&nbsp;&nbsp;<c:out value="${notice.cno}"/>번 공지 세부사항
 				 </small>
 			</h3>
         </div><%-- /.col-lg-12 --%>
@@ -50,14 +50,14 @@
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
 
-
-<!-- <sec:authorize access="isAuthenticated()">
-	<sec:authentication property="principal.username" var="username"/> -->
-		<%-- <c:if test="${username eq notice.mno }"> --%>
-							<button type="button" id="btnToModify" data-oper="noticemodify"
+						<sec:authorize access="isAuthenticated()">
+							<sec:authentication property="principal.username" var="username"/>
+								<c:if test="${username eq 'ADMIN' }">
+		          					<button type="button" id="btnToModify" data-oper="noticemodify"
 									class="btn btn-primary"><span>수정</span></button>
-		<%-- </c:if> --%>
-<!-- </sec:authorize> -->
+		          				</c:if>
+		          		</sec:authorize>
+
 									
 							<button type="button" id="btnToList" data-oper="noticelist"
 									class="btn btn-warning"><span>목록</span></button>
@@ -122,73 +122,6 @@
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
-<%-- 첨부파일 결과 표시 --%><%--     
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                	<strong style="font-size:16px;">첨부 파일</strong>
-                </div>/.panel-heading
-                <div class="panel-body">
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
-                    </div>
-	                <div class="form-group fileUploadResult">
-	                    <ul> --%>
-<%-- 업로드 후 처리결과가 표시될 영역 --%><%-- 
-<c:choose>
-<c:when test="${empty notice.attachFileList }">
-	<li style="font-size: 12pt;">첨부파일이 없습니다</li>
-</c:when>
-<c:otherwise>
-	<c:forEach var="attachFile" items="${notice.attachFileList }">
-		<c:choose>
-		<c:when test="${attachFile.fileType == 'F' }">
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "F" >
-			        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
-		</c:when>
-		<c:otherwise>
-			<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "I" >
-			        <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
-			<c:remove var="thumbnail"/>
-		</c:otherwise>
-		</c:choose>
-	</c:forEach>
-</c:otherwise>
-</c:choose>
-	                    </ul>
-	                </div>
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel -->
-        </div><!-- /.col-lg-12 -->
-    </div><!-- /.row --> --%>
-
-<%-- Modal: 첨부파일 이미지 표시 --%><!--  
-<div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="attachModal-body">
-            	이미지표시
-            </div>
-        </div><%-- /.modal-content --%>
-    </div><%--/.modal-dialog --%>
-</div><%--/.modal --%>-->
-
 <form id = "frmCmtPagingValue">
 	<input type="hidden" name="pageNum" value="">
 	<input type="hidden" name="rowAmountPerPage" value="">
@@ -204,8 +137,6 @@ var frmSendValue = $("#frmSendValue") ;
 <%-- 게시물 목록 페이지 이동 --%>
 $("#btnToList").on("click", function(){
 
-	/* window.location.href="${contextPath}/pages/noticelist" */ ;
-
  	frmSendValue.attr("action", "${contextPath}/notice/list").attr("method", "get") ;
 	frmSendValue.submit() ; 
 });
@@ -215,17 +146,12 @@ $("#btnToModify").on("click", function(){
 	
 	window.location.href='${contextPath}/notice/modify?cno=<c:out value="${notice.cno}"/>' ;
 	
-	/* var cno = '<c:out value="${notice.cno}"/>' ;
 	
-	frmSendValue.append("<input type='hidden' name='cno' value='" + cno + "'/>") ;
-	frmSendValue.attr("action", "${contextPath}/notice/noticemodify").attr("method", "get") ;
-	frmSendValue.submit() ; */
 });
 
 var result = '<c:out value="${result}" />' ;
 
 function runModal(result) {
-//	if (result.length == 0|| history.state) {
 	if (result.length == 0) {
 		return ;
 	

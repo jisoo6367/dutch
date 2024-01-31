@@ -28,23 +28,32 @@ public class CardServiceImpl implements CardService{
 	@Override
 	public CardPagingCreatorDTO showCardList(CardPagingDTO cardPaging) {
 		
+		List<CardVO> cardList = cardMapper.selectList(cardPaging);
+		
+		cardList.forEach(item -> {
+			item.setAttachFileList(cardMapper.selectAttachFiles(item.getKno()));
+		});
+		
+		System.out.println("리스트 호출 서비스 cardList에 attachFile 담은 후: " + cardList);
+		
 		return new CardPagingCreatorDTO(cardMapper.selectRows(cardPaging), 
-									cardPaging, cardMapper.selectList(cardPaging));
+									cardPaging, cardList);
 	}
 
 	@Override
 	public String registerCard(CardVO card) {
 		
 		card.setKno(UUID.randomUUID().toString());
-		System.out.println(card);
+		System.out.println("서비스 cardVO(setKno UUID처리 후): " + card);
 		cardMapper.insertCard(card);
 		
 		List<CardAttachFileVO> attachFileList = card.getAttachFileList();
 		if(attachFileList != null && attachFileList.size() > 0) {
 			
 			attachFileList.forEach(cardAttachFile -> {
-				cardAttachFile.setUuid(UUID.randomUUID().toString());
+	//			cardAttachFile.setUuid(UUID.randomUUID().toString());
 				cardAttachFile.setKno(card.getKno());
+				System.out.println("서비스 attachFile (setKno 후): " + cardAttachFile);
 				cardMapper.insertAttachFile(cardAttachFile);
 			});
 			
@@ -66,7 +75,7 @@ public class CardServiceImpl implements CardService{
 	}
 	
 	@Override //수정페이지
-	public CardVO getCard2(String kno) {
+	public CardVO getCardForModify(String kno) {
 		CardVO card = cardMapper.selectCard(kno);
 		
 		card.setAttachFileList(cardMapper.selectAttachFiles(kno));
@@ -148,5 +157,15 @@ public class CardServiceImpl implements CardService{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public int thumbsUp(String kno) {
+		return cardMapper.addKcomment(kno);
+	}
+	
+	@Override
+	public int thumbsDown(String kno) {
+		return cardMapper.subKcomment(kno);
 	}
 }

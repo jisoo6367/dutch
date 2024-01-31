@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand homeBtn">더치페이</a>
+          <a class="navbar-brand homeBtn">더치플</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -68,7 +68,12 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right" id="loginLogoutUl">
-          
+          	<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal.username" var="username"/>
+					<c:if test="${username eq 'ADMIN' }">
+          		<li><a href="${contextPath }/admin/page">관리자페이지</a></li>
+          			</c:if>
+          	</sec:authorize>
           	<li><a href="${contextPath }/member/register">회원가입</a></li>
           	
           </ul>

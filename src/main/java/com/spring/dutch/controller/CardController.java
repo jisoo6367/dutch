@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +38,7 @@ public class CardController {
 		model.addAttribute("listData", cardService.showCardList(cardPaging)) ;
 		model.addAttribute("result", result);
 		
-		System.out.println("controller model: "+model);
+		System.out.println("controller model: "+ model);
 		
 		return "/pages/cardlist";
 	}
@@ -51,7 +53,7 @@ public class CardController {
 	@PreAuthorize("isAuthenticated()")
 	public String sendCard(CardVO card, RedirectAttributes redirectAttr) {
 		
-		System.out.println(card);
+		System.out.println("컨트롤러 cardVO: " + card);
 		/* CardAttachFileVO attachFile = card.getAttachFile(); */
 		List<CardAttachFileVO> cardAttachFileList = card.getAttachFileList();
 		
@@ -86,11 +88,11 @@ public class CardController {
 	@PreAuthorize("isAuthenticated()")
 	public String showCardModify(String kno, Model model,
 								 CardPagingDTO cardPaging) {
+		System.out.println("cardModify 컨트롤러 호출 kno: " + kno);
+		CardVO card = cardService.getCardForModify(kno);
 		
-		CardVO card = cardService.getCard2(kno);
-		
-		model.addAttribute("card" + card);
-		
+		model.addAttribute("card", card);
+		System.out.println("cardModify 컨트롤러 호출 model: " + model);
 		return "pages/cardmodify";
 	}
 	
@@ -99,6 +101,7 @@ public class CardController {
 	public String modifyCard(CardVO card, RedirectAttributes redirectAttr, CardPagingDTO cardPaging) {
 		System.out.println("카드 수정 컨트롤러 시작 card: " + card);
 		System.out.println("카드 수정 컨트롤러 시작 cardpaging: " + cardPaging);
+		
 		boolean modifyResult = cardService.modifyCard(card);
 		System.out.println("서비스 갔다 온 결과: " + modifyResult);
 		if(modifyResult) {
@@ -146,6 +149,31 @@ public class CardController {
 		return new ResponseEntity<List<CardAttachFileVO>>(cardService.getAttachFileList(kno), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/thumbsUp/{kno}",
+				consumes = "application/json;charset=utf-8",
+				produces = "text/plain; charset=utf-8")
+	public ResponseEntity<String> thumbsUp(@PathVariable("kno") String kno){
+		System.out.println("send kno: " + kno);
+		
+		String result = cardService.thumbsUp(kno) + "";
+		
+		System.out.println("컨트롤러 result: " + result);
+		
+		return new ResponseEntity<String>(result, HttpStatus.OK) ;
+	}
+	
+	@PostMapping(value = "/thumbsDown/{kno}",
+				consumes = "application/json;charset=utf-8",
+				produces = "text/plain; charset=utf-8")
+	public ResponseEntity<String> thumbsDown(@PathVariable("kno") String kno){
+		System.out.println("send kno: " + kno);
+		
+		String result = cardService.thumbsDown(kno) + "";
+		
+		System.out.println("컨트롤러 result: " + result);
+		
+		return new ResponseEntity<String>(result, HttpStatus.OK) ;
+	}
 	
 	
 	

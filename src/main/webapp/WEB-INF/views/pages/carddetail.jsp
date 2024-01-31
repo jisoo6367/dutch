@@ -30,7 +30,7 @@
                 <div class="panel-heading">
                 	<div class="row">
 						<div class="col-md-2" style="white-space: nowrap; height: 45px; padding-top:11px;">
-							<strong style="font-size:16px;">${card.kname}님 카드</strong>
+							<strong style="font-size:16px;">카드명: ${card.kname}</strong>
 						</div>
 						<div class="col-md-3" style="white-space: nowrap; height: 45px; padding-top:16px;">
 							
@@ -41,7 +41,7 @@
 <form role="form" method="post" name="frmModify" id="frmModify">
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal.username" var="username"/>
-		<c:if test="${username eq card.kno }">
+		<c:if test="${username eq 'ADMIN' }">
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정</span></button>
 							
@@ -132,7 +132,7 @@
                 </div><!-- /.panel-heading -->
                 <div class="panel-body">
 	                <div class="form-group fileUploadResult">
-	                    <ul>
+	                    <ul style="list-style-type: none;">
 <%-- 업로드 후 처리결과가 표시될 영역 --%>
 <c:choose>
 <c:when test="${empty card.attachFileList }">

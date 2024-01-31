@@ -77,7 +77,7 @@ public class QnaController {
 		
 	}
 	
-	//특정 게시물 조회 + 수정 후 조회
+	//특정 게시물 조회 + 수정 후 조회 
 	@GetMapping("/detail")
 	@PreAuthorize("isAuthenticated()")
 	public String showQnaDetail(Long qno, Model model, String result,
@@ -85,10 +85,42 @@ public class QnaController {
 		
 		QnaVO qna = qnaService.getQna(qno);
 		
+		
 		model.addAttribute("qna", qna);
 		model.addAttribute("result", result);
 		
 		return "pages/qnadetail";
+	}
+	
+	@GetMapping("/changeSignal0")//답글누르면
+	public String showSignal0(Long qno) {
+		
+		long qna = qnaService.getSignal_0(qno);
+		
+		System.out.println("전달이되었나" + qna);
+		
+		return "pages/qnadetail";
+	}
+	
+	@GetMapping("/changeSignal1")//답변완료
+	public String showSignal1(Long qno) {
+		
+		long signal = qnaService.getSignal_1(qno);
+		
+		System.out.println("전달이되었나?" + signal);
+		
+		return "redirect:/qna/list";
+	}
+	
+	@GetMapping("/changeSignal2")//문의종료
+	public String showSignal2(Long qno) {
+		System.out.println("qna controller sig2 qno: " + qno);
+		
+		long signal = qnaService.getSignal_2(qno);
+		
+		System.out.println("전달이되었나??" + signal);
+		
+		return "redirect:/qna/list";
 	}
 	
 	//특정 게시물 수정삭제 페이지 호출
@@ -156,5 +188,7 @@ public class QnaController {
 		System.out.println("qno: " + qno);
 		return new ResponseEntity<List<QnaAttachFileVO>>(qnaService.getQnaAttachFileList(qno), HttpStatus.OK);
 	}
+	
+
 	
 }

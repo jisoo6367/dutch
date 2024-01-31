@@ -163,7 +163,14 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 		return resultOfDutch && (resultOfParti == beforeParti.size()) ? true : false ;
 	}
 
-
+	
+	//게시물 신고 (UPDATE)
+	public boolean updatePreport(long pno) {
+		
+		boolean reportResult = (dutchBoardMapper.updatePreport(pno) == 1);
+		
+		return reportResult;
+	}
 	
 	
 	

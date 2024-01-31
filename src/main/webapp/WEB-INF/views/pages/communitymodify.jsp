@@ -13,23 +13,23 @@
 <!-- JSP 폼 입니다 아래 공간 안에서 코딩하시면 됩니다 -->
 
 <div id="page-wrapper">
-    <div class="row">
+   <!--  <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Community - Modify</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+        </div>
+    </div> -->
     
     <div class="row">
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>게시물 수정-삭제</h4></div><%-- /.panel-heading --%>
+                <div class="panel-heading"><h4>게시물 수정</h4></div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
 
 <form role="form" method="post" name="frmModify" id="frmModify">
   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-	<div class="form-group">
+	<div class="form-group" style="display:none;">
 	    <label>글번호</label>
 	    <input class="form-control" name="tno" id="tno" 
 	           value='<c:out value="${community.tno }"/>' readonly="readonly">
@@ -37,8 +37,14 @@
 	
 	<div class="form-group">
 	    <label>카테고리</label>
-	    <input class="form-control" name="tcategory" id="tcategory" 
-	           value="${community.tcategory }">
+	    <!-- <input class="form-control" name="tcategory" id="tcategory" value="${community.tcategory }"> -->	           
+        <select class="form-control" id="tcategory" name="tcategory">
+    		<option value="커뮤니티">커뮤니티</option>
+    		<option value="맛집">맛집</option>
+    		<option value="운동">운동</option>
+    		<option value="게임">게임</option>
+    		<option value="공동구매">공동구매</option>
+    	</select>
 	</div>
 	
 	<div class="form-group">
@@ -57,9 +63,9 @@
 	      	  value="${community.nickname }" readonly="readonly">
 	</div>
 	<div class="form-group">
-	    <label>최종수정일</label> [등록일시: <fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm:ss" />]
+	    <label>최종수정일</label> [등록일시: <fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm" />]
 	    <input class="form-control" name="bmodDate" id="bmodDate" 
-	      	   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${community.tmodDate }"/>' 
+	      	   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${community.tmodDate }"/>' 
 	      	   disabled="disabled">
 	</div>
 	

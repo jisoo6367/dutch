@@ -39,7 +39,7 @@
 
 <div class="row row-offcanvas row-offcanvas-right">
 
-	<div class="col-xs-12">
+	<div class="col-xs-12" style="margin-top: 6px; margin-left: 2px;">
 
 		<form class="form-inline" id="frmSendValue" name="frmSendValue"
 			action="${contextPath }/card/list" method="get">
@@ -75,7 +75,9 @@
 						value='<c:out value="${listData.cardPaging.keyword}" />' /> 
 						<span class="input-group-btn"> 
 						<!-- 전송버튼 -->
-							<button class="btn btn-warning" type="button" id="btnSearchGo">검색</button>
+							<button class="btn btn-warning" type="button" id="btnSearchGo">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
 						</span>
 						
 				</div>
@@ -83,7 +85,7 @@
 				<div class="input-group">
 					<!-- 검색 초기화 버튼 -->
 					<button id="btnReset" class="btn btn-info" type="button">
-						<span class="glyphicon glyphicon-remove"></span>
+						<span class="glyphicon glyphicon-refresh"></span>
 					</button>
 				</div>
 			</div>
@@ -99,23 +101,35 @@
 			<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" 
 				value="${listData.cardPaging.rowAmountPerPage }" >
 
-		<div class="row">
-			<div class="col-lg-4">
+		<div class="row" style="margin-top: 6px;">
+			<div class="col-lg-12">
 			<c:choose>
 				<c:when test="${not empty listData.cardList }">
 					<c:forEach var="card" items="${listData.cardList }">
-						<div class="col-md-3 moveDetail"  data-kno="${card.kno }">
-							<%-- <c:set var="thumbnail"
-								value="${card.attachFileList[0].repoPath}/${card.attachFileList[0].uploadPath}/s_${card.attachFileList[0].uuid}_${card.attachFileList[0].fileName}" />
-							<img src="${contextPath }/cardDisplayThumbnail?filename=${thumbnail}"
-								style="width: 100px;"> --%>
+					<div class="col-sm-3 col-md-3">
+						<div class="moveDetail"  data-kno="${card.kno }"  style="margin-top: 6px;">
+							<c:set var="thumbnail"
+								value="${card.attachFileList[0].repoPath}/${card.attachFileList[0].uploadPath}/${card.attachFileList[0].uuid}_${card.attachFileList[0].fileName}" />
+							<a href="${contextPath }/">
+								<img src='${contextPath}/cardDisplayThumbnail?fileName=${thumbnail}' 
+									style='width: 180px; height: 100px;'>
+							</a>
 							<h3>${card.kname }</h3>
-							<p>${card.kcontent }</p>
+							<p style="font-size: 10px; color: #9b9595;">${card.kcontent }</p>
 							<p>${card.kcompany }</p>
-							<sec:authorize access="isAuthenticated()">
-								<!-- <button id="removeCard" type="button">삭제</button> -->
-							</sec:authorize>
+							<p style="font-size: 12px; color: #7d2828;">#${card.category }</p>
+							
 						</div>
+						<sec:authorize access="isAuthenticated()">
+								<button class="btn btn-default thumbsUp" id="thumbsUp" type="button" style="border-radius: 50%; border: none;">
+									<span class="glyphicon glyphicon-thumbs-up"></span>
+								</button>
+								<button class="btn btn-default thumbsDown" id="thumbsDown" type="button" style="border-radius: 50%; border: none; display: none;">
+									<span class="glyphicon glyphicon-thumbs-down"></span>
+								</button>
+						</sec:authorize>
+						<span style="margin-left: 35px; float: center;">추천 수: <b class="kcomment" style="font-size: 16px;">${card.kcomment}</b></span>
+					</div>
 						<!--/.col-xs-6.col-lg-4-->
 					</c:forEach>
 				</c:when>
@@ -190,8 +204,74 @@
 </div><%-- /#page-wrapper --%>
 </div> <!-- body-container -->
 <script>
+	var myCsrfHeaderName = "${_csrf.headerName}" ;
+	var myCsrfToken = "${_csrf.token}" ;
+	
+	$(document).ajaxSend(function(e, xhr){
+		xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
+			
+	});
 
-var frmSendValue = $("#frmSendValue");
+	
+	$(".thumbsUp").on("click", function(){
+		var kno = $(this).siblings("div").data("kno");
+		console.log(kno);
+		
+		$.ajax({
+			type: "POST",
+			url: "${contextPath}/card/thumbsUp/" + kno,
+			data: JSON.stringify({kno: kno}),
+			contentType: "application/json; charset=utf-8",
+			dataType: "text",
+			success: function(result, status, xhr){
+				console.log(result);
+			},
+            error: function(xhr, status, err) {
+                if(error) {
+                    error(err) ;
+                }
+            }
+		});
+		
+		
+		
+		var strong = $(this).siblings("span").val();
+		
+		console.log(strong);
+		
+		$(this).attr("style", "display: none;");
+		$(this).siblings("button").attr("style", "border-radius: 50%; border: none; display: in-block;")
+	});
+	
+	$(".thumbsDown").on("click", function(){
+		
+		var kno = $(this).siblings("div").data("kno");
+		console.log(kno);
+		
+		$.ajax({
+			type: "POST",
+			url: "${contextPath}/card/thumbsDown/" + kno,
+			data: JSON.stringify({kno: kno}),
+			contentType: "application/json; charset=utf-8",
+			dataType: "text",
+			success: function(result, status, xhr){
+				console.log(result);
+			},
+            error: function(xhr, status, err) {
+                if(error) {
+                    error(err) ;
+                }
+            }
+		});
+		
+		$(this).attr("style", "display: none;");
+		$(this).siblings("button").attr("style", "border-radius: 50%; border: none; display: in-block;")
+	});
+	
+	
+	
+
+	var frmSendValue = $("#frmSendValue");
 
 <%-- 페이지징 처리: 검색 목록 페이지 이동 --%>
 	$("li.pagination-button a").on("click", function(e) {
