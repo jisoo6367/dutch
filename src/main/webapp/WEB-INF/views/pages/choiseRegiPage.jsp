@@ -13,7 +13,7 @@
 		<div class="row">
 		  <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Panel title</h3>
+              <h3 class="panel-title">회원가입 방법</h3>
             </div>
             <div class="panel-body">
               <button type="button" class="btn btn-lg btn-default" id="moveRegiPage">
@@ -25,7 +25,7 @@
 
 
 
-<<script type="text/javascript">
+<script type="text/javascript">
 	$("#moveRegiPage").on("click", function(){
 		window.location.href="${contextPath}/member/normalRegister";
 	});

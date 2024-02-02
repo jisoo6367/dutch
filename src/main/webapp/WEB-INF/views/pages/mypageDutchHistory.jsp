@@ -15,9 +15,10 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">${nickname}님의 My page -> 더치페이 내역 -> 상세보기</h3>
+            <h3 class="page-header">${nickname}님의 더치페이 내역
             <button type="button" id="btnToBack" style="margin-bottom: 8px;"
-				class="btn btn-primary pull-right" ><span>이전페이지로 이동</span></button>
+				class="btn btn-primary pull-right" ><span>이전페이지로 이동</span></button></h3>
+            
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
@@ -25,7 +26,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">Dutch In Progress</div>
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">진행중인 내역</div>
 					</div>
 				</div><%-- /.panel-heading --%>
 
@@ -123,7 +124,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">Dutch History</div>
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">정산완료 내역</div>
 					</div>
 				</div><%-- /.panel-heading --%>
 				

@@ -137,6 +137,18 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 		
 		//참가자VO에 넣은 새정보를 DB에 저장
 		int insertResult = dutchBoardMapper.insertParticipants(dutchModify.getParticipants());
+		
+		dutchAttachfileMapper.deleteAttachFiles(pno);
+		
+		/* 파일경로 디비에 업로드 */
+		List<DutchAttachFileVO> fileList = boardVO.getDutchFileList();
+		
+		if(fileList != null && fileList.size() > 0) {
+			fileList.forEach(attachFile -> {
+				attachFile.setPno(boardVO.getPno());
+				dutchAttachfileMapper.insertAttachFile(attachFile);
+			});
+		}
 
 		return ((deleteResult == beforeParti.size()) && (updateResult == 1) && (insertResult == participants.size())) ? true : false;
 	}
@@ -174,13 +186,14 @@ public class DutchBoardServiceImpl implements DutchBoardService{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	// 더치페이 목록 조회
+		@Override
+		public DutchBoardPagingCreatorDTO getReportedDutchList(DutchBoardPagingDTO dutchPaging) {
+
+			return new DutchBoardPagingCreatorDTO(dutchBoardMapper.reportedDutchRowTotal(dutchPaging), 
+					                              dutchPaging, 
+					                              dutchBoardMapper.reportedDutchBoardList(dutchPaging));
+		}
 	
 	
 	//특정 게시물의 첨부파일 목록 조회

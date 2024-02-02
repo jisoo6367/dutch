@@ -39,6 +39,7 @@ public interface QnaService {
 	//첨부파일 목록 조회
 	public List<QnaAttachFileVO> getQnaAttachFileList(Long qno);
 
-	
+	//문의내역 내것만
+	public QnaPagingCreatorDTO getMyQnaList(QnaPagingDTO qnaPaging, String nickname);
 		
 }

@@ -163,8 +163,10 @@ public class DutchBoardController {
 		participant.setNickname(principal.getName());
 		
 		List<ParticipantsVO> partiList = participants.getParticipants();
+		System.out.println("===========partiList : "+ partiList);
 		partiList.add(participant);
 		participants.setParticipants(partiList);
+		System.out.println("============boardVO: " + boardVO);
 		
 		System.out.println("===========participants : "+ participants);
 		System.out.println("===========boardVO : "+ boardVO);
@@ -242,7 +244,7 @@ public class DutchBoardController {
 		
 	    System.out.println("dutchboardPagingDTO" + dutchboardPaging); 
 
-	    DutchBoardPagingCreatorDTO pagingCreator = dutchBoardService.getDutchList(dutchboardPaging);
+	    DutchBoardPagingCreatorDTO pagingCreator = dutchBoardService.getReportedDutchList(dutchboardPaging);
 	    //System.out.println("컨트롤러에 저장된 DutchboardPagingCreator \n" + pagingCreator);  
 
 	    model.addAttribute("pagingCreator", pagingCreator);

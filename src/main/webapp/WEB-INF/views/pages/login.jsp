@@ -22,7 +22,7 @@
             <h4 class="text-muted h4-color"><c:out value="${error }"/></h4>
             <h4 class="text-muted h4-color"><c:out value="${logout }"/></h4>
             <c:if test="${not empty result }">
-            	<h4 class="text-muted h4-color"><c:out value="${result }"/>님, 반갑습니다!</h4>
+            	<h4 class="text-muted h4-color"> 반갑습니다! 로그인 해주세요.</h4>
             </c:if>
         </fieldset>
       	<fieldset>
@@ -42,8 +42,8 @@
 	        </div>
 	        
 	        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button>
-	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveFinder">아이디/비밀번호 찾기</button>
+	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveRegisterPage">회원가입</button><!-- 
+	        <button class="btn btn-lg btn-primary btn-block" type="button" id="moveFinder">아이디/비밀번호 찾기</button> -->
         </fieldset>
       </form>
       <!-- 네이버로그인 버튼 -->

@@ -243,7 +243,56 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	
 	
-	
+	//신고된 게시글 조회
+	   @Override
+	   public CommunityPagingCreatorDTO showReportedCommunityList(CommunityPagingDTO communityPaging) {
+
+	      String beginDate = communityPaging.getBeginDate();
+	      String endDate = communityPaging.getEndDate() ;
+	   
+	      Date _endDate = null ;
+	      Calendar myCal = null ;
+	      
+	      if((beginDate != null && beginDate.length() != 0) 
+	            && (endDate != null && endDate.length() != 0)) {
+	         if(beginDate.equals(endDate)) {
+	            
+	            SimpleDateFormat myDateFmt = new SimpleDateFormat("yyyy-MM-dd");
+	            try {
+	               _endDate = myDateFmt.parse(endDate);//Parses text from the beginning of the given string to produce a date
+	               myCal = Calendar.getInstance() ;
+	               myCal.setTime(_endDate);          //Sets this Calendar's time with the given Date
+	               
+	               myCal.add(Calendar.DAY_OF_MONTH, 1);
+	               
+	               endDate = myDateFmt.format(myCal.getTime()) ; //문자열로 변환
+	               System.out.println("변환 후 endDate: " + endDate);
+	               
+	            } catch (ParseException e) {
+	               e.printStackTrace();
+	            }
+	            
+	            communityPaging.setEndDate(endDate);
+	         }
+	         
+	      }
+	      
+	      return new CommunityPagingCreatorDTO(communityMapper.reportedRowTotalCommunity(communityPaging), 
+	                                  communityPaging, 
+	                                  communityMapper.reportedCommunityList(communityPaging));
+
+	      
+
+	   }
+	   
+	   
+	 //게시물 신고 (UPDATE)
+		public boolean updateTreport(long pno) {
+			
+			boolean reportResult = (communityMapper.updateTreport(pno) == 1);
+			
+			return reportResult;
+		}
 	
 	
 }

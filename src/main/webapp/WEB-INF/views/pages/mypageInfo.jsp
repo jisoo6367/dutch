@@ -104,7 +104,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-					    <label class="col-sm-2 control-label" style="white-space: nowrap;">마지막 정보수정일자</label>
+					    <label class="col-sm-2 control-label" style="white-space: nowrap;">정보수정일자</label>
 					    <div class="col-sm-8">
 					    	<input class="form-control" name="modDate" id="modDate" 
 					    		   value="<fmt:formatDate value="${memberData.modDate }" pattern="yyyy-MM-dd"/>" readonly="readonly">

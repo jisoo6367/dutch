@@ -123,6 +123,10 @@
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="username"/>
+		<c:if test="${username eq 'ADMIN' }">
+
 <%-- 첨부파일 결과 표시 --%>    
     <div class="row">
         <div class="col-lg-12">
@@ -159,6 +163,9 @@
             </div><!-- /.panel -->
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
+    
+</c:if>
+</sec:authorize>
 
 <%-- Modal: 첨부파일 이미지 표시 --%>
 <div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">

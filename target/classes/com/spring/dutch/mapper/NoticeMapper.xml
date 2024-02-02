@@ -22,11 +22,20 @@
 	        parameterType="com.spring.dutch.dto.NoticePagingDTO">
 	<![CDATA[
 		SELECT cno, nickname, ctitle, cregDate, cviewCnt, ccontent
-		FROM ( SELECT /*+ INDEX_DESC (a FK_NOTICE_NICKNAME) */ ROWNUM rn, a.* 
+		FROM ( SELECT /*+ INDEX_DESC (a SYS_C008938) */ ROWNUM rn, a.* 
                FROM dutch.tbl_notice a
                WHERE
 	]]>
-
+	<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ctitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">ccontent LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>	 
 	<![CDATA[      			       
 			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 			      )

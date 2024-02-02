@@ -28,8 +28,8 @@ public class AdminController {
 	public String admin(Model model) {
 		
 		//성별 가입자 수
-		long male = adminService.getGenderCnt("남성");
-		long female = adminService.getGenderCnt("여성");
+		long male = adminService.getGenderCnt("M");
+		long female = adminService.getGenderCnt("F");
 	
 		model.addAttribute("male", male );
 		model.addAttribute("female", female );

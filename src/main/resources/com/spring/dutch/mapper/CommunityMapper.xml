@@ -164,14 +164,65 @@
 	
 
 <!-- 최근게시물 5개 -->
-<select id="selectRecentCommunityList" resultType="com.spring.dutch.domain.CommunityVO">
-    <![CDATA[
-        SELECT * FROM (
-            SELECT * FROM dutch.tbl_Community ORDER BY tno DESC
-        ) WHERE ROWNUM <= #{count}
-    ]]>
-</select>
+	<select id="selectRecentCommunityList" resultType="com.spring.dutch.domain.CommunityVO">
+	    <![CDATA[
+	        SELECT * FROM (
+	            SELECT * FROM dutch.tbl_Community ORDER BY tno DESC
+	        ) WHERE ROWNUM <= #{count}
+	    ]]>
+	</select>
 
+
+
+
+<!-- 신고된 게시글 조회 -->
+	<select id="reportedCommunityList" resultType="com.spring.dutch.domain.CommunityVO"
+           parameterType="com.spring.dutch.dto.CommunityPagingDTO">
+      <![CDATA[
+         SELECT  tno, nickname, ttitle, tcontent, tmodDate, tdelFlag, tregDate, tviewCnt, treplyCnt, trecommend, treport, tcategory
+         FROM ( SELECT /*+ INDEX_DESC (a PK_TNO_COMMUNITY) */ROWNUM rn, a.*
+                FROM dutch.tbl_Community a
+                WHERE treport = 1 and
+      ]]>
+         <choose>
+         <when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+             bregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+                       AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+         </when>
+      </choose>
+      <trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+         <foreach item='scope' collection="myScopeArr">
+            <trim prefix="OR">
+               <choose>
+                  <when test="scope == 'T'.toString()">ttitle LIKE '%'||#{keyword}||'%'</when>
+                  <when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when>
+                  <when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+               </choose>
+            </trim> 
+         </foreach>
+      </trim>    
+
+      <![CDATA[          
+                ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+                )
+          WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1)) 
+      ]]>
+   </select> 
+
+
+<!-- 게시물 총 개수 조회(페이징)    -->
+   <select id="reportedRowTotalCommunity" resultType="long" 
+          parameterType="com.spring.dutch.dto.CommunityPagingDTO">
+      SELECT COUNT(*) rowTotal FROM dutch.tbl_Community where treport = 1
+      
+   </select>
+   
+   <!-- 사용자가 신고 (UPDATE)-->
+	<update id="updateTreport" parameterType="long">
+		UPDATE dutch.tbl_community
+		SET treport = 1
+		WHERE tno =  #{tno}
+	</update>
 
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.spring.dutch.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -188,6 +189,20 @@ public class QnaController {
 		System.out.println("qno: " + qno);
 		return new ResponseEntity<List<QnaAttachFileVO>>(qnaService.getQnaAttachFileList(qno), HttpStatus.OK);
 	}
+	
+	//문의내역 내것만
+	@GetMapping("/myQna")
+	   @PreAuthorize("isAuthenticated()")
+	   public String myQnaList(QnaPagingDTO qnaPaging, Model model, Principal principal) {
+	      
+	      
+	      QnaPagingCreatorDTO qnaCreator = qnaService.getMyQnaList(qnaPaging, principal.getName());
+	      
+	      model.addAttribute("qnaCreator", qnaCreator);
+	      
+	      return "pages/myQnaList" ;
+	   }
+	
 	
 
 	

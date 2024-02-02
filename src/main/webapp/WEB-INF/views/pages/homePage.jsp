@@ -29,21 +29,31 @@
 	</ol>
 	<div class="carousel-inner" role="listbox">
 		<div class="item active">
-			<img src="resources/img/dutch_img.jpg" alt="First slide"
-				 style="width: 640px; height: 500px;">
-			<div class="carousel-caption">
-                  <h3 style="color: dark;">더치플에서 </h3>
-                  <p style="color: dark;">편하게 n빵하세요~</p>
+         <img src="resources/img/dutch_img.jpg" alt="First slide" class="d-block w-100"
+             style="height: 500px;" >
+         <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+                  <h1 style="color: #7d7b71;">더치플에서 </h1>
+                  <p style="color: #7d7b71; font-size: 20px;">편하게 n빵하세요~</p>
             </div>
-		</div>
-		<div class="item">
-			<img src="resources/img/commu_img.jpg" alt="Second slide"
-			style="width: 600px; height: 500px;">
-		</div>
-		<div class="item">
-			<img src="resources/img/card_img.jpg" alt="Third slide"
-			style="width: 640px; height: 500px;">
-		</div>
+      	</div>
+      	<div class="item">
+         <img src="resources/img/commu_img.jpg" alt="Second slide" class="d-block w-100"
+         style="height: 500px;">
+         <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+                  <h1 style="color: #7d7b71;">올해는</h1>
+                  <h2 style="color: #7d7b71;">굶지 말아요...</h2>
+                  <p style="color: #7d7b71; font-size: 20px;">커뮤니티에서 같이 힘내봐요</p>
+            </div>
+      	</div>
+      <div class="item">
+         <img src="resources/img/card_img.jpg" alt="Third slide" class="d-block w-100"
+         style="height: 500px;">
+         <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+                  <h1 style="color: #7d7b71;">여러분들의</h1>
+                  <h2 style="color: #7d7b71;">소비습관에 맞는 카드를</h2>
+                  <p style="color: #7d7b71; font-size: 20px;">추천 카드에서 확인하세요!</p>
+            </div>
+      </div>
 	</div>
 	<a class="left carousel-control" href="#carousel-example-generic"
 		role="button" data-slide="prev"> <span
@@ -151,7 +161,7 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">최근 더치페이
 						<button type="button" class="btn btn-xs btn-link" style="float:right;">
-							<a href="${contextPath }/dutch/list">더보기</a></button></h3>
+							<a href="${contextPath }/pay/list">더보기</a></button></h3>
 				</div>
 				<div class="panel-body">
 					<table class="table table-striped table-bordered table-hover" 

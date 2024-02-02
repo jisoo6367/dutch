@@ -115,22 +115,11 @@
 
 <script>
 
-/* var myCsrfHeaderName = "${_csrf.headerName}" ;
-var myCsrfToken = "${_csrf.token}" ;  */
-<%-- 
-$(document).ajaxSend(function(e, xhr){
-	xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken) ;
-		
-}); 
---%>
+
 
 var cardModify = $("#cardModify") ;
-
-/* var loginUser = "";
-
-<sec:authorize access="isAuthenticated()">
-	loginUser = '<sec:authentication property="principal.username"/>';
-</sec:authorize>  */
+var myCsrfHeaderName = "${_csrf.headerName}" ;
+var myCsrfToken = "${_csrf.token}" ;
 
 <%--수정된 게시물 입력값 유무 확인 함수--%>
 function checkBoardValues(){
@@ -223,6 +212,9 @@ function getAttachFileInfo(){
 		url: "${contextPath}/card/getFiles" ,
 		data: {kno: kno} ,
 		dataType: "json" ,
+		beforeSend: function(xhr){
+	         xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken);
+	      },
 		success: function(uploadResult){
 			showUploadResult(uploadResult) ;
 		}
@@ -338,6 +330,9 @@ $("#inputFile").on("change", function(){
 		contentType: false , <%--contentType에 MIME 타입을 지정하지 않음.--%>
 		processData: false , <%--contentType에 설정된 형식으로 data를 처리하지 않음. --%>
 		dataType: "json" ,
+		beforeSend: function(xhr){
+	         xhr.setRequestHeader(myCsrfHeaderName, myCsrfToken);
+	      },
 		success: function(uploadResult, status){
 			$(".inputFile").val("") ;
 			

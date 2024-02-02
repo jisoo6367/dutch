@@ -37,7 +37,7 @@
 	</div>
 	<div class="form-group">
 	    <label>닉네임</label> 
-	    <input class="form-control" name="nickname" id="nickname" readonly="readonly">
+	    <input class="form-control" name="nickname" id="nickname" value="${nickname }" readonly="readonly">
 	    	   
 	</div>
 	<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
@@ -61,7 +61,7 @@ function sendBoard(){
 	var nickname = document.getElementById("nickname").value ;
 	
 	if( ctitle.length==0 || ccontent.length==0 || nickname.length==0 ){
-		alert("글제목/글내용/작성자를 모두 입력해야 합니다.");
+		alert("글제목/글내용을 모두 입력해야 합니다.");
 	} else {
 		frmNotice.submit();
 	}

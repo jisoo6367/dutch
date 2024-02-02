@@ -26,10 +26,10 @@
                 <div class="panel-heading"><h4>공지사항
                 
                 <sec:authorize access="isAuthenticated()">
-					<sec:authentication property="principal.username" var="username"/>
+					<sec:authentication property="principal.username" var="username"/> 
 						<c:if test="${username eq 'ADMIN' }">
           					<button type="button" id="btnToRegister" class="btn btn-primary btn-sm" style="float:right;">공지 등록</button>
-          				</c:if>
+          			 </c:if> 
           		</sec:authorize>
                 
                 	</h4>
@@ -42,10 +42,16 @@
 	<div class="form-group">
 		<label class="sr-only">frmSendValues</label>
 	 	<select class="form-control" id="selectAmount" name="rowAmountPerPage">
-				<option value="5" ${(noticeCreator.noticePaging.rowAmountPerPage == 5) ? "selected" : "" }>5개</option>
 				<option value="10" ${(noticeCreator.noticePaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
 				<option value="20" ${(noticeCreator.noticePaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
-				<option value="50" ${(noticeCreator.noticePaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
+				<option value="30" ${(noticeCreator.noticePaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
+		</select>
+		
+		<select class="form-control" id="selectScope" name="scope">
+			<option value="" ${(noticeCreator.noticePaging.scope == null ) ? "selected" : "" }>범위선택</option>
+			<option value="T" ${(noticeCreator.noticePaging.scope == "T" ) ? "selected" : "" }>제목</option>
+			<option value="C" ${(noticeCreator.noticePaging.scope == "C" ) ? "selected" : "" }>내용</option>
+			<option value="TC" ${(noticeCreator.noticePaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
 		</select>
 		
 		<div class="input-group"><!-- 검색어 입력 -->
@@ -66,8 +72,7 @@
 			</div>
 		</div>
 	
-		<input type="hidden" id="pageNum" name="pageNum" value="${noticeCreator.noticePaging.pageNum }" ><%-- 
-		<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${noticeCreator.noticePaging.rowAmountPerPage }" > --%>
+		<input type="hidden" id="pageNum" name="pageNum" value="${noticeCreator.noticePaging.pageNum }" >
 		<input type="hidden" id="lastPageNum" name="lastPageNum" value="${noticeCreator.lastPageNum }">
 	 </div>
 </form>

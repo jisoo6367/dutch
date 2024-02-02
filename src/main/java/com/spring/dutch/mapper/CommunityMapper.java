@@ -41,11 +41,16 @@ public interface CommunityMapper {
     //댓글추가 시에 #{amount}에 1, 댓글삭제 시 #{amount}에 -1 이 각각 전달됨
 	public void updateTreplyCntCommunity(@Param("tno") Long tno, @Param("amount") int amount) ;
 	
-
-	
 	//댓글 5개
 	public List<CommunityVO> selectRecentCommunityList(@Param("count") int count);
 	
+	//신고된 게시물 목록조회(READ)
+	   public List<CommunityVO> reportedCommunityList(CommunityPagingDTO communityPaging);
+	       
+	//신고된 게시물 총 수 조회(READ)
+	public long reportedRowTotalCommunity(CommunityPagingDTO communityPaging);
 	
+	//게시물 신고 (UPDATE)
+		public Integer updateTreport(long pno);
 	
 }

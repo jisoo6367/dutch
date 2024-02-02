@@ -143,7 +143,7 @@
                         <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br>
                     </div> 
 	                <div class="form-group fileUploadResult">
-	                    <ul>
+	                    <ul style="list-style-type: none;">
 <%-- 업로드 후 처리결과가 표시될 영역 --%>
 					    </ul>
 					</div><%-- /.fileUploadResult --%>
@@ -188,7 +188,8 @@
 			alert("참여자 수는 10명이하로 입력해주세요")
 			return;
 		} else {
-			$(this).parent("div").siblings("input").remove();
+			
+			$(".partiContainer").children("input").remove();
 			
 			for (var i = 0; i < userCnt; i++) {
 				$(".partiContainer").append("<input type='text' name='participants[" + i + "].nickname' class='col-md-3 form-control input-margin'>");
@@ -248,10 +249,10 @@
 			} 
 			
 			attachFileInputHTML 
-				+="<input type='hidden' name='attachFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
-				+ "<input type='hidden' name='attachFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
-				+ "<input type='hidden' name='attachFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
-				+ "<input type='hidden' name='attachFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
+				+="<input type='hidden' name='dutchFileList[" + i + "].uuid' value='" + objLi.data("uuid") + "'>" 
+				+ "<input type='hidden' name='dutchFileList[" + i + "].uploadPath' value='" + objLi.data("uploadpath") + "'>" 
+				+ "<input type='hidden' name='dutchFileList[" + i + "].fileName' value='" + objLi.data("filename") + "'>" 
+				+ "<input type='hidden' name='dutchFileList[" + i + "].fileType' value='" + objLi.data("filetype") + "'>" ;
 		});<%--each-end--%>
 		
 		if (attachFileInputHTML != ""){

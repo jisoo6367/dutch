@@ -178,7 +178,7 @@ public class CommunityController {
 		@GetMapping(value="/reportedList")
 		public String showCommunityReportList(Model model, CommunityPagingDTO communityPaging ){		
 
-			CommunityPagingCreatorDTO pagingCreator =  communityService.showCommunityList(communityPaging);
+			CommunityPagingCreatorDTO pagingCreator =  communityService.showReportedCommunityList(communityPaging);
 			
 			model.addAttribute("pagingCreator", pagingCreator) ;
 			
@@ -186,7 +186,25 @@ public class CommunityController {
 		}
 		
 		
-		
+		//게시글 신고
+		@GetMapping(value = "/report")
+		@PreAuthorize("isAuthenticated()")
+		public String dutchBoardDelete (long tno, Model model) {
+			System.out.println("신고컨트롤러 도착");
+				
+			boolean reportResult = communityService.updateTreport(tno);
+			
+			if (reportResult) {
+				model.addAttribute("result", "successReport");
+
+			} else {
+				model.addAttribute("result", "failReport");
+			}
+			model.addAttribute("tno", tno);
+
+			
+			return "redirect:/community/list";
+		}
 		
 		
 		

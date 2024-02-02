@@ -38,5 +38,7 @@ public interface DutchBoardService {
 	
 	//게시물 신고 (UPDATE)
 	public boolean updatePreport(long pno);
+	
+	public DutchBoardPagingCreatorDTO getReportedDutchList(DutchBoardPagingDTO dutchPaging);
 
 }

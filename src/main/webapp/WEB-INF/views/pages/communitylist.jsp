@@ -11,104 +11,76 @@
 
 
 <!-- JSP 폼 입니다 아래 공간 안에서 코딩하시면 됩니다 -->
-
+ 
 <div id="page-wrapper">
-    <div class="row"> 
+  <!--   <div class="row"> 
         <div class="col-lg-12">
             <h3 class="page-header">더치페이 커뮤니티</h3>
         </div>
-    </div>
+    </div> -->
     
     <div class="row">
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color: transparent">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">커뮤니티</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
-						</div>
+						<div class="col-md-9" style="font-size:20px; height: 45px; padding-top:10px;">더치페이 커뮤니티</div>
+						
+<div class="col-md-3" style="padding-top:8px;">
+<div>
+    <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/community/list" method="get" >
+		   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+			<div class="form-group">
+			<label class="sr-only">frmSendValues</label>
+		 		<select class="form-control" id="selectAmount" name="rowAmountPerPage">
+					<option value="10" ${(pagingCreator.communityPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
+					<option value="20" ${(pagingCreator.communityPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
+					<option value="30" ${(pagingCreator.communityPaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
+					<option value="40" ${(pagingCreator.communityPaging.rowAmountPerPage == 40) ? "selected" : "" }>40개</option>
+					<option value="50" ${(pagingCreator.communityPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
+				</select>
+				
+				<div class="input-group" style="margin-top: px;">	
+					<button class="btn btn-info" type="button" id="btnSearchGo2">								
+						<span class="glyphicon glyphicon-ok"></span>
+					</button><i class="fa fa-search"></i>
+				</div>&nbsp;
+				<button type="button" id="btnToRegister" class="btn btn-outline-dark">새글 등록</button>
+			</div>
+		
+			
+			<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.communityPaging.pageNum }" >
+			<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.communityPaging.rowAmountPerPage }" >
+			<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >	
+	</form>   
+
+	</div>
+
+	
+	     	
+</div>
+						
+						
 					</div>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
                 
                 
-<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/community/list" method="get" >
-   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-	<div class="form-group">
-	<label class="sr-only">frmSendValues</label>
- 		<select class="form-control" id="selectAmount" name="rowAmountPerPage">
-			<option value="10" ${(pagingCreator.communityPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
-			<option value="20" ${(pagingCreator.communityPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
-			<option value="30" ${(pagingCreator.communityPaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
-			<option value="40" ${(pagingCreator.communityPaging.rowAmountPerPage == 40) ? "selected" : "" }>40개</option>
-			<option value="50" ${(pagingCreator.communityPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
-		</select>
-		
-		
-		<select class="form-control" id="selectScope" name="scope">
-			<option value="" ${(pagingCreator.communityPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="T" ${(pagingCreator.communityPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="W" ${(pagingCreator.communityPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-<%-- 			<option value="C" ${(pagingCreator.communityPaging.scope == "C" ) ? "selected" : "" }>내용</option> --%>
-	<%-- 		<option value="TC" ${(pagingCreator.communityPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.communityPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option> --%>
-		</select>
-		
-		
-		<div class="input-group" style="margin-top: px;">
-					<!-- 검색어 입력 -->
-					<input class="form-control" id="keyword" name="keyword" type="text"
-						placeholder="검색어를 입력하세요"
-						value='<c:out value="${pagingCreator.communityPaging.keyword}" />' /> <span
-						class="input-group-btn"> <!-- 전송버튼 -->
-						<button class="btn btn-warning" type="button" id="btnSearchGo">검색
-						</button><i class="fa fa-search"></i>
-					</span>
-				</div>
-				
-		<!-- 검색 초기화 버튼 -->
-		<div class="input-group">
-			<button id="btnReset" class="btn btn-info" type="button">
-				<span class="glyphicon glyphicon-repeat"></span>
-			</button>
-		</div> 
-		
-	</div>
 
-	<%-- <div class="form-group pull-right">
-		<input class="form-control" id="beginDate" name="beginDate" type="date"
-			   value="${pagingCreator.communityPaging.beginDate}" 
-			   />
-		<input class="form-control" id="endDate" name="endDate" type="date"
-			   value="${pagingCreator.communityPaging.endDate}" 
-			   />
-
-		<button type="button" class="btn btn-primary mybtns" 
-				id="btnIntervalSearch" >기간검색</button>
-	</div>  --%>
-	
-	
-	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.communityPaging.pageNum }" >
-	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.communityPaging.rowAmountPerPage }" >
-	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
-	
-</form>                
-<hr>     
 		 <div class="panel-body">  
-		   <table class="table table-striped table-bordered table-hover" 
+		   <table class="table table-hover" 
 		          style="width:100%;text-align: center;">
 		       <thead>
 		           <tr>
 		             <!--   <th>글번호</th> -->
-		               <th>카테고리</th>
-		               <th>방제목</th>
-		               <th>작성자</th>
-		               <th>게시글 작성일</th>
+		               <th style="text-align: center;">카테고리</th>
+		               <th style="text-align: center;">방제목</th>
+		               <th style="text-align: center;">작성자</th>
+		               <th style="text-align: center;">게시글 작성일</th>
 		             <!--   <th>게시글 수정일</th> -->
-		               <th>조회수</th>
+		               <th style="text-align: center;">조회수</th>
 		           </tr>
 		       </thead>
 	<tbody>
@@ -129,7 +101,10 @@
 					<%-- <td><c:out value="${community.tno }"/></td>		 --%>		
 					<td><c:out value="${community.tcategory }"/>
 						</td>
-					<td style="text-align: left">					
+					<td style="text-align: center">
+					<c:if test="${community.treport == 1 }">
+						<span class="glyphicon glyphicon-bell" style="color: red;"></span>
+					</c:if>				
 						<c:out value="${community.ttitle }"/>
 					  <small>[<strong><c:out value="${community.treplyCnt}"/></strong>]</small> 
 					</td>					
@@ -137,7 +112,6 @@
 					<td class="center"><fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm"/></td>
 					<%-- <td class="center"><fmt:formatDate value="${community.tmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
 					<td class="center"><c:out value="${community.tviewCnt }"/></td>
-					
 				 </tr>
 			</c:otherwise>
 		</c:choose>
@@ -153,6 +127,10 @@
     </tbody>
      	 </table><%-- /.table-responsive --%>
       
+
+                </div><%-- /.panel-body --%>
+        
+<div class="panel-footer text-center" id="showCmtPagingNums" style="background-color: transparent">  
 <!-- 번호 이전 다음 페이지 처리 -->
 <div style="text-align: center;">
 	<ul class="pagination pagination-sm" >
@@ -196,7 +174,85 @@
 	  
 	</ul>
 </div>                                    
-                </div><%-- /.panel-body --%>
+
+
+
+
+</div>  
+        
+                
+                
+                
+      <div class="panel-footer text-center" id="showCmtPagingNums" style="background-color: transparent">
+      
+      
+      <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/community/list" method="get" >
+   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+	<div class="form-group">
+<%-- 	<label class="sr-only">frmSendValues</label>
+ 		<select class="form-control" id="selectAmount" name="rowAmountPerPage">
+			<option value="10" ${(pagingCreator.communityPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
+			<option value="20" ${(pagingCreator.communityPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
+			<option value="30" ${(pagingCreator.communityPaging.rowAmountPerPage == 30) ? "selected" : "" }>30개</option>
+			<option value="40" ${(pagingCreator.communityPaging.rowAmountPerPage == 40) ? "selected" : "" }>40개</option>
+			<option value="50" ${(pagingCreator.communityPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
+		</select> --%>
+		
+		
+		<select class="form-control" id="selectScope" name="scope">
+			<option value="" ${(pagingCreator.communityPaging.scope == null ) ? "selected" : "" }>범위선택</option>
+			<option value="T" ${(pagingCreator.communityPaging.scope == "T" ) ? "selected" : "" }>제목</option>
+			<option value="W" ${(pagingCreator.communityPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
+<%-- 			<option value="C" ${(pagingCreator.communityPaging.scope == "C" ) ? "selected" : "" }>내용</option> --%>
+	<%-- 		<option value="TC" ${(pagingCreator.communityPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+			<option value="TCW" ${(pagingCreator.communityPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option> --%>
+		</select>
+		
+		
+		<div class="input-group" style="margin-top: px;">
+					<!-- 검색어 입력 -->
+					<input class="form-control" id="keyword" name="keyword" type="text"
+						placeholder="검색어를 입력하세요"
+						value='<c:out value="${pagingCreator.communityPaging.keyword}" />' /> <span
+						class="input-group-btn"> <!-- 전송버튼 -->
+						&nbsp;<button class="btn btn-outline-primary" type="button" id="btnSearchGo">검색
+						</button><i class="fa fa-search"></i>
+					</span>
+				</div>
+				
+		<!-- 검색 초기화 버튼 -->
+		<div class="input-group">
+			<button id="btnReset" class="btn btn-info" type="button">
+				<span class="glyphicon glyphicon-repeat"></span>
+			</button>
+		</div> 
+		
+	</div>
+
+	<%-- <div class="form-group pull-right">
+		<input class="form-control" id="beginDate" name="beginDate" type="date"
+			   value="${pagingCreator.communityPaging.beginDate}" 
+			   />
+		<input class="form-control" id="endDate" name="endDate" type="date"
+			   value="${pagingCreator.communityPaging.endDate}" 
+			   />
+
+		<button type="button" class="btn btn-primary mybtns" 
+				id="btnIntervalSearch" >기간검색</button>
+	</div>  --%>
+	
+	
+	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.communityPaging.pageNum }" >
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.communityPaging.rowAmountPerPage }" >
+	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
+	
+</form>                       
+      </div>		
+                
+                
+                
+                
+                
                 
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
@@ -239,7 +295,7 @@
 var frmSendValue = $("#frmSendValue");
 $("#btnToRegister").on("click", function(){
 	window.location.href = "${contextPath}/community/register" });
-
+ 
 	
 //상세페이지 이동
 $(".moveDetail").on("click", function(){
@@ -366,6 +422,12 @@ $(document).ready(function(){
 });	
 	
 	
+<%--키워드 검색버튼 클릭 이벤트 처리 --%>
+$("#btnSearchGo2").on("click", function() {
+   
+   frmSendValue.find("input[name='pageNum']").val(1);
+   frmSendValue.submit();
+});	
 	
 	
 	

@@ -48,7 +48,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active homeBtn"><a href="${contextPath }/">홈</a></li>
+            <li class=" homeBtn"><a href="${contextPath }/">홈</a></li>
             <li><a href="${contextPath }/mypage/home">마이페이지</a></li>
             <li><a href="${contextPath }/pay/list">더치페이 게시판</a></li>
             <li><a href="${contextPath }/community/list">커뮤니티</a></li>
@@ -68,12 +68,19 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right" id="loginLogoutUl">
-          	<sec:authorize access="isAuthenticated()">
-				<sec:authentication property="principal.username" var="username"/>
-					<c:if test="${username eq 'ADMIN' }">
-          		<li><a href="${contextPath }/admin/page">관리자페이지</a></li>
-          			</c:if>
-          	</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+            <sec:authentication property="principal.username" var="username"/>
+               <c:choose>
+                  <c:when test="${username eq 'ADMIN' }">
+                     <li class="text-center"><a style="color: red;">안녕하세요! 관리자님!</a></li>
+                     <li><a href="${contextPath }/admin/page">관리자페이지</a></li>
+                  </c:when>
+                  <c:otherwise>
+                     <li class="text-center"><a style="color: #2d539c;">${username}님, 반갑습니다!</a></li>
+                  </c:otherwise>
+               </c:choose>
+               
+             </sec:authorize>
           	<li><a href="${contextPath }/member/register">회원가입</a></li>
           	
           </ul>

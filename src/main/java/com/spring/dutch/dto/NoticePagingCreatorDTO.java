@@ -28,7 +28,7 @@ public class NoticePagingCreatorDTO {
 		this.rowTotal = rowTotal;
 		this.noticePaging = noticePaging;
 		this.noticeList = noticeList;
-		this.pagingNumCnt = 5;
+		this.pagingNumCnt = 10;
 		
 		//계산 된 끝 페이징 번호:
 		this.endPagingNum = (int) Math.ceil((double)noticePaging.getPageNum()/this.pagingNumCnt) * this.pagingNumCnt;

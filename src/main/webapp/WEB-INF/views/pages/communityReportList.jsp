@@ -105,10 +105,14 @@
 						<c:otherwise>
 							<tr class="moveDetail" data-tno="${community.tno }">
 								<td><c:out value="${community.tno }"/></td>	
-								<td><c:out value="${community.tcategory }"/></td>
-								<td style="text-align: left"><c:out value="${community.ttitle}"/>
-								  <small>[<strong><c:out value="${community.treplyCnt}"/></strong>]</small> 
-								</td>					
+								<td><c:out value="${community.tcategory }"/></td>							
+								<td style="text-align: left">
+		                           <c:if test="${community.treport == 1 }">
+		                              <span class="glyphicon glyphicon-bell" style="color: red;"></span>
+		                           </c:if>
+		                           <c:out value="${community.ttitle}"/>
+		                        <small>[<strong><c:out value="${community.treplyCnt}"/></strong>]</small> 
+		                        </td>						
 								<td>${community.nickname }</td>
 								<td class="center"><fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm"/></td>
 								<td class="center"><fmt:formatDate value="${community.tmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>

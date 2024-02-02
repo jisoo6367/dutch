@@ -10,10 +10,13 @@
 
 <%@include file="../pageinclude/header.jsp" %>  
 
-<style>
+<style> 
  th {text-align: center;}
 </style>  
-
+ 
+ 
+ 
+ 
 <div id="page-wrapper">
 	 <!--    <div class="row">
 	        <div class="col-lg-12">
@@ -24,7 +27,21 @@
 	    <div class="row">
 	        <div class="col-lg-12">
 	           <div class="panel panel-default">
-	                <div class="panel-heading"><h4>게시물 등록</h4></div><%-- /.panel-heading --%>
+	                <div class="panel-heading" style="background-color: transparent">
+	                <div class="container">
+					  <div class="row row-cols-2">
+					   <div class="col-sm-10" ><h4>게시물 등록</h4></div> 					
+						<div class="col-sm-2" >	       						 
+							<button type="button" class="btn btn-link mybtns" style="color:black" id="btnRegister" >등록</button>
+							<!-- <button type="button" class="btn btn-link mybtns" style="color:black" id="btnRemove" data-oper="remove">삭제</button> -->
+							<button type="button" class="btn btn-link mybtns" style="color:black" onclick="location.href='${contextPath}/community/list';" >취소</button>
+						</div>  
+					  </div>
+					</div>
+				</div>
+
+	                
+	                
 	                
 	                   <div class="panel-body">
 	<form role="form" action="${contextPath }/community/register" 
@@ -35,6 +52,7 @@
 <!-- 		    <input class="form-control" name="tcategory" id="tcategory" placeholder="카테고리를 선택하세요..."> -->
 				<select class="form-control" id="tcategory" name="tcategory">
 		    		<option value="커뮤니티">커뮤니티</option>
+		    	    <option value="거지방">거지방</option>
 		    		<option value="맛집">맛집</option>
 		    		<option value="운동">운동</option>
 		    		<option value="게임">게임</option>
@@ -48,12 +66,23 @@
 		    <input class="form-control" name="ttitle" id="ttitle" placeholder="글제목을 입력하세요...">
 		</div>
 		
+		
+
+		
+		
+		
+		
+		
 		<div class="form-group">
 		<!--     <label>글내용</label> -->
-		    <textarea class="form-control" rows="10" name="tcontent" id="tcontent"
+		    <textarea class="form-control" rows="10" name="tcontent" id="tcontent"  style="resize: vertical;"
 		    		  placeholder="글내용을 입력하세요..."></textarea>
 		</div>
-		
+		 
+		 
+	
+		 
+		 
 		
 		
 		<%-- <div class="form-group">
@@ -63,9 +92,9 @@
 		    	   value='<sec:authentication property="principal.username"/>' />
 		</div> --%>
 
-		<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
+	<%-- 	<button type="button" class="btn btn-primary" id="btnRegister">등록</button>
 		<button type="button" class="btn btn-warning" 
-				onclick="location.href='${contextPath}/community/list';">취소</button>	
+				onclick="location.href='${contextPath}/community/list';">취소</button>	 --%>
 		<%-- <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 			 <sec:csrfInput/> --%>
 		
@@ -150,7 +179,7 @@ $("#btnRegister").on("click", function(){
 	if (attachFileInputHTML != ""){
 		frmCommunity.append(attachFileInputHTML) ;	
 	}
-
+	alert("등록되었습니다.");
 	frmCommunity.submit();
 	
 });
@@ -188,12 +217,12 @@ function checkUploadFile(fileName, fileSize) {
 
 function showUploadResult(uploadResult) {
 	
+	var fileUploadResult = $(".fileUploadResult ul") ;
+	var htmlStr = "";
+	
 	if(!uploadResult || uploadResult.length == 0) {
 		return ;
 	}
-	
-	var fileUploadResult = $(".fileUploadResult ul") ;
-	var htmlStr = "";
 	
 	$(uploadResult).each(function(i, attachFile){
 		
@@ -208,10 +237,10 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + attachFile.uuid + "'" 
 			+ "    data-filename='" + attachFile.fileName + "'" 
 			+ "    data-filetype='F'>"
-			+ "    <a href='${contextPath}/communityFileDownloadAjax?fileName=" + fullFileName +"'>"
+	//		+ "    <a href='${contextPath}/communityFileDownloadAjax?fileName=" + fullFileName +"'>"
 			+ "        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
-			+ "    </a>"
+	//		+ "    </a>"
 			+  "  <span data-filename='" + fullFileName + "' data-filetype='F'>[삭제]</span>"
 			+ "</li>" ;
 			
@@ -228,11 +257,11 @@ function showUploadResult(uploadResult) {
 			+ "    data-uuid='" + attachFile.uuid + "'" 
 			+ "    data-filename='" + attachFile.fileName + "'" 
 			+ "    data-filetype='I'>"
-			+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
-			+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
+	//		+ "    <a href='${contextPath}/fileDownloadAjax?fileName=" + fullFileName +"'>" //다운로드
+	//		+ "    <a href=\"javascript:showImage('" + fullFileName + "')\">"
 			+ "        <img src='${contextPath}/communityDisplayThumbnail?fileName=" + thumbnail + "'>"
 			+ "        &nbsp;&nbsp;" + attachFile.fileName 
-			+ "    </a>"
+	//		+ "    </a>"
 			+  "  <span data-filename='" + thumbnail + "' data-filetype='I'>[삭제]</span>"
 			+ "</li>" ;
 		}
@@ -347,7 +376,7 @@ $(".fileUploadResult ul").on("click","li span", function(e){
 	
 	file.onchange = function () { 
 	    var fileList = file.files ;
-	    
+	     
 	    // 읽기
 	    var reader = new FileReader();
 	    reader.readAsDataURL(fileList [0]);
@@ -360,6 +389,12 @@ $(".fileUploadResult ul").on("click","li span", function(e){
 	
 	
 </script>
+
+
+
+
+
+
 
 
 <%@include file="../pageinclude/footer.jsp" %> 

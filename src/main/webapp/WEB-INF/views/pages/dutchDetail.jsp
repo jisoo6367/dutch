@@ -26,7 +26,6 @@ p {
 		<div class="col-lg-12">
 			<h3 class="page-header" style="white-space: nowrap;">
 				<span class="glyphicon glyphicon-tags"></span>&nbsp; ${dto.dutchboard.ptitle}
-				</small>
 			</h3>
 		</div>
 		<%-- /.col-lg-12 --%>
@@ -63,10 +62,12 @@ p {
 								<sec:authorize access="isAuthenticated()">
 									<sec:authentication property="principal.username"
 										var="username" />
+										<c:if test="${username != dto.dutchboard.nickname }">
 										<button type="button" id="btnReport" data-oper="report"
 											class="btn btn-danger">
 											<span>신고</span>
 										</button>
+										</c:if>
 							
 								</sec:authorize>
 							</div>
@@ -266,12 +267,21 @@ p {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
-			</div>
-			<%-- /.modal-content --%>
-		</div>
-		<%-- /.modal-dialog --%>
-	</div>
-	<%-- /.modal --%>
+			</div><%-- /.modal-content --%>
+		</div><%-- /.modal-dialog --%>
+	</div><%-- /.modal --%>
+	
+	<%-- Modal: 첨부파일 이미지 표시 --%>
+	<div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-body" id="attachModal-body">
+	            	<%--이미지표시 --%>
+	            </div>
+	        </div><%-- /.modal-content --%>
+	    </div><%-- /.modal-dialog --%>
+	</div><%-- /.modal --%>
+	</div><%-- /#page-wrapper --%>
 
 
 	<form id="frmSendValue">
@@ -344,7 +354,7 @@ p {
 			type="hidden" name="rowAmountPerPage" value="">
 	</form>
 
-</div>
+
 <%-- page-wrapper--%>
 
 
@@ -943,7 +953,14 @@ $(".attachLi").on("click", function(){
 	}
 	
 });
+
+<%-- 표시된 이미지 모달 감추기 --%>
+$("#attachModal").on("click", function(){
+	$("#attachModal").modal("hide") ;
+});
+
 </script>
+
 
 
 

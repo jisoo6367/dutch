@@ -61,7 +61,7 @@ th {text-align: center;}
 									value='<c:out value="${pagingCreator.dutchPaging.keyword}" />' />
 								<span class="input-group-btn"> <!-- 전송버튼 -->
 									<button class="btn btn-warning" type="button" id="btnSearchGo">
-										<i class="fa fa-search"></i>
+										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								</span>
 							</div>
@@ -69,7 +69,7 @@ th {text-align: center;}
 							<div class="input-group">
 								<!-- 검색 초기화 버튼 -->
 								<button id="btnReset" class="btn btn-info" type="button">
-									<span class="glyphicon glyphicon-remove"></span>
+									<span class="glyphicon glyphicon-refresh"></span>
 								</button>
 							</div>
 						</div>
@@ -119,13 +119,18 @@ th {text-align: center;}
 								</c:when>
 								<c:otherwise>
 									<tr class="moveDetail" data-pno="${dutchlist.pno }">
-										<td><c:out value="${dutchlist.pno }"/></td>
-										<td style="text-align: left"><c:out value="${dutchlist.ptitle }"/></td>
-										<td>${dutchlist.ptotalPayment }</td>
-										<td>${dutchlist.ppersonal }</td>
-										<td class="center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-										<td>${dutchlist.nickname }</td>
-										<td class="center">
+										<td class="col-sm-1" ><c:out value="${dutchlist.pno }"/></td>
+										<td class="col-sm-4" style="text-align: left">
+			                            	<c:if test="${dutchlist.preport == 1 }">
+			                                    <span class="glyphicon glyphicon-bell" style="color: red;"></span>
+			                            	</c:if>
+			                                <c:out value="${dutchlist.ptitle }"/>
+			                            </td>
+										<td class="col-sm-1">${dutchlist.ptotalPayment }</td>
+										<td class="col-sm-2">${dutchlist.ppersonal }</td>
+										<td class="col-sm-2 center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+										<td class="col-sm-1">${dutchlist.nickname }</td>
+										<td class="col-sm-1 center ">
 											<c:if test="${dutchlist.pcalculated == 1}">정산 완료</c:if>
 											<c:if test="${dutchlist.pcalculated == 0}">정산중</c:if>
 										</td>
@@ -229,7 +234,7 @@ $("li.pagination-button a").on("click", function(e){
 	
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href"));
 	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/pages/reportedList")
+	frmSendValue.attr("action", "${contextPath}/pay/reportedList")
 	frmSendValue.attr("method", "get");
 	
 	frmSendValue.submit();

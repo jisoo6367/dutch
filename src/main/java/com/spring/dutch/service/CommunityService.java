@@ -36,5 +36,10 @@ import com.spring.dutch.dto.CommunityPagingDTO;
   //최근 게시물 5개 보여주기 메서드
   List<CommunityVO> getRecentCommunityList(int count);
   
+  //신고된 게시물 목록조회(READ) 
+  public CommunityPagingCreatorDTO showReportedCommunityList(CommunityPagingDTO communityPaging);
+  
+  public boolean updateTreport(long pno);
+  
   }
  

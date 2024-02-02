@@ -189,6 +189,67 @@
 		SET preport = 1
 		WHERE pno =  #{pno}
 	</update>
+	
+	
+	<!-- 관리자 신고된 목록 -->
+	<select id="reportedDutchBoardList" resultType="com.spring.dutch.domain.DutchBoardVO"
+	        parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
+	<![CDATA[
+		SELECT pno, category, nickname, ptitle, pcontent, pregDate, 
+			   pmodDate, pdelFlag, preport, ppersonal, ptotalPayment, pcalculated
+		FROM ( SELECT /*+ INDEX_DESC (a pk_pno_dutch) */ ROWNUM rn, a.* 
+               FROM dutch.tbl_dutch a
+               WHERE preport = 1 and
+	]]>
+	<choose>
+		<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	pregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 AND
+		</when>
+	</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ptitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">pcontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>
+	<![CDATA[      			       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			      )
+			WHERE rn > = ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1 ))
+	]]>
+
+	</select>
+	
+	<!-- 신고된 게시물 총 개수 조회(페이징): 삭제 요청된 행 포함 --> 	
+	<select id="reportedDutchRowTotal" resultType="long"
+			parameterType="com.spring.dutch.dto.DutchBoardPagingDTO">
+		SELECT count(*) rowtotal FROM dutch.tbl_dutch <where> preport = 1</where>
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="OR">
+				<foreach item='scope' collection="myScopeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="scope == 'T'.toString()">ptitle LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'C'.toString()">pcontent LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
+						</choose>
+					</trim> 
+				</foreach>
+			</trim>
+			<choose>
+				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+					AND pregDate BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				</when>
+			</choose>	 
+		</where>
+	</select>
 
 
 </mapper>

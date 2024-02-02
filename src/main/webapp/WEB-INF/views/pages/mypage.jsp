@@ -19,7 +19,7 @@
 <div id="page-wrapper">
 	<div class="row">
 	    <div class="col-lg-12">
-	        <h1 class="page-header">마이페이지</h1>
+	        <h2 class="page-header">마이 페이지</h2>
 	    </div><!-- /.col-lg-12 -->
 	</div><!-- /.row -->
 	<div class="row">
@@ -32,13 +32,10 @@
 	          </div><!-- /.panel-heading -->
 	            <div class="panel-body">
 	                <div class="table-responsive">
-	                	<table class="table table-striped table-bordered table-hover">
-	                        <tbody>
-	                            <tr>
-
-	                            </tr>
-	                        </tbody>
-	                    </table>
+	           			<div>
+		           			<img src='${contextPath}/resources/img/mypage.png' style='width:100px;' alt="회원이미지"/>
+		           			<span style="font-size:20px; margin-left:25px"><b>${memberData.nickname}님, 좋은 하루!</b></span>
+	           			</div>
 	                </div><!-- /.table-responsive -->
 	            </div><!-- /.panel-body -->
 	        </div><!-- /.panel -->
@@ -69,7 +66,7 @@
 	        <div class="panel panel-default" style="height: 180px;">
 	            <div class="panel-heading">
 	                1:1 문의내역
-	                <button class="btn btn-primary btnfix" style="float:right" onclick="location.href='${contextPath}/qna/list'">상세보기</button>
+	                <button class="btn btn-primary btnfix" style="float:right" onclick="location.href='${contextPath}/qna/myQna'">상세보기</button>
 	            </div><!-- /.panel-heading -->
 	            <div class="panel-body">
 	                <div class="table-responsive">

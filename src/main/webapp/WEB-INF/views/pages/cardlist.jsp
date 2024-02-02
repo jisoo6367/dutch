@@ -31,9 +31,15 @@
                 <div class="panel-heading">
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">추천 카드 목록</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="moveCardRegisterPageBtn" class="btn btn-primary btn-sm pull-right">카드 등록</button>
-						</div>
+						<sec:authorize access="isAuthenticated()">
+	                           <sec:authentication property="principal.username"
+	                              var="username" />
+	                           <c:if test="${username == 'ADMIN'}">
+	                           <div class="col-md-6" style="padding-top:8px;">
+	                              <button type="button" id="moveCardRegisterPageBtn" class="btn btn-primary btn-sm pull-right">카드 등록</button>
+	                           </div>
+	                           </c:if>
+	                  	</sec:authorize>
 					</div>
 				</div><%-- /.panel-heading --%>
 
@@ -110,10 +116,9 @@
 						<div class="moveDetail"  data-kno="${card.kno }"  style="margin-top: 6px;">
 							<c:set var="thumbnail"
 								value="${card.attachFileList[0].repoPath}/${card.attachFileList[0].uploadPath}/${card.attachFileList[0].uuid}_${card.attachFileList[0].fileName}" />
-							<a href="${contextPath }/">
+
 								<img src='${contextPath}/cardDisplayThumbnail?fileName=${thumbnail}' 
 									style='width: 180px; height: 100px;'>
-							</a>
 							<h3>${card.kname }</h3>
 							<p style="font-size: 10px; color: #9b9595;">${card.kcontent }</p>
 							<p>${card.kcompany }</p>
@@ -129,6 +134,9 @@
 								</button>
 						</sec:authorize>
 						<span style="margin-left: 35px; float: center;">추천 수: <b class="kcomment" style="font-size: 16px;">${card.kcomment}</b></span>
+						<a href="https://card.kbcard.com/CMN/DVIEW/HOAMCXPRIZZC0002">
+	                     <button class="btn btn-default">카드사 홈페이지로 이동 ></button>
+	                  	</a>
 					</div>
 						<!--/.col-xs-6.col-lg-4-->
 					</c:forEach>

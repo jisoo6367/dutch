@@ -50,5 +50,9 @@ public interface DutchBoardMapper {
 	//게시물 신고 (UPDATE)
 	public Integer updatePreport(long pno);
 	
+	public List<DutchBoardVO> reportedDutchBoardList(DutchBoardPagingDTO dutchPaging);
+	
+	public long reportedDutchRowTotal(DutchBoardPagingDTO dutchboardPaging);
+	
 
 }

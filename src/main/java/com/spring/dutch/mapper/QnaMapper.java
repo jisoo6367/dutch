@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.dutch.domain.QnaVO;
+import com.spring.dutch.dto.MyQnaDTO;
 import com.spring.dutch.dto.QnaPagingDTO;
 
 public interface QnaMapper {
@@ -42,4 +43,9 @@ public interface QnaMapper {
 	//게시물의 댓글 개수 수정
 	public void updateQreplyCnt(@Param("qno") Long qno,
 								@Param("amount") int amount);
+	
+	//문의 내역 내것만
+	public List<QnaVO> myQnaList(MyQnaDTO myQnaDTO);
+	
+	public long myQnaTotal(String nickname);
 }

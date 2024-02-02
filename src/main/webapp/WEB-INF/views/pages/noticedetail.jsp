@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -56,7 +57,7 @@
 		          					<button type="button" id="btnToModify" data-oper="noticemodify"
 									class="btn btn-primary"><span>수정</span></button>
 		          				</c:if>
-		          		</sec:authorize>
+		          		</sec:authorize> 
 
 									
 							<button type="button" id="btnToList" data-oper="noticelist"
@@ -85,14 +86,7 @@
 	    			  readonly="readonly"><c:out value="${notice.ccontent}"/></textarea>
 		</div>	    			  
 	</div>
-<%-- 
-<div class="form-group">
-	    <label class="col-sm-2 control-label" style="white-space: nowrap;">최종수정일</label>
-	    <div class="col-sm-10">
-	    	<input class="form-control" name="cmodDate" id="cmodDate" 
-	      		   value='<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${myboard.bmodDate }"/>' readonly="readonly">
-		</div> --%>
-	</div><%-- 여기까지 noticedetail복사 2024 01 05 --%>
+	</div>
 
 <%-- Modal: 게시물 수정 후, 수정 결과 표시 모달 --%>
 <div class="modal fade" id="NoticeModal" tabindex="-1" role="dialog" aria-labelledby="NoticeModalLabel" aria-hidden="true">

@@ -244,9 +244,9 @@ p {
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div style="margin-bottom: 0px; font-size: 16px;">
-					<strong style="padding-top: 2px;"> <span>댓글&nbsp;<c:out
-								value="${qna.qreplyCnt}" />개
-					</span> <span id="replyTotal"></span> <span>&nbsp;</span>
+					<strong style="padding-top: 2px;"><%-- 
+					<span>댓글&nbsp;<c:out value="${qna.qreplyCnt}" />개 </span> --%>
+					<span id="replyTotal"></span> <span>&nbsp;</span>
 
 						<button type="button" id="btnChgCmtReg"
 							class="btn btn-info btn-sm">댓글 작성</button>
@@ -497,7 +497,7 @@ function showCmtList(pageNum){
 		{qno: qnoValue, pageNum: pageNum || 1} ,
 		
 		function(qnareplyPagingCreator){
-			
+			 $("#replyTotal").html("댓글&nbsp;" + qnareplyPagingCreator.replyTotCnt + "개") ; 
 			frmCmtPagingValue.find("input[name='pageNum']").val(pageNum) ;
 			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(qnareplyPagingCreator.qnareplyPaging.rowAmountPerPage) ;
 			

@@ -17,7 +17,7 @@
 			parameterType="com.spring.dutch.dto.QnaPagingDTO">
 	<![CDATA[
 		SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
-		FROM ( SELECT /*+ INDEX_DESC (a FK_QNA_NICKNAME) */ ROWNUM rn, a.*
+		FROM ( SELECT /*+ INDEX_DESC (a SYS_C008581) */ ROWNUM rn, a.*
 		       FROM dutch.tbl_qna a
 		       WHERE 
 	]]>
@@ -30,7 +30,7 @@
 	<![CDATA[	       
 		ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 		      )
-		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - #{pageNum}))
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))
 		order by qregDate desc
 	]]>
 	
@@ -148,5 +148,25 @@
 		SET qreplyCnt = qreplyCnt + #{amount}
 		WHERE qno = #{qno}
 	</update>
+	
+<!-- 문의내역 내것만 -->
+	<select id="myQnaList" resultType="com.spring.dutch.domain.QnaVO"
+         parameterType="com.spring.dutch.dto.MyQnaDTO">
+	<![CDATA[
+      SELECT qno, nickname, qtitle, qcontent, qregDate, qmodDate, qdelFlag, qdelFlagAdmin, qsignal, qreplyCnt
+      FROM ( SELECT /*+ INDEX_DESC (a FK_QNA_NICKNAME) */ ROWNUM rn, a.*
+             FROM dutch.tbl_qna a
+             WHERE nickname = #{nickname} and 
+               ROWNUM <= (#{qnaPaging.pageNum} * #{qnaPaging.rowAmountPerPage})
+            )
+      WHERE rn >= ((#{qnaPaging.pageNum} * #{qnaPaging.rowAmountPerPage}) - (#{qnaPaging.rowAmountPerPage} - #{qnaPaging.pageNum}))
+      
+      order by qregDate desc
+   ]]>
+   </select>
+   
+   <select id="myQnaTotal" resultType="long" parameterType="String">
+      SELECT count(*) rowtotal FROM dutch.tbl_qna where nickname = #{nickname}
+   </select>
 	
 </mapper>

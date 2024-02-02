@@ -53,8 +53,8 @@
 						    	</select>
 						</div>
 						<div class="form-group">
-							<label>방내용</label> <input class="form-control" name="pcontent"
-								id="pcontent" placeholder="내용을 입력하세요.">
+							<label>방내용</label> <textarea class="form-control" name="pcontent"
+								id="pcontent" placeholder="내용을 입력하세요."></textarea>
 						</div>
 
 						<div class="btnAdd" id="btnAdd">
@@ -153,7 +153,7 @@
 			alert("참여자 수는 10명이하로 입력해주세요")
 			return;
 		} else {
-			$(this).parent("div").siblings("input").remove();
+			$(".partiContainer").children("input").remove();
 			
 			for (var i = 0; i < userCnt; i++) {
 //				$(this).parents("div .btnAdd").append("<input type='text' name='participants[" + i + "].nickname' class='form-control input-margin'>");

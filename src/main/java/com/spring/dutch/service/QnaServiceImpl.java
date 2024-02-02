@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.dutch.domain.QnaAttachFileVO;
 import com.spring.dutch.domain.QnaVO;
+import com.spring.dutch.dto.MyQnaDTO;
 import com.spring.dutch.dto.QnaPagingCreatorDTO;
 import com.spring.dutch.dto.QnaPagingDTO;
 import com.spring.dutch.mapper.QnaAttachFileMapper;
@@ -204,5 +205,19 @@ public class QnaServiceImpl implements QnaService{
 			
 			}//if-end
 		}//for-end
+	
+	//문의내역 내것만
+	@Override
+	   public QnaPagingCreatorDTO getMyQnaList(QnaPagingDTO qnaPaging, String nickname) {
+	      
+	      MyQnaDTO myQnaDTO = new MyQnaDTO(qnaPaging, nickname);
+	      
+	      return new QnaPagingCreatorDTO(qnaMapper.myQnaTotal(nickname), 
+	                              qnaPaging,
+	                              qnaMapper.myQnaList(myQnaDTO));
+	   }
+	
+	
+	
 
 }

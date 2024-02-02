@@ -12,14 +12,9 @@
 th {text-align: center;}
 </style>
 
-<!-- JSP 폼 입니다 아래 공간 안에서 코딩하시면 됩니다 -->
 
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">DutchPay - List</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -27,25 +22,27 @@ th {text-align: center;}
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">더치페이 목록</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">더치페이 등록</button>
+							<button type="button" id="btnToRegister" class="btn btn-primary pull-right">더치페이 등록</button>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
    
 				<div class="panel-body">
+					
+					
 					<form class="form-inline" id="frmSendValue" name="frmSendValue"
 						action="${contextPath }/pay/list" method="get">
 						<div class="form-group">
 							<label class="sr-only">frmSendValues</label> <select
 								class="form-control" id="selectAmount" name="rowAmountPerPage">
 								<option value="5"
-									${(pagingCreator.dutchPaging.rowAmountPerPage == 10) ? "selected" : "" }>5개</option>
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 5) ? "selected" : "" }>5개</option>
 								<option value="10"
-									${(pagingCreator.dutchPaging.rowAmountPerPage == 20) ? "selected" : "" }>10개</option>
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
 								<option value="15"
-									${(pagingCreator.dutchPaging.rowAmountPerPage == 50) ? "selected" : "" }>15개</option>
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 15) ? "selected" : "" }>15개</option>
 								<option value="20"
-									${(pagingCreator.dutchPaging.rowAmountPerPage == 100) ? "selected" : "" }>20개</option>
+									${(pagingCreator.dutchPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
 							</select> <select class="form-control" id="selectScope" name="scope">
 								<option value=""
 									${(pagingCreator.dutchPaging.scope == null ) ? "selected" : "" }>범위선택</option>
@@ -95,7 +92,9 @@ th {text-align: center;}
 						
 						<input type="hidden" id="lastPageNum" name="lastPageNum"
 							value="${pagingCreator.lastPageNum }">
-					</form><br>
+					</form>
+					
+					<br>
                 
                     <table class="table table-striped table-bordered table-hover" style="width:100%;text-align: center;">
                     <thead>
@@ -123,18 +122,21 @@ th {text-align: center;}
 								</c:when>
 								<c:otherwise>
 									<tr class="moveDetail" data-pno="${dutchlist.pno }">
-										<td><c:out value="${dutchlist.pno }"/></td><%-- 
+										<td class="col-sm-1"><c:out value="${dutchlist.pno }"/></td><%-- 
 										<td style="text-align: left"><a href="${contextPath }/myboard/detail?bno=${myboard.pno}" ><c:out value="${myboard.ptitle }"/></a></td> --%>
 										<td style="text-align: left">
+											<c:if test="${dutchlist.preport == 1 }">
+											<span class="glyphicon glyphicon-bell" style="color: red;"></span>
+											</c:if>											
 											<c:out value="${dutchlist.ptitle }"/>
-											<%-- <small>[댓글수: <strong><c:out value="${myboard.breplyCnt}"/></strong>]</small> --%>	
+										<%-- <small>[댓글수: <strong><c:out value="${myboard.breplyCnt}"/></strong>]</small> --%>   
 										</td>
-										<td>${dutchlist.ptotalPayment }</td>
-										<td>${dutchlist.ppersonal }</td>
-										<td class="center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+										<td class="col-sm-1">${dutchlist.ptotalPayment }</td>
+										<td class="col-sm-2">${dutchlist.ppersonal }</td>
+										<td class="col-sm-2 center"><fmt:formatDate value="${dutchlist.pregDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 										<%-- <td class="center"><fmt:formatDate value="${dutchlist.pmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
-										<td>${dutchlist.nickname }</td>
-										<td class="center">
+										<td class="col-sm-1">${dutchlist.nickname }</td>
+										<td class="col-sm-1 center">
 											<c:if test="${dutchlist.pcalculated == 1}">정산 완료</c:if>
 											<c:if test="${dutchlist.pcalculated == 0}">정산중</c:if>
 										</td>
@@ -193,6 +195,9 @@ th {text-align: center;}
 							</c:if>
 						</ul>
 					</div>
+					
+					
+					
                 </div><%-- /.panel-body --%>
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
@@ -232,7 +237,6 @@ $("#btnToRegister").on("click", function(){
 $(".moveDetail").on("click", function(){
 	var pno = $(this).data("pno");
 	
-<%-- window.location.href = "${contextPath}/pages/dutchDetail?pno=" + pno ; --%>
 	
 	frmSendValue.append("<input type='hidden' name='pno' value=' " + pno + " '/>");
 	frmSendValue.attr("action", "${contextPath}/pay/detail").attr("method", "get");
@@ -248,7 +252,7 @@ $("li.pagination-button a").on("click", function(e){
 	
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href"));
 	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/pages/dutchList")
+	frmSendValue.attr("action", "${contextPath}/pay/list")
 	frmSendValue.attr("method", "get");
 	
 	frmSendValue.submit();

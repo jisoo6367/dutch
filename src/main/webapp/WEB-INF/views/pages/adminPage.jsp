@@ -116,33 +116,55 @@ var genderChart = new Chart(ctx, {
 <script>
 var ctx = document.getElementById('monthlyRegisterChart').getContext('2d');
 
-var registerChart = new Chart(ctx, {
-	type: 'line',
-	data:{
-		labels: xname,
-		datasets:[
-			{
-			 label:'월별 가입자 수',
-			 data:[ ${registerList[0].register_cnt},
-				 	${registerList[1].register_cnt},
-				 	${registerList[2].register_cnt},
-				 	${registerList[3].register_cnt},
-				 	${registerList[4].register_cnt},
-				 	${registerList[5].register_cnt},
-				 	${registerList[6].register_cnt},
-				 	${registerList[7].register_cnt},
-				 	${registerList[8].register_cnt},
-				 	${registerList[9].register_cnt},
-				 	${registerList[10].register_cnt},
-				 	${registerList[11].register_cnt}] ,
-			 pointRadius: 4,
-			 pointHoverRadius: 8,
-			 spanGaps: true,
-			}
-		]
-	}
-});
 
+var registerChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: xname,
+        datasets: [
+            {
+                label: '월별 가입자 수',
+                data: [${registerList[0].register_cnt},
+                    ${registerList[1].register_cnt},
+                    ${registerList[2].register_cnt},
+                    ${registerList[3].register_cnt},
+                    ${registerList[4].register_cnt},
+                    ${registerList[5].register_cnt},
+                    ${registerList[6].register_cnt},
+                    ${registerList[7].register_cnt},
+                    ${registerList[8].register_cnt},
+                    ${registerList[9].register_cnt},
+                    ${registerList[10].register_cnt},
+                    ${registerList[11].register_cnt}],
+                pointRadius: 4,
+                pointHoverRadius: 8,
+                spanGaps: true,
+            }
+        ],
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1,
+                    max: Math.max( ${registerList[0].register_cnt},
+			                        ${registerList[1].register_cnt},
+			                        ${registerList[2].register_cnt},
+			                        ${registerList[3].register_cnt},
+			                        ${registerList[4].register_cnt},
+			                        ${registerList[5].register_cnt},
+			                        ${registerList[6].register_cnt},
+			                        ${registerList[7].register_cnt},
+			                        ${registerList[8].register_cnt},
+			                        ${registerList[9].register_cnt},
+			                        ${registerList[10].register_cnt},
+			                        ${registerList[11].register_cnt}) + 1
+                }
+            }]
+        }
+    }
+});
 </script>
 
 
@@ -169,7 +191,9 @@ var reportChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    stepSize: 1 ,
+                    max: Math.max(${reportDTO.p_cnt}, ${reportDTO.t_cnt}) + 1
                 }
             }]
         },
