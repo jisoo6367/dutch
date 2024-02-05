@@ -34,7 +34,8 @@ public class QnaController {
 	
 	//목록조회	
 	@GetMapping("/list")
-	public String showQnaList(QnaPagingDTO qnaPaging, Model model) {
+	@PreAuthorize("isAuthenticated()")
+	public String showQnaList(QnaPagingDTO qnaPaging, Model model, Principal principal) {
 		
 		System.out.println("qnaPaging: " + qnaPaging);
 		QnaPagingCreatorDTO qnaCreator = qnaService.getQnaList(qnaPaging);

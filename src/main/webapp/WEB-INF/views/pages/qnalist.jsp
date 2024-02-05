@@ -96,9 +96,11 @@
 			<c:otherwise>
 				<tr class="moveDetail" data-qno="${qna.qno }">
 					<td><c:out value="${qna.qno }"/></td>
+					
 					<td style="text-align: left;">
 						<c:out value="${qna.qtitle }"/>
 					</td>
+					
 					<td>${qna.nickname }</td>
 					<td class="center"><fmt:formatDate value="${qna.qregDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
 					<td class="center"><fmt:formatDate value="${qna.qmodDate }" pattern="yyyy/MM/dd  HH:mm:ss"/></td>

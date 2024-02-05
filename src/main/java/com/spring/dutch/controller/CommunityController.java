@@ -36,7 +36,9 @@ public class CommunityController {
 	
 	    //목록 조회
 		@GetMapping(value="/list")
+		@PreAuthorize("isAuthenticated()")
 		public String showCommunityList(Model model, CommunityPagingDTO communityPaging ){					
+			System.out.println("목록조회 확인" + communityPaging);
 			CommunityPagingCreatorDTO pagingCreator =  communityService.showCommunityList(communityPaging);
 			
 			model.addAttribute("pagingCreator", pagingCreator) ;

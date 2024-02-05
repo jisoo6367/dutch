@@ -42,6 +42,7 @@ public class DutchBoardController {
 
 	//더치페이 목록 조회
 	@GetMapping("/list") 
+	@PreAuthorize("isAuthenticated()")
 	public String showBoardList(DutchBoardPagingDTO dutchboardPaging, Model model, String result) {
 		
 	    System.out.println("dutchboardPagingDTO" + dutchboardPaging); 

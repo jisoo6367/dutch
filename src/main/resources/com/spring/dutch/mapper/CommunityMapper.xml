@@ -28,7 +28,7 @@
 				<trim prefix="OR">
 					<choose>
 						<when test="scope == 'T'.toString()">ttitle LIKE '%'||#{keyword}||'%'</when>
-						<when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when>
+						<!-- <when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when> -->
 						<when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
 					</choose>
 				</trim> 
@@ -195,7 +195,7 @@
             <trim prefix="OR">
                <choose>
                   <when test="scope == 'T'.toString()">ttitle LIKE '%'||#{keyword}||'%'</when>
-                  <when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when>
+                <!--   <when test="scope == 'C'.toString()">tcontent LIKE '%'||#{keyword}||'%'</when> -->
                   <when test="scope == 'W'.toString()">nickname LIKE '%'||#{keyword}||'%'</when>
                </choose>
             </trim> 

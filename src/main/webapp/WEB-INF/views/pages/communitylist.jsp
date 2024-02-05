@@ -29,7 +29,7 @@
 						
 <div class="col-md-3" style="padding-top:8px;">
 <div>
-    <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/community/list" method="get" >
+    <form class="form-inline" id="frmSendValue2" name="frmSendValue2" action="${contextPath }/community/list" method="get" >
 		   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 			<div class="form-group">
 			<label class="sr-only">frmSendValues</label>
@@ -81,6 +81,7 @@
 		               <th style="text-align: center;">게시글 작성일</th>
 		             <!--   <th>게시글 수정일</th> -->
 		               <th style="text-align: center;">조회수</th>
+		     <!--           <th style="text-align: center;">신고수</th> -->
 		           </tr>
 		       </thead>
 	<tbody>
@@ -98,7 +99,7 @@
 			</c:when>
 			<c:otherwise>
 				<tr class="moveDetail" data-tno="${community.tno }">
-					<%-- <td><c:out value="${community.tno }"/></td>		 --%>		
+					<td><c:out value="${community.tno }"/></td>				
 					<td><c:out value="${community.tcategory }"/>
 						</td>
 					<td style="text-align: center">
@@ -112,6 +113,7 @@
 					<td class="center"><fmt:formatDate value="${community.tregDate }" pattern="yyyy/MM/dd HH:mm"/></td>
 					<%-- <td class="center"><fmt:formatDate value="${community.tmodDate }" pattern="yyyy/MM/dd HH:mm:ss"/></td> --%>
 					<td class="center"><c:out value="${community.tviewCnt }"/></td>
+					<%-- <td class="center"><c:out value="${community.treport }"/></td> --%>
 				 </tr>
 			</c:otherwise>
 		</c:choose>
@@ -293,6 +295,7 @@
 
 //등록페이지 이동
 var frmSendValue = $("#frmSendValue");
+var frmSendValue2 = $("#frmSendValue2");
 $("#btnToRegister").on("click", function(){
 	window.location.href = "${contextPath}/community/register" });
  
@@ -348,9 +351,9 @@ function runModal(result) {
 	
 <%--키워드 검색버튼 클릭 이벤트 처리 --%>
 $("#btnSearchGo").on("click", function() {
-   
+
    var scope = $("#selectScope").find("option:selected").val();
-   
+   console.log(scope);
    if(!scope || scope == '' ){
       alert("검색범위를 선택해주세요.");
       return false;
@@ -363,6 +366,8 @@ $("#btnSearchGo").on("click", function() {
       return ;      
    }
    
+ 
+
    frmSendValue.find("input[name='pageNum']").val(1);
    frmSendValue.submit();
 });	
@@ -425,8 +430,8 @@ $(document).ready(function(){
 <%--키워드 검색버튼 클릭 이벤트 처리 --%>
 $("#btnSearchGo2").on("click", function() {
    
-   frmSendValue.find("input[name='pageNum']").val(1);
-   frmSendValue.submit();
+   frmSendValue2.find("input[name='pageNum']").val(1);
+   frmSendValue2.submit();
 });	
 	
 	

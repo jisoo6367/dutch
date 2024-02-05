@@ -7,7 +7,7 @@
 <!-- 회원정보 가져오기 -->
 <select id="selectMemberData" resultType="com.spring.dutch.domain.MemberVO"
 		parameterType="String">
-	SELECT  mno, nickname, bank, bank_account,
+	SELECT  mno, nickname, bank, bank_account as bankAccount,
 		    username, email, password, cellphone,
 		    TO_TIMESTAMP(TO_CHAR(reg_date, 'YYYY-MM-DD')) AS regDate,
 		    TO_TIMESTAMP(TO_CHAR(mod_date, 'YYYY-MM-DD')) AS modDate,

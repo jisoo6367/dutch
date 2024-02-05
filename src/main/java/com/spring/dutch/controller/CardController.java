@@ -33,6 +33,7 @@ public class CardController {
 	}
 	
 	@GetMapping(value="/list")
+	@PreAuthorize("isAuthenticated()")
 	public String showCardList(Model model, String result, CardPagingDTO cardPaging) {
 		
 		model.addAttribute("listData", cardService.showCardList(cardPaging)) ;
